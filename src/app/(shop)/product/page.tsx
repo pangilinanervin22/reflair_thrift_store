@@ -1,4 +1,4 @@
-import Counter from "@/app/components/counter";
+import Counter from "@/components/Counter";
 
 export default function ItemPage() {
     return (

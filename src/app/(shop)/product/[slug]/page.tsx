@@ -6,11 +6,11 @@ interface PageProps {
 
 export async function generateMetadata({ params }: PageProps) {
     return {
-        title: "Item: " + params.slug,
-        description: "My Item: " + params.slug,
+        title: "Product: " + params.slug,
+        description: "Product: " + params.slug,
     }
 }
 
-export default function Page({ params }: PageProps) {
+export default function ProductPage({ params }: PageProps) {
     return <div>My Item: {params.slug}</div>
 }

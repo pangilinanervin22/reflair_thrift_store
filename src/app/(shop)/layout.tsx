@@ -1,5 +1,3 @@
-import Link from "next/link"
-
 export default function ShopPageLayout({
     children,
 }: {
@@ -7,14 +5,9 @@ export default function ShopPageLayout({
 }) {
     return (
         <>
-            <nav>
-                <Link href="/">Main</Link>
-                <Link href="/item">Item</Link>
-            </nav>
-            <div>
-                <h1>Shop</h1>
+            <section>
                 {children}
-            </div>
+            </section>
         </>
     )
 }

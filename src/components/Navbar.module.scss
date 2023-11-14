@@ -1,0 +1,43 @@
+.nav {
+    width: 100%;
+}
+
+.logo {
+    font-size: 45px;
+    font-weight: 400;
+    font-family: 'Playfair Display', serif;
+    text-align: center;
+}
+
+.section_list {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+    padding: 24px 0;
+}
+
+.nav_link {
+    display: flex;
+    font-size: 15px;
+    color: black;
+    text-decoration: none;
+    transition: .3s;
+    font-family: 'PT Sans Caption', sans-serif;
+    margin: 0 80px;
+}
+
+.nav_link:hover {
+    color: #9A3032;
+    transform: scale(1.2);
+}
+
+.icons {
+    margin-left: 83vw;
+    margin-top: 3vh;
+    display: flex;
+    list-style: none;
+    gap: 28px;
+    opacity: 0.8;
+}

@@ -1,0 +1,69 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    font-family: 'Playfair Display', serif;
+    width: 560px;
+    background: rgb(251, 243, 243);
+    margin-block: 16px;
+    padding: 32px;
+
+    h1 {
+        font-size: 42px;
+        margin-bottom: 20px;
+    }
+
+    p {
+        margin-bottom: 20px;
+        font-size: 18px;
+    }
+
+    form {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        font-family: Arial, Helvetica, sans-serif;
+        width: 80%;
+        border-top: 2px solid black;
+        border-bottom: 2px solid black;
+        padding: 32px;
+
+        * {
+            border: 0;
+        }
+
+        input,
+        button {
+            margin-bottom: 20px;
+            font-size: 16px;
+            padding: 8px;
+            width: 100%;
+            padding-block: 16px;
+            font-family: Georgia, 'Times New Roman', Times, serif;
+
+        }
+
+        input::placeholder {
+            color: rgb(208, 199, 199);
+        }
+
+        p {
+            text-align: center;
+            font-size: 14px;
+        }
+
+        span {
+            font-weight: 700;
+            text-decoration: underline;
+        }
+
+        button {
+            margin-top: 20px;
+            color: white;
+            background: red;
+        }
+
+    }
+}
