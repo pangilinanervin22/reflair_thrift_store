@@ -1,0 +1,77 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Employee {
+  id       String @id @default(auto()) @map("_id") @db.ObjectId
+  username String @unique
+  password String
+  name     String
+  role     String @default("employee")
+}
+
+model Client {
+  id       String  @id @default(auto()) @map("_id") @db.ObjectId
+  username String  @unique
+  password String
+  name     String
+  address  String?
+  phone    String?
+  // orders   Order[]
+  // likes    Product[]
+  // Like     Like[]
+}
+
+// model Product {
+//   id       String   @id @default(auto()) @map("_id") @db.ObjectId
+//   name     String
+//   price    Float
+//   image    String
+//   category String
+//   color    String
+//   material String
+//   tags     String[]
+//   order    Order    @relation(fields: [orderId], references: [id])
+//   orderId  String   @db.ObjectId
+//   likes    Like[]
+//   client   Client?  @relation(fields: [clientId], references: [id])
+//   clientId String?  @db.ObjectId
+// }
+
+// model Order {
+//   id         String      @id @default(auto()) @map("_id")
+//   quantity   Int
+//   totalPrice Decimal
+//   status     OrderStatus
+//   product Product @relation(fields: [productId], references: [id])
+//   productId String @db.ObjectId
+
+//   customer Client @relation(fields: [customerId], references: [id])
+//   customerId String @db.ObjectId
+
+//   products Product[]
+// }
+
+// model Like {
+//   id         String    @id @default(auto()) @map("_id")
+//   product    Product[] @relation(fields: [productId], references: [id])
+//   productId  String    @db.ObjectId
+//   customer   Client    @relation(fields: [customerId], references: [id])
+//   customerId String    @db.ObjectId
+// }
+
+// enum OrderStatus {
+//   Pending
+//   Processing
+//   Shipped
+//   Delivered
+//   Canceled
+// }
