@@ -19,46 +19,30 @@ model Employee {
 }
 
 model Client {
-  id       String  @id @default(auto()) @map("_id") @db.ObjectId
-  username String  @unique
+  id       String    @id @default(auto()) @map("_id") @db.ObjectId
+  username String    @unique
   password String
   name     String
   address  String?
   phone    String?
+  likes    Product[]
   // orders   Order[]
-  // likes    Product[]
   // Like     Like[]
 }
 
-// model Product {
-//   id       String   @id @default(auto()) @map("_id") @db.ObjectId
-//   name     String
-//   price    Float
-//   image    String
-//   category String
-//   color    String
-//   material String
-//   tags     String[]
-//   order    Order    @relation(fields: [orderId], references: [id])
-//   orderId  String   @db.ObjectId
-//   likes    Like[]
-//   client   Client?  @relation(fields: [clientId], references: [id])
-//   clientId String?  @db.ObjectId
-// }
-
-// model Order {
-//   id         String      @id @default(auto()) @map("_id")
-//   quantity   Int
-//   totalPrice Decimal
-//   status     OrderStatus
-//   product Product @relation(fields: [productId], references: [id])
-//   productId String @db.ObjectId
-
-//   customer Client @relation(fields: [customerId], references: [id])
-//   customerId String @db.ObjectId
-
-//   products Product[]
-// }
+model Product {
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  name     String
+  price    Float
+  image    String
+  size     String
+  category String
+  color    String
+  material String
+  tags     String[]
+  client   Client   @relation(fields: [clientId], references: [id])
+  clientId String[] @db.ObjectId
+}
 
 // model Like {
 //   id         String    @id @default(auto()) @map("_id")
@@ -68,10 +52,10 @@ model Client {
 //   customerId String    @db.ObjectId
 // }
 
-// enum OrderStatus {
-//   Pending
-//   Processing
-//   Shipped
-//   Delivered
-//   Canceled
-// }
+enum OrderStatus {
+  Pending
+  Processing
+  Shipped
+  Delivered
+  Canceled
+}

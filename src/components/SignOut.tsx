@@ -7,10 +7,15 @@ import { redirect } from "next/navigation";
 export default function SignOut() {
     const { data, status }: any = useSession();
 
-    console.log(data, status);
+    console.log("lorem", data, status);
 
-    if (status !== "authenticated")
+    if (status === "loading")
+        return <p>Loading...</p>;
+    else if (status !== "authenticated") {
+        console.log("lorem", data, status);
         redirect("/login");
+    }
+
 
     return (
         <>

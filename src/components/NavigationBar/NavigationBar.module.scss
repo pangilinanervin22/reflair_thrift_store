@@ -1,12 +1,14 @@
 .nav {
     width: 100%;
+    position: relative;
 }
 
 .logo {
-    font-size: 45px;
+    font-size: 48px;
     font-weight: 400;
     font-family: 'Playfair Display', serif;
     text-align: center;
+    padding-block: 16px;
 }
 
 .section_list {
@@ -33,11 +35,27 @@
     transform: scale(1.2);
 }
 
-.icons {
-    margin-left: 83vw;
-    margin-top: 3vh;
+.container_icon {
+    position: absolute;
+    height: max-content;
+    right: 16px;
+    top: 16px;
     display: flex;
-    list-style: none;
-    gap: 28px;
     opacity: 0.8;
+
+    .icon {
+        margin-inline: 8px;
+
+        img {
+            width: 24px;
+            height: 24px;
+        }
+    }
+
+    .seperator {
+        width: 3px;
+        background: gray;
+        // border: 3px solid red;
+    }
+
 }
