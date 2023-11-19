@@ -4,7 +4,7 @@ import style from "./NavigationBar.module.scss"
 import ImageWrapper from '../ImageWrapper'
 
 
-export default function NavBar() {
+export default function NavigationBar() {
     return (
         <>
             <nav className={style.nav}>

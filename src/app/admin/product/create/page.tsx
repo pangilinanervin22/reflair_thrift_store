@@ -19,10 +19,13 @@ export default function RegisterPage() {
     const [url, setUrl] = useState("https://utfs.io/f/dca9a6a3-7204-407a-b16d-6b224dd8b188-4pl4mu.png");
 
     const router = useRouter();
-    const { status: sessionStatus } = useSession();
+    // const { status: sessionStatus } = useSession();
 
-    if (sessionStatus !== "loading" && sessionStatus !== "authenticated")
-        router.replace("/login/users");
+    // if (sessionStatus !== "loading" && sessionStatus !== "authenticated")
+    //     router.replace("/login");
+
+    // console.log(sessionStatus);
+
 
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();

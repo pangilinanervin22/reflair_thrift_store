@@ -1,4 +1,4 @@
-import NavBar from "@/components/NavigationBar/NavigationBar"
+import NavigationBar from "@/components/NavigationBar/NavigationBar"
 
 export default function ShopPageLayout({
     children,
@@ -7,7 +7,7 @@ export default function ShopPageLayout({
 }) {
     return (
         <>
-            <NavBar />
+            <NavigationBar />
             <main>
                 {children}
             </main>

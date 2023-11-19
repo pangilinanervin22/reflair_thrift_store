@@ -13,7 +13,7 @@ export default function LoginPage() {
 
     const { data, status }: any = useSession();
 
-    // if (status === "authenticated") redirect("/");
+    if (status === "authenticated") redirect("/");
 
 
     const handleSubmit = async (e: FormEvent) => {

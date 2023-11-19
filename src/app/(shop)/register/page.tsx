@@ -2,7 +2,7 @@
 
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useState } from "react";
 import style from './page.module.scss';
 
 
@@ -15,11 +15,9 @@ export default function RegisterPage() {
     const router = useRouter();
     const { data: session, status: sessionStatus } = useSession();
 
-    useEffect(() => {
-        if (sessionStatus === "authenticated")
-            router.replace("/admin/users");
+    if (sessionStatus === "authenticated")
+        router.replace("/");
 
-    }, [sessionStatus, router]);
 
 
     const handleSubmit = async (e: FormEvent) => {
