@@ -1,3 +1,4 @@
+
 export default function AdminPageLayout({
     children,
 }: {
@@ -5,8 +6,8 @@ export default function AdminPageLayout({
 }) {
     return (
         <div>
-            <h1>Employee</h1>
             {children}
+            <h1>Employee </h1>
         </div>
     )
 }

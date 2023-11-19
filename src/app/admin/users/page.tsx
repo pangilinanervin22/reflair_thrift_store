@@ -5,7 +5,7 @@ import prisma from "@/db/prisma"
 export default async function UsersPage() {
     const allUsers = await prisma.client.findMany()
 
-    console.log(allUsers);
+    console.log(allUsers, "wew");
 
     return (
         <>
