@@ -36,7 +36,7 @@ export const authOptions: any = {
                     if (!passwordsMatch)
                         return null;
 
-                    return user;
+                    return { name: user.name, email: user.username, id: user.id };
                 } catch (error: any) {
                     throw new Error(error);
                 }
@@ -55,6 +55,8 @@ export const authOptions: any = {
             // console.log("session", session);
             // console.log("user", user);
             // console.log("token", token);
+            console.log(session, "session", user, token);
+
             return session;
         },
         // async jwt({ token, account, profile }: any) {
