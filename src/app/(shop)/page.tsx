@@ -44,24 +44,7 @@ export default function ShopMainPage() {
                 </div>
             </section>
 
-            {/* <Image
-                className={style.images}
-                src={"/assets/jackets/1.jpg"}
-                alt="Picture of the author"
-                sizes="100vw"
-                style={{
-                    width: '100%',
-                    height: 'auto',
-                }}
-            /> */}
-            {/* <Sample />
-            <ImageWrapper styleName={style.container}>
-                <Image src={"/assets/images/home-sec3.png"}
-                    width={1920} height={1920}
-                    alt="wew" />
-            </ImageWrapper>
 
-            < img src={"/assets/jackets/1.jpg"} alt="wew" className={style.images} /> */}
 
 
         </>

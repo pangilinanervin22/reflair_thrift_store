@@ -7,11 +7,11 @@ export default function AdminPageLayout({
     children: React.ReactNode
 }) {
     return (
-        <div>
+        <>
             <NavigationBar />
             {children}
             <h1>Employee </h1>
             <SignOut />
-        </div>
+        </>
     )
 }

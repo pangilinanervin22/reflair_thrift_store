@@ -1,38 +1,45 @@
 @import "../../../scss/_variable";
 
 .container {
-    background: $primary_color;
     width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
     height: auto;
     border-bottom: $black_color solid 1px;
-
-    img {
-        width: 100px;
-        height: 100px;
-        // margin-left: 32px;
-    }
+    padding-block: 8px;
 
     * {
         color: $black_color;
     }
 
     >:first-child {
-        margin-left: 32px;
-        height: 64px;
+        margin-left: 24px;
+        width: 170px;
+        text-shadow: 0px 12px 4px rgba(0, 0, 0, 0.25);
+        font-family: Playfair Display;
+        font-size: 42px;
+        font-weight: 400;
+        line-height: normal;
     }
 
     >:last-child {
-        height: 100%;
         display: flex;
         align-items: center;
+        margin-right: 8px;
 
         >:first-child {
             padding-right: 8px;
-            border-right: 4px solid #dad5d2;
+            border-right: 4px solid black;
             padding-block: 8px;
+            max-width: 150px;
+            text-align: right;
+        }
+
+        img {
+            margin-left: 8px;
+            width: 42px;
+            height: 42px;
         }
     }
 
@@ -46,29 +53,29 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            width: auto;
-            padding: 8px 16px;
-            border-radius: 8px;
-            transition: all 0.3s;
+            padding: 8px 2px;
             margin-inline: 8px;
+            padding: 8px 20px;
+            gap: 16px;
+            transition: all 0.3s;
 
             >:first-child {
-                margin-right: 8px;
                 width: 32px;
-                fill: #dad5d2;
+                fill: black;
             }
 
         }
 
         .active {
-            background: #dad5d2;
+            background: black;
+            border-radius: 24px;
 
             >:first-child * {
-                fill: burlywood;
+                fill: $main_color;
             }
 
             >:last-child {
-                color: burlywood;
+                color: $main_color;
             }
         }
     }

@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function Heart_svg() {
+export default function IconHeart_svg() {
     return (
         <svg width="37" height="38" viewBox="0 0 37 38" xmlns="http://www.w3.org/2000/svg">
             <g id="Iconly/Sharp/Outline/Heart">
