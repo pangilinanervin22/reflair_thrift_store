@@ -1,50 +1,53 @@
 "use client"
 
-import Image from 'next/image'
 import React from 'react'
-import style from './NavigationBar.module.scss'
 import Link from 'next/link'
-import Home from "../../../assets/Home.svg";
+import Image from 'next/image'
+import { usePathname } from "next/navigation"
+import style from './NavigationBar.module.scss'
+import IconHome_svg from '@/assets/IconHome_svg'
+import IconPerson_svg from '@/assets/IconPerson_svg'
+import IconMoney_svg from '@/assets/IconMoney_svg'
+import IconHeart_svg from '@/assets/IconHeart_svg'
 
 
 export default function NavigationBar() {
 
-    console.log(Home);
+    const pathname = usePathname();
+    console.log(pathname.startsWith("/admin/product"));
+    console.log(pathname.startsWith("/admin/product") ? "active" : "");
+
 
     return (
         <nav className={style.container}>
             <h3>Reflair</h3>
             <div className={style.navigation_bar}>
-                {/* <Link >
-                    <WEW />
-                    Report
-                </Link> */}
-                <Link href="/admin/product">
-                    <SampleSVG />
-                    Product
+                <Link href="/admin/product"
+                    className={pathname.endsWith("/admin/product") ? style.active : ""}>
+                    <IconHome_svg />
+                    <h4>Home</h4>
                 </Link>
-                <Link href="/admin/sales">
-                    <SampleSVG />
-                    Sales
+                <Link href="/admin/product/create"
+                    className={pathname.endsWith("/admin/product/create") ? style.active : ""}>
+                    <IconHeart_svg />
+                    <h4>Product</h4>
                 </Link>
-                <Link href="/admin/employee">
-                    <SampleSVG />
-                    Employee
+                <Link href="/admin/sales"
+                    className={pathname.startsWith("/admin/sales") ? style.active : ""}>
+                    <IconMoney_svg />
+                    <h4>Sales</h4>
                 </Link>
-
-                {/* <Home /> */}
+                <Link href="/admin/employee"
+                    className={pathname.startsWith("/admin/employee") ? style.active : ""}>
+                    <IconPerson_svg />
+                    <h4>Employee</h4>
+                </Link>
             </div>
-            <div>My name</div>
-        </nav>
+            <div>
+                <h5>Ervin Pangilinan</h5>
+                <Image src={"/default_user.png"} alt="User Picture" width={1920} height={1080} />
+            </div>
+        </nav >
     )
 }
 
-
-
-function SampleSVG() {
-    return (
-        <svg width="41" height="40" viewBox="0 0 41 40" xmlns="http://www.w3.org/2000/svg">
-            <path d="M0.5 40V13.3333L20.5 0L40.5 13.3333V40H25.5V24.4444H15.5V40H0.5Z" fill="black" />
-        </svg>
-    )
-}
