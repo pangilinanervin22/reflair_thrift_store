@@ -1,100 +1,271 @@
 .first_flex {
-    position: relative;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  height: 620px;
+  width: 100%;
+  margin-block: 45px;
+
+  .container_first_image {
+    height: 100%;
+    width: 50%;
+
+    img {
+      height: 100%;
+      width: 100%;
+      margin: 0;
+      z-index: -1;
+    }
+  }
+
+  .first_description {
     display: flex;
-    flex-direction: row;
-    height: 620px;
+    flex-direction: column;
+    align-items: center;
     width: 100%;
-    margin-block: 16px;
+    z-index: 10;
+    position: absolute;
+    bottom: 20%;
 
-    .container_first_image {
-        height: 100%;
-        width: 50%;
-
-        img {
-            height: 100%;
-            width: 100%;
-            margin: 0;
-            z-index: -1;
-        }
+    h1 {
+      font-size: 96px;
+      color: white;
     }
 
-    .first_description {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        width: 100%;
-        z-index: 10;
-        position: absolute;
-        bottom: 20%;
+    button {
+      font-size: 24px;
+      background: white;
+      color: black;
+      padding: 16px 32px;
+      border-radius: 16px;
+      border: 0;
 
-        h1 {
-            font-size: 96px;
-            color: white;
-        }
-
-        button {
-            font-size: 24px;
-            background: white;
-            color: black;
-            padding: 16px 32px;
-            border-radius: 16px;
-            border: 0;
-
-        }
+      &:hover {
+        color: white;
+        background-color: red;
+      }
     }
+  }
+}
+
+/* 2nd section*/
+.second_flex {
+  height: 100%;
+  width: 100%;
+  margin-block: 130px;
+
+  .container_second_description {
+    display: flex;
+    flex-direction: column;
+
+    h1 {
+      font-family: "PT Sans Caption", sans-serif;
+      font-size: 20px;
+      font-weight: 450;
+      display: flex;
+      text-transform: uppercase;
+      justify-content: center;
+    }
+
+    a {
+      color: black;
+      &:hover {
+        color: red;
+        transform: scale(1.1);
+      }
+    }
+  }
+
+  .container_second_image {
+    height: 30%;
+    border-bottom: 1px solid white;
+    display: flex;
+    overflow-x: auto;
+    grid-auto-flow: column;
+    justify-content: center;
+
+    img {
+      width: 400px;
+      height: 40%;
+      margin: 26px;
+    }
+  }
 }
 
 .third_flex {
+  display: flex;
+  width: 100%;
+  height: 620px;
+
+  .container_third_image {
     display: flex;
+    justify-content: center;
+    height: 100%;
+    width: 50%;
+
+    img {
+      width: 80%;
+      height: 100%;
+    }
+  }
+
+  .container_third_description {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+
+    & > * {
+      margin-bottom: 32px;
+    }
+
+    h1 {
+      font-family: sans-serif;
+      text-transform: uppercase;
+      font-size: 56px;
+      font-weight: 300;
+    }
+
+    p {
+      font-weight: 400;
+    }
+
+    a {
+      font-weight: 500;
+      color: black;
+      text-decoration: none;
+
+      &:hover {
+        color: red;
+      }
+    }
+  }
+}
+/* 4th section*/
+.fourth_flex {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  flex-direction: column;
+  margin-block: 45px;
+  justify-content: flex-end;
+
+  .container_fourth_image {
+    display: flex;
+    justify-content: center;
+
+    img {
+      width: 30%;
+      height: 30%;
+    }
+  }
+
+  .container_fourth_description {
+    display: flex;
+    flex-direction: column;
     width: 100%;
-    height: 620px;
+    height: 20%;
+    position: absolute;
+    justify-content: center;
 
-    .container_third_image {
-        display: flex;
-        justify-content: center;
-        height: 100%;
-        width: 50%;
+    text-align: center;
 
-        img {
-            width: 80%;
-            height: 100%;
-        }
+    h1 {
+      font-size: 30px;
+      color: white;
+      font-family: "PT Sans Caption", sans-serif;
+      padding: 10px;
+      text-transform: uppercase;
     }
 
-    .container_third_description {
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-end;
-        align-items: center;
-        text-align: center;
+    button {
+      width: 180px;
+      height: 40px;
+      background: white;
+      color: black;
+      font-size: 20px;
+      font-weight: 200;
+      font-family: "Questrial", sans-serif;
+      cursor: pointer;
+      border-radius: 10px;
 
-        &>* {
-            margin-bottom: 32px;
-        }
-
-        h1 {
-            font-family: sans-serif;
-            text-transform: uppercase;
-            font-size: 56px;
-            font-weight: 300;
-        }
-
-        p {
-            font-weight: 400;
-        }
-
-        a {
-            font-weight: 500;
-            color: black;
-            text-decoration: none;
-        }
+      &:hover {
+        color: white;
+        background-color: red;
+      }
     }
+  }
 }
 
+/* 5th section*/
+.fifth_flex {
+  min-width: 100vw;
+  min-height: 100vh;
+  flex-wrap: wrap;
+  display: flex;
+  justify-content: center;
+}
 
-.images {
-    border: 3px solid black;
-    width: 400px;
-    width: 400px;
-    background: red;
+.fifth_flex_row {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  flex-flow: row-wrap;
+}
+.sec5_column1 {
+  display: flex;
+  flex-direction: column;
+}
+/*ARTICLE 1*/
+.title1 {
+  width: 360px;
+  img {
+    width: 350px;
+    height: 450px;
+  }
+
+  h1 {
+    text-transform: uppercase;
+  }
+
+  h2 {
+    font-size: 12px;
+    text-transform: uppercase;
+    font-family: "PT Sans Caption", sans-serif;
+    font-weight: 100;
+  }
+}
+
+/*ARTICLE 5*/
+.title5 {
+  width: 360px;
+  margin-top: 1rem;
+  & img {
+    width: 340px;
+    height: 450px;
+  }
+
+  & h1 {
+    text-transform: uppercase;
+  }
+
+  & h2 {
+    font-size: 12px;
+    text-transform: uppercase;
+    font-family: "PT Sans Caption", sans-serif;
+    font-weight: 100;
+  }
+}
+.sec5-column2 {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+}
+
+@mixin TitleStyle() {
+  font-size: 40px;
+  display: flex;
+  font-family: "PT Sans Caption", sans-serif;
 }
