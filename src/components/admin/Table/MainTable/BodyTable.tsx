@@ -2,6 +2,8 @@
 
 import { Column, sortColumnProps, TableStructure } from "./TableStructure";
 import styles from './Table.module.scss'
+import IconArrowUp_svg from "@/assets/IconArrowUp_svg";
+import IconArrowDown_svg from "@/assets/IconArrowDown_svg";
 
 interface thisProps {
     data: any[];
@@ -78,9 +80,14 @@ export default function BodyTable({
     }
 
     function renderIcon(isAscending: boolean) {
-        // return isAscending ? <Up className={styles.arrow_keys} /> : <Down className={styles.arrow_keys} />
-        return isAscending ? "UP" : "DOWN"
-
+        return isAscending ?
+            <div className={styles.arrow_keys}>
+                <IconArrowUp_svg />
+            </div>
+            :
+            <div className={styles.arrow_keys} >
+                <IconArrowDown_svg />
+            </div>
     }
 
 }

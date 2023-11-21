@@ -1,11 +1,14 @@
+@import '../../../../scss/variable';
+
 .container_table {
-    background: red;
     padding: 16px;
-    border: 6px solid rgb(109, 98, 94);
     border-radius: 30px;
+    background: $secondary_color;
+    margin-top: 32px;
 
     table {
         width: 100%;
+        height: 360px;
         display: flex;
         flex-direction: column;
         text-align: center;
@@ -15,17 +18,18 @@
 
         thead {
             width: 100%;
+            background: red;
+            color: white;
 
             tr {
                 display: flex;
                 justify-content: space-evenly;
                 width: 100%;
                 overflow: hidden;
-                background: #F3EEE8;
             }
 
             th {
-                // @include flex_container();
+                @include flex_container();
                 font-weight: 600;
                 font-size: 22px;
                 padding: 5px 10px;
@@ -35,29 +39,33 @@
 
         tbody {
             width: 100%;
+            margin-top: 8px;
 
             tr {
                 display: flex;
                 width: 100%;
                 justify-content: space-evenly;
-                border-bottom: 2px solid #F3EEE8;
+                background: white;
+                box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+                border-radius: 16px;
+                margin-block: 8px;
             }
-
 
             tr:last-child {
                 border-bottom: 5px solid #F3EEE8;
             }
 
             td {
-                padding: 15px 10px;
-                // @include flex_container();
+                padding: 12px;
+                font-size: 142px;
+                @include flex_container();
             }
         }
     }
 }
 
 .button_update {
-    background: #2f5f98;
+    background: #6fa6ea;
     color: #F3EEE8;
 
 }
@@ -72,7 +80,8 @@
     border-radius: 5px;
     padding: 5px 20px;
     width: 100%;
-    font-size: 15px;
+    font-size: 16px;
+    font-weight: 500;
     display: flex;
     justify-content: center;
 
@@ -105,7 +114,7 @@
             height: 30px;
             position: relative;
             right: 50px;
-            fill: rgb(109, 98, 94);
+            fill: white;
         }
     }
 
@@ -114,12 +123,12 @@
         align-items: center;
         width: 200px;
         height: 45px;
-        background: #C08878;
+        background: white;
         border-radius: 10px;
         margin: 8px;
+        cursor: pointer;
 
         >:last-child {
-            color: white;
             background: none;
             margin-left: 10px;
             font-size: 20px;
@@ -129,7 +138,6 @@
         >:first-child {
             height: 24px;
             margin-left: 30px;
-            fill: #ffffff;
         }
     }
 }
@@ -165,12 +173,12 @@
 
 
 .paginate_table {
-    // @include flex_container(row, flex-end);
+    @include flex_container(row, flex-end);
     height: 10px;
     margin-top: 15px;
 
 
-    >* {
+    div>* {
         margin-inline: 10px;
         fill: black;
         height: 20px;
@@ -182,8 +190,8 @@
 
 }
 
-.arrow_keys {
+.arrow_keys>* {
     margin-left: 10px;
     height: 25px;
-    fill: black;
+    fill: white;
 }

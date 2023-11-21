@@ -3,3 +3,15 @@ $main_color: #ffffff;
 $primary_color: #ED2329;
 $secondary_color: #e2dfda;
 $black_color: #000000;
+
+$TitleFontSize: 64px;
+$MajorFontSize: 32px;
+$PrimaryFontSize: 16px;
+
+
+@mixin flex_container($direction: row, $justify: center, $align: center) {
+    display: flex;
+    flex-direction: $direction;
+    justify-content: $justify ;
+    align-items: $align ;
+}

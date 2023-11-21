@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useMemo, useState } from "react";
-import StructureTable from "./StructureTable";
+import BodyTable from "./BodyTable";
 import ToolTable from "./ToolTable";
 import PaginateTable from "./PaginateTable";
 import paginate from "../utils/paginate";
@@ -91,7 +91,7 @@ export default function MainTable({
                 handleAdd={handleAdd || (() => { })}
             />
 
-            <StructureTable
+            <BodyTable
                 isEditable={isEditable}
                 data={sortedData}
                 tableProps={structure}

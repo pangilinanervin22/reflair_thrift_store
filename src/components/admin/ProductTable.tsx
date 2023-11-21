@@ -9,14 +9,13 @@ const content: TableStructure = {
     title: "Product",
     searchPath: "name",
     structure: [
-        { label: "Name", path: "name", width: "280px", fontSize: "20px" },
-        { label: "Price", path: "price", width: "200px", fontSize: "20px" },
-        { label: "Category", path: "category", width: "250px", fontSize: "20px" },
+        { label: "Name", path: "name", width: "280px", fontSize: "16px" },
+        { label: "Price", path: "price", width: "200px", fontSize: "16px" },
+        { label: "Category", path: "category", width: "250px", fontSize: "16px" },
     ]
 };
 
 export default function ProductTable({ data }: { data: any[] }) {
-
     return (<MainTable
         data={data}
         isEditable={true}

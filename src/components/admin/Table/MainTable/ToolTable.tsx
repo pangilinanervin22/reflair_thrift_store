@@ -1,6 +1,10 @@
 "use client"
 
+import IconHome_svg from '@/assets/IconHome_svg';
 import styles from './Table.module.scss'
+import IconArrowRight_svg from '@/assets/IconArrowRight_svg';
+import IconSerch_svg from '@/assets/IconSearch_svg';
+import IconAdd_svg from '@/assets/IconAdd_svg';
 
 interface thisProps {
   searchValue: string;
@@ -17,11 +21,11 @@ export default function ToolTable({ searchValue, title, changeText, handleAdd, i
       <div className={styles.search}>
         <input type="text" placeholder="Search Name" title="name"
           onChange={(event) => changeText(event.target.value)} value={searchValue} />
-        {/* <Search /> */}S
+        <IconSerch_svg />
       </div>
       {isHaveAdd &&
         <div className={styles.add_button} onClick={() => handleAdd!()}>
-          {/* <Add /> */}A
+          <IconAdd_svg />
           <button>Add {title}</button>
         </div>
       }
