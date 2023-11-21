@@ -116,7 +116,7 @@ export default function ShopMainPage() {
                         <div className={style.title1}>
                             <Image
                                 src="/assets/images/home-sec5-1.png"
-                                alt="girl clothes"
+                                alt="Sec5-img1"
                                 width={1920}
                                 height={1080}
                             />
@@ -126,7 +126,7 @@ export default function ShopMainPage() {
 
                         <div className={style.title5}>
                             <Image
-                                src="/assets/images/home-sec5-1.png"
+                                src="/assets/images/home-sec5-5.png"
                                 alt="girl clothes"
                                 width={1920}
                                 height={1080}
@@ -135,6 +135,68 @@ export default function ShopMainPage() {
                             <h2>Description. Description. Description. Description. Description. Description. Description. Description. Description. Description. Description. Description.</h2>
                         </div>
                     </div>
+
+                    <div className={style.sec5_column2}>
+                        <div className={style.title2}>
+                            <Image
+                                src="/assets/images/home-sec5-2.png"
+                                alt="sec5-img2"
+                                width={1920}
+                                height={1080}
+                            />
+                            <h1>title title title</h1>
+                            <h2>Description. Description. Description. Description.Description. Description. Description. Description.Description. Description. Description. Description.</h2>
+                        </div>
+
+                        <div className={style.title4}>
+                            <Image
+                                src="/assets/images/home-sec5-4.png"
+                                alt="sec5-img4"
+                                width={1920}
+                                height={1080}
+                            />
+                            <h1>title title title</h1>
+                            <h2>Description. Description. Description. Description.Description. Description. Description. Description. Description. Description. Description. Description.</h2>
+                        </div>
+
+                        <div className={style.title6}>
+                            <Image
+                                src="/assets/images/home-sec5-6.png"
+                                alt="sec5-img6"
+                                width={1920}
+                                height={1080}
+                            />
+                            <h1>title title title</h1>
+                            <h2>Description. Description. Description. Description.Description. Description. Description. Description.Description. Description. Description. Description.</h2>
+                        </div>
+                    </div>
+
+                    <div className={style.sec5_column3}>
+                        <div className={style.title3}>
+                            <Image
+                                src="/assets/images/home-sec5-3.png"
+                                alt="sec5-img3"
+                                width={1920}
+                                height={1080}
+                            />
+                            <h1>title title title</h1>
+                            <h2>Description. Description. Description. Description. Description. Description. Description. Description.Description. Description. Description. Description.</h2>
+                        </div>
+
+                        <div className={style.title7}>
+                            <Image
+                                src="/assets/images/home-sec5-7.png"
+                                alt="sec5-img3"
+                                width={1920}
+                                height={1080}
+                            />
+                            <h1>title title title</h1>
+                            <h2>Description. Description. Description. Description.Description. Description. Description. Description. Description. Description. Description. Description.</h2>
+                        </div>
+
+                    </div>
+
+
                 </div>
 
             </section>
