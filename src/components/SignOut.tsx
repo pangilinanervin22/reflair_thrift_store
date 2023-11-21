@@ -9,12 +9,12 @@ export default function SignOut() {
 
     // console.log("lorem", data, status);
 
-    // if (status === "loading")
-    //     return <p>Loading...</p>;
-    // else if (status !== "loading" && status !== "authenticated") {
-    //     console.log("lorem", data, status);
-    //     redirect("/login");
-    // }
+    if (status === "loading")
+        return <p>Loading...</p>;
+    else if (status !== "loading" && status !== "authenticated") {
+        console.log("lorem", data, status);
+        return <p>Not Authenticated...</p>;
+    }
 
 
     return (
