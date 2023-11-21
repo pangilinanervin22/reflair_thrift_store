@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function Profile_svg() {
+export default function IconProfile_svg() {
     return (
         <svg width="38" height="40" viewBox="0 0 38 40" xmlns="http://www.w3.org/2000/svg">
             <g id="Iconly/Sharp/Outline/Profile">

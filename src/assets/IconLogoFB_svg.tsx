@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function LogoFB_svg() {
+export default function IconLogoFB_svg() {
     return (
         <svg width="50" height="50" viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
             <g id="logos:facebook" clip-path="url(#clip0_1027_774)">

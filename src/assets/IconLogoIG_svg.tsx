@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function LogoIG_svg() {
+export default function IconLogoIG_svg() {
     return (
         <svg width="50" height="50" viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
             <g id="skill-icons:instagram" clip-path="url(#clip0_1027_777)">

@@ -6,5 +6,6 @@ export default function IconArrowDown_svg() {
             <title>Arrow_Down</title>
             <path d="M223.23,46.58V226.75H260c-22.72,28.24-45,55.91-67.48,83.91l-67.39-83.79h36.7V46.58Z"
                 transform="translate(-125.15 -46.58)" />
-        </svg>)
+        </svg>
+    )
 }
