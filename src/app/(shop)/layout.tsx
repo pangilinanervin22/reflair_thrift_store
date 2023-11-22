@@ -1,3 +1,4 @@
+import FooterBar from "@/components/FooterBar/FooterBar"
 import NavigationBar from "@/components/NavigationBar/NavigationBar"
 
 export default function ShopPageLayout({
@@ -11,6 +12,7 @@ export default function ShopPageLayout({
             <main>
                 {children}
             </main>
+            <FooterBar />
         </>
     )
 }
