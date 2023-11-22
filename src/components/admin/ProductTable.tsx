@@ -3,6 +3,8 @@
 import MainTable, { TableStructure } from "./Table/MainTable/TableStructure";
 import Image from "next/image";
 import { redirect, useRouter } from "next/navigation";
+import { useModalStore } from "../Modal/ModalContainer";
+import DeleteModal from "../Modal/common/DeleteModal";
 // import { listProduct } from "../api/fake.data/product";
 
 const content: TableStructure = {
@@ -19,6 +21,7 @@ const content: TableStructure = {
 
 export default function ProductTable({ data }: { data: any[] }) {
     const router = useRouter();
+    const { openModal } = useModalStore();
 
     return (<MainTable
         data={data}
@@ -31,7 +34,7 @@ export default function ProductTable({ data }: { data: any[] }) {
 
     function onHandleDelete(data: any) {
         console.log(data);
-        // openModal(<DeleteModal confirmAction={() => toast.success("Successfully Deleted ")} />)
+        openModal(<DeleteModal confirmAction={() => console.log("Successfully Deleted ")} />)
     }
 
     function onHandleAdd() {
