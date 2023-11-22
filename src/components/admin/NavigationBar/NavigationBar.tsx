@@ -12,23 +12,19 @@ import IconHeart_svg from '@/assets/IconHeart_svg'
 
 
 export default function NavigationBar() {
-
     const pathname = usePathname();
-    console.log(pathname.startsWith("/admin/product"));
-    console.log(pathname.startsWith("/admin/product") ? "active" : "");
-
 
     return (
         <nav className={style.container}>
             <h3>Reflair</h3>
             <div className={style.navigation_bar}>
-                <Link href="/admin/product"
-                    className={pathname.endsWith("/admin/product") ? style.active : ""}>
+                <Link href="/admin/"
+                    className={pathname.endsWith("/admin") ? style.active : ""}>
                     <IconHome_svg />
                     <h4>Home</h4>
                 </Link>
-                <Link href="/admin/product/create"
-                    className={pathname.endsWith("/admin/product/create") ? style.active : ""}>
+                <Link href="/admin/product/"
+                    className={pathname.startsWith("/admin/product") ? style.active : ""}>
                     <IconHeart_svg />
                     <h4>Product</h4>
                 </Link>

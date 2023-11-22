@@ -18,13 +18,6 @@ export default function RegisterPage() {
     const [url, setUrl] = useState("https://utfs.io/f/dca9a6a3-7204-407a-b16d-6b224dd8b188-4pl4mu.png");
 
     const router = useRouter();
-    // const { status: sessionStatus } = useSession();
-
-    // if (sessionStatus !== "loading" && sessionStatus !== "authenticated")
-    //     router.replace("/login");
-
-    // console.log(sessionStatus);
-
 
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
@@ -44,8 +37,15 @@ export default function RegisterPage() {
             size,
         }
 
+        console.log(product);
 
-        if (product) {
+        const res = await fetch("/api/product", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(product),
+        });
+
+        if (res.ok) {
             setUrl("https://utfs.io/f/dca9a6a3-7204-407a-b16d-6b224dd8b188-4pl4mu.png");
             setName("");
             setPrice("");
@@ -53,33 +53,11 @@ export default function RegisterPage() {
             setMaterial("");
             setColor("");
             setSelectedCategory("");
+            router.push("/admin/product");
             alert("Registration successful!");
+        } else {
+            alert("Registration failed!");
         }
-
-        console.log(product);
-
-
-        // const res = await fetch("/api/product", {
-        //     method: "POST",
-        //     headers: { "Content-Type": "application/json" },
-        //     body: JSON.stringify(product),
-        // });
-
-        // if (res.ok) {
-        //     setUrl("https://utfs.io/f/dca9a6a3-7204-407a-b16d-6b224dd8b188-4pl4mu.png");
-        //     setName("");
-        //     setPrice("");
-        //     setSize("");
-        //     setMaterial("");
-        //     setColor("");
-        //     setSelectedCategory("");
-        //     router.push("/product");
-
-
-        //     alert("Registration successful!");
-        // } else {
-        //     alert("Registration failed!");
-        // }
     };
 
     return (

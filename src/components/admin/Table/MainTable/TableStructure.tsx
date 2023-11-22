@@ -4,8 +4,8 @@ import React, { useMemo, useState } from "react";
 import BodyTable from "./BodyTable";
 import ToolTable from "./ToolTable";
 import PaginateTable from "./PaginateTable";
-import paginate from "../utils/paginate";
-import sortPath from "../utils/sortPath";
+import paginate from "./utils/paginate";
+import sortPath from "./utils/sortPath";
 import styles from "./Table.module.scss";
 
 export interface TableStructure {

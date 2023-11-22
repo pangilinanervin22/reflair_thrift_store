@@ -1,7 +1,8 @@
 "use client"
 
-import prisma from "@/db/prisma";
 import MainTable, { TableStructure } from "./Table/MainTable/TableStructure";
+import Image from "next/image";
+import { redirect, useRouter } from "next/navigation";
 // import { listProduct } from "../api/fake.data/product";
 
 const content: TableStructure = {
@@ -9,13 +10,16 @@ const content: TableStructure = {
     title: "Product",
     searchPath: "name",
     structure: [
-        { label: "Name", path: "name", width: "280px", fontSize: "16px" },
+        { label: "Image", width: "100px", element: (val: any) => <Image src={val.image} alt={val.image} width={70} height={70} /> },
+        { label: "Name", path: "name", width: "200px", fontSize: "16px" },
         { label: "Price", path: "price", width: "200px", fontSize: "16px" },
-        { label: "Category", path: "category", width: "250px", fontSize: "16px" },
+        { label: "Category", path: "category", width: "200px", fontSize: "16px" },
     ]
 };
 
 export default function ProductTable({ data }: { data: any[] }) {
+    const router = useRouter();
+
     return (<MainTable
         data={data}
         isEditable={true}
@@ -32,6 +36,9 @@ export default function ProductTable({ data }: { data: any[] }) {
 
     function onHandleAdd() {
         // openModal(<ProductAddModal />)
+        console.log("hello");
+
+        router.push("/admin/product/create");
     }
 
     function onHandleUpdate(data: any) {

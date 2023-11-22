@@ -6,7 +6,6 @@ export const revalidate = 2;
 
 export default async function ProductDashboard() {
   const product = await prisma.product.findMany();
-  console.log("hello");
 
   return (
     <>

@@ -24,7 +24,6 @@ export default function BodyTable({
     updateColumn,
     isEditable
 }: thisProps) {
-
     return (
         <table>
             <thead>
@@ -69,7 +68,6 @@ export default function BodyTable({
     )
 
     function renderCellHeader(column: Column, currentSort: sortColumnProps) {
-
         if (!column.path)
             return <th key={column.label} style={{ width: column.width }} > {column.label} </th>
 
