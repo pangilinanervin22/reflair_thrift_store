@@ -27,12 +27,10 @@ const useModalStore = create<ModalState>((set) => ({
 
 const ModalContainer: React.FC = () => {
     const { isOpen, closeModal, content } = useModalStore();
-
     if (!isOpen) return null;
 
     return (
         <div className={styles.modal}>
-
             <div className={styles.modal_content}>
                 <button className={styles.modal_close} onClick={closeModal}>
                     x
