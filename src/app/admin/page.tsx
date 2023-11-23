@@ -15,14 +15,17 @@
 
 
 import SignOut from "@/components/SignOut";
+import ReportPage from "@/components/admin/Report";
 import prisma from "@/db/prisma"
-import { getSession, useSession } from "next-auth/react";
 
 export default async function UsersPage() {
     const allUsers = await prisma.client.findMany()
 
     return (
         <>
+            <section>
+                <ReportPage />
+            </section>
             <h3>Users</h3>
             <br />
             <ul>
