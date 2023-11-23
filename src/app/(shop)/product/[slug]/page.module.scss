@@ -26,6 +26,8 @@
   display: flex;
   flex-direction: column;
   gap: 9rem;
+  z-index: 100;
+  color: red;
 }
 
 .actions_container {
