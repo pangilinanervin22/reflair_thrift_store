@@ -2,10 +2,10 @@
 
 import MainTable, { TableStructure } from "./Table/MainTable/TableStructure";
 import Image from "next/image";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useModalStore } from "../Modal/ModalContainer";
 import DeleteModal from "../Modal/common/DeleteModal";
-// import { listProduct } from "../api/fake.data/product";
+import { DeleteProductAction } from "@/lib/action";
 
 const content: TableStructure = {
     id: "id",
@@ -33,18 +33,19 @@ export default function ProductTable({ data }: { data: any[] }) {
     );
 
     function onHandleDelete(data: any) {
-        console.log(data);
-        openModal(<DeleteModal confirmAction={() => console.log("Successfully Deleted ")} />)
+        openModal(<DeleteModal confirmAction={() => {
+            DeleteProductAction(data.id);
+            console.log("Successfully Deleted " + data)
+        }} />)
     }
 
     function onHandleAdd() {
         // openModal(<ProductAddModal />)
         console.log("hello");
-
         router.push("/admin/product/create");
     }
 
     function onHandleUpdate(data: any) {
-        // openModal(<ProductEditModal defaultValues={data} />)
+        router.push(`/admin/product/${data.id}`);
     }
 }

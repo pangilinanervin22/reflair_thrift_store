@@ -17,9 +17,9 @@ export default function NavigationBar() {
                 </section> */}
 
                 <section className={style.section_list}>
-                    <div><Link href="" className={style.nav_link}>WOMEN</Link></div>
-                    <div><Link href="" className={style.nav_link}>MEN</Link></div>
-                    <div><Link href="" className={style.nav_link}>SHOES</Link></div>
+                    <div><Link href="/product/women" className={style.nav_link}>WOMEN</Link></div>
+                    <div><Link href="/product/men" className={style.nav_link}>MEN</Link></div>
+                    <div><Link href="/product/shoes" className={style.nav_link}>SHOES</Link></div>
                 </section>
 
                 <section className={style.container_icon}>

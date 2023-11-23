@@ -5,19 +5,25 @@ import { FormEvent, useState } from "react";
 import Image from "next/image";
 import style from "./page.module.scss";
 import { UploadButton } from "@/utils/uploadthing";
-import { ProductRequestBody } from "@/app/api/product/route";
 import Link from "next/link";
-import { CreateProductAction } from "@/lib/action";
+import { CreateProductAction, UpdateProductAction } from "@/lib/action";
+import type { Product } from "@prisma/client";
+import { ProductRequestBody } from "@/app/api/product/route";
 
 
-export default function ProductCreatePage() {
-    const [name, setName] = useState("");
-    const [price, setPrice] = useState<any>();
-    const [size, setSize] = useState("");
-    const [material, setMaterial] = useState("");
-    const [color, setColor] = useState("");
-    const [selectedCategory, setSelectedCategory] = useState('men');
-    const [url, setUrl] = useState("https://utfs.io/f/dca9a6a3-7204-407a-b16d-6b224dd8b188-4pl4mu.png");
+
+interface PageProps {
+    product: Product;
+}
+
+export default function ProductUpdatePage({ product }: PageProps) {
+    const [name, setName] = useState(product.name);
+    const [price, setPrice] = useState(product.price);
+    const [size, setSize] = useState(product.size);
+    const [material, setMaterial] = useState(product.material);
+    const [color, setColor] = useState(product.color);
+    const [selectedCategory, setSelectedCategory] = useState(product.category);
+    const [url, setUrl] = useState(product.image);
 
     const router = useRouter();
 
@@ -29,7 +35,7 @@ export default function ProductCreatePage() {
             return;
         }
 
-        const product: ProductRequestBody = {
+        const productValue: ProductRequestBody = {
             name,
             price,
             image: url,
@@ -39,13 +45,14 @@ export default function ProductCreatePage() {
             size,
         }
 
+        console.log(product);
 
-        const res = await CreateProductAction(product);
+        const res = await UpdateProductAction(product.id, productValue);
 
         if (res) {
             setUrl("https://utfs.io/f/dca9a6a3-7204-407a-b16d-6b224dd8b188-4pl4mu.png");
             setName("");
-            setPrice("");
+            setPrice(0);
             setSize("");
             setMaterial("");
             setColor("");
@@ -81,6 +88,7 @@ export default function ProductCreatePage() {
                         <input
                             type="text"
                             placeholder="Enter name"
+                            defaultValue={name}
                             onChange={(event) => setName(event.target.value)}
                             min={5}
                             max={64}
@@ -92,6 +100,7 @@ export default function ProductCreatePage() {
                         <input
                             type="number"
                             placeholder="₱ 00.00"
+                            defaultValue={price}
                             onChange={(event) => setPrice(Number(event.target.value))}
                             min={10}
                             max={10000}
@@ -103,6 +112,7 @@ export default function ProductCreatePage() {
                         <input
                             type="text"
                             placeholder="small, medium, large"
+                            defaultValue={size}
                             onChange={(event) => setSize(event.target.value)}
                             required
                         />
@@ -112,6 +122,7 @@ export default function ProductCreatePage() {
                         <input
                             type="text"
                             placeholder="cotton, polyester, leather"
+                            defaultValue={material}
                             onChange={(event) => setMaterial(event.target.value)}
                             required
                         />
@@ -121,13 +132,15 @@ export default function ProductCreatePage() {
                         <input
                             type="text"
                             placeholder="red, blue, green"
+                            defaultValue={color}
                             onChange={(event) => setColor(event.target.value)}
                             required
                         />
                     </div>
                     <div className={style.container_input}>
                         <label htmlFor="category">Select a category:</label>
-                        <select id="category" defaultValue={"men"}
+                        <select id="category"
+                            defaultValue={selectedCategory}
                             onChange={(e) => setSelectedCategory(e.target.value)}
                             required
                         >

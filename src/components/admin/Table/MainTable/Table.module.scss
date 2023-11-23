@@ -4,7 +4,7 @@
     padding: 16px;
     border-radius: 30px;
     background: $secondary_color;
-    margin-top: 32px;
+    margin-top: 16px;
 
     table {
         width: 100%;
@@ -56,7 +56,7 @@
             }
 
             td {
-                padding: 12px;
+                padding-inline: 16px;
                 font-size: 142px;
                 @include flex_container();
 

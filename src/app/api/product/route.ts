@@ -2,6 +2,7 @@ import prisma from '@/db/prisma';
 import { NextResponse } from 'next/server';
 
 export interface ProductRequestBody {
+    id?: string;
     name: string;
     price: number;
     image: string;
