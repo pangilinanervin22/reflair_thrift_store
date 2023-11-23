@@ -8,9 +8,9 @@ import type { Product } from "@prisma/client";
 export const revalidate = 2;
 
 export default async function ProductDashboard() {
-    const womenProduct = await prisma.product.findMany({
+    const menProduct = await prisma.product.findMany({
         where: {
-            category: "women"
+            category: "men"
         }
     });
 
@@ -18,13 +18,10 @@ export default async function ProductDashboard() {
         <>
             <section className={style.product_section}>
                 <br />
-                <h3>All Products for Women</h3>
+                <h3>All Products for Men</h3>
                 <br />
                 <div className={style.product_container}>
-                    {womenProduct.map((product) => (
-
-
-
+                    {menProduct.map((product) => (
                         <div className={style.ImageWrapper} key={product.id}>
 
                             <Image

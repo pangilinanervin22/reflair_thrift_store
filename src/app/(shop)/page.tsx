@@ -103,7 +103,7 @@ export default function ShopMainPage() {
                 </div>
                 <div className={style.container_fourth_description}>
                     <h1>Shoes collection</h1>
-                    <Link href="/product">
+                    <Link href="/product/shoes">
                         <button>SHOP NOW</button>
                     </Link>
                 </div>
