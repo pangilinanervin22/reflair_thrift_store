@@ -23,8 +23,6 @@ export default async function ProductDashboard() {
                 <div className={style.product_container}>
                     {womenProduct.map((product) => (
 
-
-
                         <div className={style.ImageWrapper} key={product.id}>
 
                             <Image
