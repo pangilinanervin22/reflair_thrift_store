@@ -1,0 +1,32 @@
+.flex_section {
+  display: flex;
+  flex-direction: column;
+  padding: 4rem;
+
+  p {
+    font-size: 50px;
+    text-align: center;
+  }
+
+  h1 {
+    padding: 2rem;
+    font-size: 20px;
+    font-style: normal;
+    font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  }
+}
+.info_container {
+  display: flex;
+  flex-direction: column;
+}
+.info {
+  padding: 0rem 2rem;
+  font-size: 15px;
+  font-style: inherit;
+  line-height: 3;
+  color: rgb(106, 104, 104);
+
+  a {
+    color: red;
+  }
+}

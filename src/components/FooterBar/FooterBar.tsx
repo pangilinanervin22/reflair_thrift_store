@@ -56,9 +56,9 @@ export default function FooterBar() {
 
                     <div className={style.footer_flex_row2}>
                         <div className={style.second_column_left}>
-                            <Link href="/">Shop Men</Link>
-                            <Link href="/">Shop Women</Link>
-                            <Link href="/">Shop Shoes</Link>
+                            <Link href="/product/men">Shop Men</Link>
+                            <Link href="/product/women">Shop Women</Link>
+                            <Link href="/product/shoes">Shop Shoes</Link>
                         </div>
 
                         <div className={style.second_column_right}>
@@ -75,9 +75,9 @@ export default function FooterBar() {
                             <h4>©2022-2023 ReFlair All Rights Reserved.</h4>
                         </div>
                         <div className={style.row3_bottom}>
-                            <Link href="/">Privacy Center</Link>
-                            <Link href="/">Terms and Condition</Link>
-                            <Link href="/">Cookie Policy</Link>
+                            <Link href="/privacy">Privacy Center</Link>
+                            <Link href="/terms">Terms and Condition</Link>
+                            <Link href="/cookies">Cookie Policy</Link>
                         </div>
                     </div>
                 </div>

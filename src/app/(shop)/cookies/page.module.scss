@@ -1,0 +1,23 @@
+.flex_section {
+  display: flex;
+  flex-direction: column;
+  padding: 4rem;
+
+  p {
+    font-size: 50px;
+    text-align: center;
+  }
+}
+.flex_info {
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+}
+
+.info {
+  padding: 0rem 4rem;
+  font-size: 15px;
+  font-style: inherit;
+  line-height: 3;
+  color: rgb(106, 104, 104);
+}
