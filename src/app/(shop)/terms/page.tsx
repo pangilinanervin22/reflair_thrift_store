@@ -14,7 +14,7 @@ export default function ShopMainPage() {
 
                     <div className={style.flex_info}>
                         <div className={style.info}>
-                            1.1 Scope. Welcome to ReFlair. This Terms & Conditions ( "Agreement" or "Terms" ) is a contract between you and Fashion Choice Pte. Ltd., registered address at 22 Sin Ming Lane, #06-76, Midview City, Philippines ( "Company" , "we" , "us" or "our" ), governing your use of our website at ReFlair (the "Site" which includes local versions of the Site that are operated by the Company), that hyperlink to this Agreement, any other written, electronic, and oral communications with the Company and its affiliated entities, or any websites, pages, features, or content owned, licensed to or operated by us or our affiliated entities that hyperlink to this Agreement (collectively, including the Site and Apps, the "Services" ).
+                            1.1 Scope. Welcome to ReFlair. This Terms & Conditions is a contract between you and Fashion Choice Pte. Ltd., registered address at 22 Sin Ming Lane, #06-76, Midview City, Philippines ( "Company" , "we" , "us" or "our" ), governing your use of our website at ReFlair (the "Site" which includes local versions of the Site that are operated by the Company), that hyperlink to this Agreement, any other written, electronic, and oral communications with the Company and its affiliated entities, or any websites, pages, features, or content owned, licensed to or operated by us or our affiliated entities that hyperlink to this Agreement (collectively, including the Site and Apps, the "Services" ).
                         </div>
 
                         <div className={style.info}>
