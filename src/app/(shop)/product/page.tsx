@@ -13,7 +13,7 @@ export default async function ProductDashboard() {
     <>
       <section className={style.product_section}>
         <br />
-        <h3>All Product by wew</h3>
+        <h3>All Product by</h3>
         <br />
         <div className={style.product_container}>
           {product.map((product) => (

@@ -3,7 +3,6 @@
 import { useRouter } from "next/navigation";
 import type { Product } from "@prisma/client";
 import Image from "next/image";
-
 import style from "./page.module.scss";
 
 interface ProductProps {
