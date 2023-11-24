@@ -15,11 +15,11 @@
 
 
 import SignOut from "@/components/SignOut";
-import ReportPage from "@/components/admin/Report";
+import ReportPage from "@/components/AdminComponent/Report";
 import prisma from "@/db/prisma"
 
 export default async function UsersPage() {
-    const allUsers = await prisma.client.findMany()
+    const allUsers = await prisma.account.findMany()
 
     return (
         <>

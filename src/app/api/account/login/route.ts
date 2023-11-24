@@ -11,7 +11,7 @@ export async function POST(req: any) {
     const { username, password } = await req.json() as RequestBody;
 
     console.log(username, password);
-    const data = await prisma.client.findUnique({ where: { username: username } });
+    const data = await prisma.account.findUnique({ where: { username: username } });
     if (!data) return NextResponse.json({ message: "Client not found." }, { status: 404 });
 
     console.log("find " + data.password, data);

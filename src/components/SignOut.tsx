@@ -1,13 +1,12 @@
 "use client"
 
 import { signOut, useSession } from "next-auth/react";
-import { redirect } from "next/navigation";
 
 
 export default function SignOut() {
     const { data, status }: any = useSession();
 
-    // console.log("lorem", data, status);
+    console.log("lorem", data, status);
 
     if (status === "loading")
         return <p>Loading...</p>;

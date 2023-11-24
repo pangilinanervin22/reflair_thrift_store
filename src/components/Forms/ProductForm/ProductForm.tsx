@@ -6,7 +6,7 @@ import Image from "next/image";
 import style from "./page.module.scss";
 import { UploadButton } from "@/utils/uploadthing";
 import Link from "next/link";
-import { CreateProductAction, UpdateProductAction } from "@/lib/action";
+import { CreateProductAction, UpdateProductAction } from "@/lib/ProductAction";
 import type { Product } from "@prisma/client";
 import { ProductRequestBody } from "@/app/api/product/route";
 
@@ -16,7 +16,7 @@ interface PageProps {
     product: Product;
 }
 
-export default function ProductUpdatePage({ product }: PageProps) {
+export default function ProductForm({ product }: PageProps) {
     const [name, setName] = useState(product.name);
     const [price, setPrice] = useState(product.price);
     const [size, setSize] = useState(product.size);

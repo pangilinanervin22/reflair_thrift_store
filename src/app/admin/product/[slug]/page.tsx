@@ -2,7 +2,7 @@ import prisma from "@/db/prisma";
 import Image from "next/image";
 
 import style from "./page.module.scss";
-import ProductUpdatePage from "@/components/Forms/ProductForm";
+import ProductUpdatePage from "@/components/Forms/ProductForm/ProductForm";
 
 interface PageProps {
   params: {

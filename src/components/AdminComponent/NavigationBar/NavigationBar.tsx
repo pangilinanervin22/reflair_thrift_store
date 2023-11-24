@@ -11,7 +11,7 @@ import IconMoney_svg from '@/assets/IconMoney_svg'
 import IconHeart_svg from '@/assets/IconHeart_svg'
 
 
-export default function NavigationBar() {
+export default function NavigationBar({ name }: { name: string }) {
     const pathname = usePathname();
 
     return (
@@ -40,7 +40,7 @@ export default function NavigationBar() {
                 </Link>
             </div>
             <div>
-                <h5>Ervin Pangilinan</h5>
+                <h5>{name || "User"}</h5>
                 <Image src={"/default_user.png"} alt="User Picture" width={1920} height={1080} />
             </div>
         </nav >

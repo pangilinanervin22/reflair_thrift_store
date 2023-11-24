@@ -4,21 +4,22 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
 import style from './page.module.scss';
+import { revalidatePath } from "next/cache";
+import Link from "next/link";
+import { CreateAccountAction } from "@/lib/AccountAction";
 
-
-export default function ClientRegisterPage() {
+export default function AdminRegisterForm({ registering }: { registering: Function }) {
     const [name, setName] = useState("");
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
 
-    const router = useRouter();
     const { data: session, status: sessionStatus } = useSession();
 
-    if (sessionStatus === "authenticated")
-        router.replace("/");
-
-
+    if (sessionStatus === "authenticated") {
+        console.log(session, "session");
+        revalidatePath("/admin");
+    }
 
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
@@ -33,22 +34,20 @@ export default function ClientRegisterPage() {
         }
 
         console.log(name, username, password, confirmPassword);
-        const res = await fetch("/api/account/register", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ name, username, password }),
-        });
-
-        if (res.ok) {
-            setName("");
-            setUsername("");
-            setPassword("");
-            setConfirmPassword("");
+        // const res = await fetch("/api/account/register", {
+        //     method: "POST",
+        //     headers: { "Content-Type": "application/json" },
+        //     body: JSON.stringify({ name, username, password }),
+        // });
+        try {
+            // pass role as parameter
+            const res = await CreateAccountAction({ name, username, password });
             alert("Registration successful!");
-            router.push("/login");
-        } else {
+            registering();
+        } catch (error) {
             alert("Registration failed!");
         }
+
     };
 
     return (
@@ -84,7 +83,7 @@ export default function ClientRegisterPage() {
                 <button type="submit">Register</button>
 
                 <p>if you already have account you can login here</p>
-                <span>login here</span>
+                <span onClick={() => registering()}>login here</span>
 
             </form>
         </section>

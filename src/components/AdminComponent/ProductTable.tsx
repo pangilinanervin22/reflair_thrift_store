@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useModalStore } from "../Modal/ModalContainer";
 import DeleteModal from "../Modal/common/DeleteModal";
-import { DeleteProductAction } from "@/lib/action";
+import { DeleteProductAction } from "@/lib/ProductAction";
 
 const content: TableStructure = {
     id: "id",

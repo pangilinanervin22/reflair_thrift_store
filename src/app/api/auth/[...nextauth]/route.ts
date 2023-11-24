@@ -2,10 +2,10 @@ import prisma from "@/db/prisma";
 import NextAuth from "next-auth/next";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
-import { Account, User as AuthUser } from "next-auth";
+import { Account, NextAuthOptions, } from "next-auth";
 
 
-export const authOptions: any = {
+export const authOptions: NextAuthOptions = {
     providers: [
         CredentialsProvider({
             id: "credentials",
@@ -14,20 +14,10 @@ export const authOptions: any = {
                 username: { label: "Username", type: "text" },
                 password: { label: "Password", type: "password" }
             },
-            // async authorize(credentials: any) {
-            //     const { username, password } = credentials;
-            //     const data = await fetch("http://localhost:3000/api/client/login", {
-            //         method: "POST",
-            //         headers: { "Content-Type": "application/json" },
-            //         body: JSON.stringify({ username, password })
-            //     }).then(res => res.json());
-            //     console.log(data);
-            //     if (data.message) throw new Error(data.message);
-            //     return data;
             async authorize(credentials: any) {
                 const { username, password } = credentials;
                 try {
-                    const user = await prisma.client.findUnique({ where: { username } });
+                    const user = await prisma.account.findUnique({ where: { username } });
                     console.log(user, "login");
                     if (!user)
                         return null;
@@ -36,7 +26,7 @@ export const authOptions: any = {
                     if (!passwordsMatch)
                         return null;
 
-                    return { name: user.name, email: user.username, id: user.id };
+                    return { name: user.name, email: user.username, id: user.id, role: user.role };
                 } catch (error: any) {
                     throw new Error(error);
                 }
@@ -46,27 +36,33 @@ export const authOptions: any = {
     callbacks: {
         async signIn({ user, account }: { user: any; account: any }) {
             if (account?.provider == "credentials") {
-                console.log(user, account, "log");
+                console.log("credentials", user, account);
 
-                return true;
+                return user;
             }
-        },
-        async session({ session, user, token }: { session: any; user: any, token: any }) {
-            // console.log("session", session);
-            // console.log("user", user);
-            // console.log("token", token);
-            console.log(session, "session", user, token);
-
-            return session;
+            return user;
         },
         // async jwt({ token, account, profile }: any) {
-        //     // Persist the OAuth access_token and or the user id to the token right after signin
-        //     console.log("token", token);
+        //     Persist the OAuth access_token and or the user id to the token right after signin
+        //     console.log("Main JWT Incididunt duis ipsum consectetur dolor quis excepteur incididunt duis incididunt dolore reprehenderit officia.");
         //     console.log("account", account);
         //     console.log("profile", profile);
+        //     console.log("token", token);
+
 
         //     return token
-        // }
+        // },
+        async session({ session, account, token }: any) {
+
+            const user = await prisma.account.findUnique({ where: { id: token.sub } });
+            console.log("Main Session Incididunt duis ipsum consectetur dolor quis excepteur incididunt duis incididunt dolore reprehenderit officia.");
+            console.log("session", session);
+            console.log("user", account);
+            console.log("token", token);
+
+            return { ...session, user: { ...session.user, role: user?.role } };
+        },
+
     }
     // session: {
     //     strategy: "jwt",

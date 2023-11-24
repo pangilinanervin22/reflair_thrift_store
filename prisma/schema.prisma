@@ -10,24 +10,19 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Employee {
-  id       String @id @default(auto()) @map("_id") @db.ObjectId
-  username String @unique
-  password String
-  name     String
-  role     String @default("employee")
-}
-
-model Client {
+model Account {
   id       String    @id @default(auto()) @map("_id") @db.ObjectId
   username String    @unique
   password String
   name     String
   address  String?
   phone    String?
+  role     String    @default("customer")
   likes    Product[]
+
   // orders   Order[]
   // Like     Like[]
+  @@map("Client")
 }
 
 model Product {
@@ -40,7 +35,7 @@ model Product {
   color    String
   material String
   tags     String[]
-  client   Client   @relation(fields: [clientId], references: [id])
+  client   Account  @relation(fields: [clientId], references: [id])
   clientId String[] @db.ObjectId
 }
 

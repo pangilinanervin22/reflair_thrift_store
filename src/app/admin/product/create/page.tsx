@@ -7,7 +7,7 @@ import style from "./page.module.scss";
 import { UploadButton } from "@/utils/uploadthing";
 import { ProductRequestBody } from "@/app/api/product/route";
 import Link from "next/link";
-import { CreateProductAction } from "@/lib/action";
+import { CreateProductAction } from "@/lib/ProductAction";
 
 
 export default function ProductCreatePage() {
