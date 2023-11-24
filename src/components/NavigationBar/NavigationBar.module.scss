@@ -58,6 +58,11 @@
       width: 24px;
       height: 24px;
     }
+
+    &:hover {
+      cursor: pointer;
+      transform: scale(1.1);
+    }
   }
 
   .seperator {
