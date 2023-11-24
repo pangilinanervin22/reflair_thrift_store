@@ -9,7 +9,7 @@ export default function FooterBar() {
                 <div className="Column1">
                     <div className={style.footer_flex_row1}>
                         <div className={style.left_column}>
-                            <h1>ReFlair</h1>
+                            <Link href="/"><h1>ReFlair</h1></Link>
                             <h4> Unearth the Hidden Flair of Timeless Fashion</h4>
                         </div>
 
@@ -17,7 +17,7 @@ export default function FooterBar() {
                             <h1>Find us on</h1>
                             <ul>
                                 <li>
-                                    <Link href="/">
+                                    <Link href="https://web.facebook.com/">
                                         <Image
                                             src="/assets/icons/logo-fb.svg"
                                             alt="facebook"
@@ -28,7 +28,7 @@ export default function FooterBar() {
 
                                 </li>
                                 <li>
-                                    <Link href="/">
+                                    <Link href="https://www.instagram.com/">
                                         <Image
                                             src="/assets/icons/logo-ig.svg"
                                             alt="ig"
@@ -39,7 +39,7 @@ export default function FooterBar() {
 
                                 </li>
                                 <li>
-                                    <Link href="/">
+                                    <Link href="https://www.tiktok.com/">
                                         <Image
                                             src="/assets/icons/logo-tiktok.svg"
                                             alt="tiktok"

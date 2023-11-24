@@ -18,7 +18,7 @@ export default async function ProductDashboard() {
         <>
             <section className={style.product_section}>
                 <br />
-                <h3>All Products for Men</h3>
+                <h3>Men's Clothing</h3>
                 <br />
                 <div className={style.product_container}>
                     {menProduct.map((product) => (

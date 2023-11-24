@@ -1,65 +1,68 @@
 .nav {
-    width: 100%;
-    position: relative;
+  width: 100%;
+  position: relative;
+  a {
+    color: black;
+    text-decoration: none;
+    text-shadow: 0px 8px 4px rgba(0, 0, 0, 0.25);
+  }
 }
 
 .logo {
-    font-size: 48px;
-    font-weight: 400;
-    text-align: center;
-    padding-block: 16px;
-    text-shadow: 0px 8px 4px rgba(0, 0, 0, 0.25);
-    font-family: Playfair Display;
-    font-size: 42px;
-    font-weight: 400;
-    line-height: normal;
+  font-size: 48px;
+  font-weight: 400;
+  text-align: center;
+  padding-block: 16px;
+  font-family: Playfair Display;
+  font-size: 42px;
+  font-weight: 400;
+  line-height: normal;
 }
 
 .section_list {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    border-top: 1px solid black;
-    border-bottom: 1px solid black;
-    padding: 24px 0;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+  padding: 24px 0;
 }
 
 .nav_link {
-    display: flex;
-    font-size: 15px;
-    color: black;
-    text-decoration: none;
-    transition: .3s;
-    font-family: 'PT Sans Caption', sans-serif;
-    margin: 0 80px;
+  display: flex;
+  font-size: 15px;
+  color: black;
+  text-decoration: none;
+  transition: 0.3s;
+  font-family: "PT Sans Caption", sans-serif;
+  margin: 0 80px;
 }
 
 .nav_link:hover {
-    color: #9A3032;
-    transform: scale(1.2);
+  color: #9a3032;
+  transform: scale(1.2);
 }
 
 .container_icon {
-    position: absolute;
-    height: max-content;
-    right: 16px;
-    top: 16px;
-    display: flex;
-    opacity: 0.8;
+  position: absolute;
+  height: max-content;
+  right: 16px;
+  top: 16px;
+  display: flex;
+  opacity: 0.8;
 
-    .icon {
-        margin-inline: 8px;
+  .icon {
+    margin-inline: 8px;
 
-        img {
-            width: 24px;
-            height: 24px;
-        }
+    img {
+      width: 24px;
+      height: 24px;
     }
+  }
 
-    .seperator {
-        width: 3px;
-        background: gray;
-        // border: 3px solid red;
-    }
-
+  .seperator {
+    width: 3px;
+    background: gray;
+    // border: 3px solid red;
+  }
 }

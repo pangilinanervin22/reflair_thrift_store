@@ -8,7 +8,7 @@ export default function NavigationBar() {
     return (
         <>
             <nav className={style.nav}>
-                <h1 className={style.logo}>ReFlair</h1>
+                <Link href="/"><h1 className={style.logo}>ReFlair</h1></Link>
                 {/* <section className={style.section_list}>
                     <div><Link className={style.nav_link} href="/">HOME</Link></div>
                     <div><Link className={style.nav_link} href="/login">LOGIN CLIENT</Link></div>

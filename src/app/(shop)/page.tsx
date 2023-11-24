@@ -120,8 +120,8 @@ export default function ShopMainPage() {
                                 width={1920}
                                 height={1080}
                             />
-                            <h1 >title title title</h1>
-                            <h2>Description. Description. Description. Description. Description. Description. Description. Description. Description. Description. Description. Description.</h2>
+                            <h1 >About fashion</h1>
+                            <h2>Those real-life gestures chimed with the season’s biggest look: pared-back, everyday clothes, executed in best-in-class fabrics.</h2>
                         </div>
 
                         <div className={style.title5}>
@@ -131,8 +131,8 @@ export default function ShopMainPage() {
                                 width={1920}
                                 height={1080}
                             />
-                            <h1>title title title</h1>
-                            <h2>Description. Description. Description. Description. Description. Description. Description. Description. Description. Description. Description. Description.</h2>
+                            <h1>Vintage Fashion</h1>
+                            <h2>Those real-life gestures chimed with the season’s biggest look: pared-back, everyday clothes, executed in best-in-class fabrics.  </h2>
                         </div>
                     </div>
 
@@ -144,8 +144,8 @@ export default function ShopMainPage() {
                                 width={1920}
                                 height={1080}
                             />
-                            <h1>title title title</h1>
-                            <h2>Description. Description. Description. Description.Description. Description. Description. Description.Description. Description. Description. Description.</h2>
+                            <h1>Men fashion</h1>
+                            <h2>If you're looking for unique items of clothing, sometimes buying new isn't always the way forward and vintage menswear shops are the way forward.</h2>
                         </div>
 
                         <div className={style.title4}>
@@ -155,8 +155,8 @@ export default function ShopMainPage() {
                                 width={1920}
                                 height={1080}
                             />
-                            <h1>title title title</h1>
-                            <h2>Description. Description. Description. Description.Description. Description. Description. Description. Description. Description. Description. Description.</h2>
+                            <h1>Rare Finds</h1>
+                            <h2>The shoe range’s earliest side features a selection of footwear from designers including Herbert Levine and Halston, ranging from the early ’50s to the ’70s.</h2>
                         </div>
 
                         <div className={style.title6}>
@@ -166,8 +166,8 @@ export default function ShopMainPage() {
                                 width={1920}
                                 height={1080}
                             />
-                            <h1>title title title</h1>
-                            <h2>Description. Description. Description. Description.Description. Description. Description. Description.Description. Description. Description. Description.</h2>
+                            <h1>Fashion Show</h1>
+                            <h2>During the fashion show, recycled and second hand clothing items from ReFlair Thrift will be modeled.</h2>
                         </div>
                     </div>
 
@@ -179,8 +179,8 @@ export default function ShopMainPage() {
                                 width={1920}
                                 height={1080}
                             />
-                            <h1>title title title</h1>
-                            <h2>Description. Description. Description. Description. Description. Description. Description. Description.Description. Description. Description. Description.</h2>
+                            <h1>Forgotten</h1>
+                            <h2>Slip dresses, bomber jackets, scrunchies and plaid flannel shirts were all the rage during the '90s — and many of these fashion trends are working their way back into vogue. </h2>
                         </div>
 
                         <div className={style.title7}>
@@ -190,8 +190,8 @@ export default function ShopMainPage() {
                                 width={1920}
                                 height={1080}
                             />
-                            <h1>title title title</h1>
-                            <h2>Description. Description. Description. Description.Description. Description. Description. Description. Description. Description. Description. Description.</h2>
+                            <h1>ReFlair Thrift</h1>
+                            <h2>It’s not just an old trailer, though — it’s a 1970s Empire that Wilson renovated into a cozy retro boutique. And they’re not just any vintage goods: each piece is carefully curated by ReFlair. </h2>
                         </div>
 
                     </div>

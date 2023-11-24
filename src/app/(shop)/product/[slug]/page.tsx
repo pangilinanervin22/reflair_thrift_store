@@ -1,7 +1,7 @@
 import prisma from "@/db/prisma";
 import Image from "next/image";
-
 import style from "./page.module.scss";
+
 
 interface PageProps {
   params: {
