@@ -1,6 +1,7 @@
 .footer {
   width: 100%;
   background-color: black;
+  margin-block-start: 2rem;
 }
 
 .footer_flex_row1 {
@@ -26,7 +27,7 @@
 }
 
 .right_column {
-  margin-top: 4rem;
+  margin-top: 2rem;
   justify-content: left;
   h1 {
     color: white;
@@ -36,15 +37,19 @@
   }
   li {
     float: right;
-    padding: 10px 25px;
+    padding: 15px 25px;
   }
   a {
     text-decoration: none;
     color: white;
   }
+
   img {
     height: 50px;
     width: 50px;
+  }
+  &:hover {
+    cursor: pointer;
   }
 }
 
