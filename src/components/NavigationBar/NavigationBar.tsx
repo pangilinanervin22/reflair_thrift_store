@@ -49,7 +49,7 @@ export default function NavigationBar() {
                     </div>
                     <hr className={style.seperator} />
                     <div>
-                        <Link href="/">
+                        <Link href="/addcart">
                             <ImageWrapper styleName={style.icon}>
                                 <Image src={"/assets/icons/cart.svg"}
                                     width={1080} height={1080}
