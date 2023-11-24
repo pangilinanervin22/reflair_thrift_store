@@ -1,12 +1,12 @@
+
 import React, { useState } from 'react';
-import styles from '../../styles/components/common/DropDownHover.module.scss';
 
 type DropdownProps = {
     trigger: React.ReactNode;
     content: React.ReactNode;
 };
 
-const index: React.FC<DropdownProps> = ({ trigger, content }) => {
+export default function DropDownHover({ trigger, content }: DropdownProps) {
     const [isOpen, setIsOpen] = useState(false);
 
     const handleMouseEnter = () => {
@@ -18,11 +18,12 @@ const index: React.FC<DropdownProps> = ({ trigger, content }) => {
     };
 
     return (
-        <div className={styles.dropdown_trigger} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+        <div style={{ position: 'relative' }}
+            onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
             <div>{trigger}</div>
-            {isOpen && <div className={styles.dropdown_content}>{content}</div>}
+            {isOpen &&
+                <div style={{ position: "absolute", right: "32px", top: "16px" }}>{content}</div>}
         </div>
     );
 };
 
-export default index;

@@ -3,14 +3,12 @@
 import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
 import Image from "next/image";
-import style from "./page.module.scss";
+import style from "./ProductForm.module.scss";
 import { UploadButton } from "@/utils/uploadthing";
 import Link from "next/link";
-import { CreateProductAction, UpdateProductAction } from "@/lib/ProductAction";
+import { UpdateProductAction } from "@/lib/ProductAction";
 import type { Product } from "@prisma/client";
 import { ProductRequestBody } from "@/app/api/product/route";
-
-
 
 interface PageProps {
     product: Product;
@@ -65,8 +63,8 @@ export default function ProductForm({ product }: PageProps) {
     };
 
     return (
-        <main className={style.main}>
-            <section className={style.container_upload}>
+        <section className={style.main}>
+            <div className={style.container_upload}>
                 <Image src={url} alt="image upload" width={1920} height={1080} />
                 <UploadButton
                     endpoint="imageUploader"
@@ -78,8 +76,8 @@ export default function ProductForm({ product }: PageProps) {
                         alert(`ERROR! ${error.message}`);
                     }}
                 />
-            </section>
-            <section className={style.container_form}>
+            </div>
+            <div className={style.container_form}>
                 <h2>Create Product</h2>
                 <br />
                 <form onSubmit={handleSubmit}>
@@ -154,8 +152,8 @@ export default function ProductForm({ product }: PageProps) {
                         <button className={style.submit} type="submit">Register</button>
                     </div>
                 </form>
-            </section>
-        </main >
+            </div>
+        </section >
     );
 }
 

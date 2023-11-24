@@ -1,8 +1,6 @@
 import prisma from "@/db/prisma";
-import Image from "next/image";
-
-import style from "./page.module.scss";
 import ProductUpdatePage from "@/components/Forms/ProductForm/ProductForm";
+import { redirect } from "next/navigation"
 
 interface PageProps {
   params: {
@@ -25,8 +23,8 @@ export default async function ProductPage({ params }: PageProps) {
   });
 
   if (!product) {
-    // redirect to 404 or a custom error page
-    return;
+    alert("Product not found!");
+    redirect("/admin/product");
   }
 
   return (

@@ -3,6 +3,7 @@ import NavigationBar from "@/components/AdminComponent/NavigationBar/NavigationB
 import { getServerSession } from "next-auth";
 import { authOptions } from "../api/auth/[...nextauth]/route";
 import AdminAuth from "@/components/AdminComponent/AdminAuth";
+import style from "./layout.module.scss";
 
 export default async function AdminPageLayout({
     children,
@@ -23,8 +24,9 @@ export default async function AdminPageLayout({
     return (
         <>
             <NavigationBar name={session.user?.name || "wew"} />
-            {children}
-            <h1>Employee </h1>
+            <main className={style.admin_layout}>
+                {children}
+            </main>
             <ModalContainer />
         </>
     )

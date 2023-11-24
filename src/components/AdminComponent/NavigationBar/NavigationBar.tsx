@@ -9,6 +9,9 @@ import IconHome_svg from '@/assets/IconHome_svg'
 import IconPerson_svg from '@/assets/IconPerson_svg'
 import IconMoney_svg from '@/assets/IconMoney_svg'
 import IconHeart_svg from '@/assets/IconHeart_svg'
+import DropDownHover from '@/components/DropDownHover'
+import { signOut } from "next-auth/react";
+import IconLogout_svg from '@/assets/IconLogout_svg'
 
 
 export default function NavigationBar({ name }: { name: string }) {
@@ -41,7 +44,27 @@ export default function NavigationBar({ name }: { name: string }) {
             </div>
             <div>
                 <h5>{name || "User"}</h5>
-                <Image src={"/default_user.png"} alt="User Picture" width={1920} height={1080} />
+
+                <DropDownHover
+                    trigger={
+                        <Image src={"/default_user.png"} alt="User Picture" width={1920} height={1080} />
+                    }
+                    content={
+                        <section className={style.dropdown_container}>
+                            <div className={style.dropdown_item} >
+                                <IconPerson_svg />
+                                <h2>Account</h2>
+                            </div>
+                            <div className={style.dropdown_item}
+                                onClick={() => {
+                                    signOut();
+                                }}>
+                                <IconLogout_svg />
+                                <h2>Logout</h2>
+                            </div>
+                        </section>
+                    }
+                />
             </div>
         </nav >
     )

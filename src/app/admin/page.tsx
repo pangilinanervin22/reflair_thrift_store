@@ -1,42 +1,10 @@
-
-// export default async function UserPage() {
-//     const res = await fetch('https://jsonplaceholder.typicode.com/users',
-//         { cache: "no-store", next: { revalidate: 10 } });
-//     const users = await res.json();
-
-//     return (
-//         <div>UserPage
-//             <ul>
-//                 {users.map((user: any) => (<li key={user.id}>{user.name}</li>))}
-//             </ul>
-//         </div>
-//     )
-// }
-
-
-import SignOut from "@/components/SignOut";
 import ReportPage from "@/components/AdminComponent/Report";
-import prisma from "@/db/prisma"
 
-export default async function UsersPage() {
-    const allUsers = await prisma.account.findMany()
+export default function UsersPage() {
 
     return (
         <>
-            <section>
-                <ReportPage />
-            </section>
-            <h3>Users</h3>
-            <br />
-            <ul>
-                {allUsers.map((user) => (
-                    <li key={user.id}>
-                        {user.name} ({user.username})
-                    </li>
-                ))}
-            </ul>
-            <br />
-            <SignOut />
+            <ReportPage />
         </>
     )
 }

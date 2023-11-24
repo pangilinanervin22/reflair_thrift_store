@@ -2,11 +2,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgb(251, 243, 243);
     width: 100vw;
-    padding-block: 32px;
 
-    section {
+    >div {
         margin-inline-end: 32px;
         border-radius: 8px;
     }

@@ -75,7 +75,7 @@
 }
 
 .chart_container {
-    @include flex_container(row, space-between);
+    @include flex_container(row, center);
     flex-wrap: wrap;
     height: 380px;
     width: 100%;
@@ -94,7 +94,7 @@
 
     .bar {
         text-align: left;
-        width: 60%;
+        width: 90%;
         min-width: 300px;
     }
 

@@ -6,9 +6,7 @@ export default function ShopMainPage() {
             <section className={style.flex_section}>
                 <h1>Total Item: </h1>
 
-
             </section>
-
         </>
     );
 }
