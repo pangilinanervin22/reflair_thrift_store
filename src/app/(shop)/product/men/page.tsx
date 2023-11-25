@@ -3,6 +3,8 @@ import style from "./page.module.scss";
 import Link from "next/link";
 import Image from "next/image";
 import type { Product } from "@prisma/client";
+import AddCartButton from "../../cart/AddCartButton";
+import AddLikeButton from "../../liked/AddLikeButton";
 
 
 export const revalidate = 2;
@@ -18,7 +20,7 @@ export default async function ProductDashboard() {
         <>
             <section className={style.product_section}>
                 <br />
-                <h3>Men's Clothing</h3>
+                <h3>{"Men's Clothing"}</h3>
                 <br />
                 <div className={style.product_container}>
                     {menProduct.map((product) => (
@@ -38,12 +40,9 @@ export default async function ProductDashboard() {
                             </section>
 
                             <section className={style.button}>
-                                <button className={style.cart}>ADD TO CART</button>
-                                <button className={style.like}>LIKE</button>
+                                <AddCartButton product={product} title="ADD TO CART" className={style.cart} />
+                                <AddLikeButton product={product} title="LIKE" className={style.like} />
                             </section>
-
-
-
 
                         </div>
                     ))}

@@ -1,6 +1,8 @@
 import prisma from "@/db/prisma";
 import Image from "next/image";
 import style from "./page.module.scss";
+import AddCartButton from "../../cart/AddCartButton";
+import AddLikeButton from "../../liked/AddLikeButton";
 
 
 interface PageProps {
@@ -47,8 +49,10 @@ export default async function ProductPage({ params }: PageProps) {
           <h3>₱ {product.price}</h3>
           {/* Product actions */}
           <section className={style.actions_container}>
-            <button className={style.cart_button}>ADD TO CART</button>
-            <button className={style.like_button}>LIKE</button>
+            {/* <button className={style.cart_button}>ADD TO CART</button>
+            <button className={style.like_button}>LIKE</button> */}
+            <AddCartButton product={product} title="ADD TO CART" className={style.cart_button} />
+            <AddLikeButton product={product} title="LIKE" className={style.like_button} />
           </section>
           <span>
             <strong>Details</strong>

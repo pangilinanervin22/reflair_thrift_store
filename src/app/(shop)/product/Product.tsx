@@ -4,7 +4,8 @@ import { useRouter } from "next/navigation";
 import type { Product } from "@prisma/client";
 import Image from "next/image";
 import style from "./page.module.scss";
-import AddLikedButton from "@/components/ClientAction/AddLikedButton";
+import AddCartButton from "@/app/(shop)/cart/AddCartButton";
+import AddLikeButton from "../liked/AddLikeButton";
 
 interface ProductProps {
   product: Product;
@@ -37,12 +38,11 @@ const Product: React.FC<ProductProps> = ({ product }) => {
         <h4>{`₱ ${product.price}`}</h4>
       </div>
       <div className={style.product_action}>
-        <button className={style.product_cart}>
-          <p>ADD TO CART</p>
-        </button>
-
-        <AddLikedButton product={product} title="Like" className={style.product_like} />
-
+        <AddCartButton product={product} title="ADD TO CART" className={style.product_cart} />
+        <AddLikeButton product={product} title="LIKE" className={style.product_like} />
+        {/* <button className={style.product_like}>
+          <p>LIKE</p>
+        </button> */}
       </div>
     </div>
   );
