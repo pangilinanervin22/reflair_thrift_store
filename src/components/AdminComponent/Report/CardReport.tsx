@@ -1,5 +1,8 @@
 import IconMoney_svg from "@/assets/IconMoney_svg";
 import styles from "./CardReport.module.scss"
+import IconPerson_svg from "@/assets/IconPerson_svg";
+import IconCart_svg from "@/assets/IconCart_svg";
+import IconProfile_svg from "@/assets/IconProfile_svg";
 
 
 const NOW_MONTH = new Date().toLocaleString('default', { month: 'long' });
@@ -7,9 +10,9 @@ const NOW_MONTH = new Date().toLocaleString('default', { month: 'long' });
 export default function CardReport() {
 
     const report = {
-        "total_product": 11,
-        "total_stock": 136,
-        "total_sales": 9300
+        total_product: 32,
+        sales: 3200,
+        account: 12,
     }
 
     return (
@@ -20,7 +23,7 @@ export default function CardReport() {
                 </h3>
                 <div>
                     <IconMoney_svg />
-                    <h2>{report.total_sales}</h2>
+                    <h2>{report.sales}</h2>
                 </div>
             </div>
             <div className={styles.display_item}>
@@ -28,17 +31,17 @@ export default function CardReport() {
                     Available Product
                 </h3>
                 <div>
-                    <IconMoney_svg />
+                    <IconCart_svg />
                     <h2>{report.total_product}</h2>
                 </div>
             </div>
             <div className={styles.display_item}>
                 <h3>
-                    Total Inventory
+                    Account
                 </h3>
                 <div>
-                    <IconMoney_svg />
-                    <h2>{report.total_stock}</h2>
+                    <IconProfile_svg />
+                    <h2>{report.account}</h2>
                 </div>
             </div>
         </div>
