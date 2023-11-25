@@ -3,7 +3,7 @@ import React from 'react'
 export default function IconLogoIG_svg() {
     return (
         <svg width="50" height="50" viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
-            <g id="skill-icons:instagram" clip-path="url(#clip0_1027_777)">
+            <g id="skill-icons:instagram" clipPath="url(#clip0_1027_777)">
                 <g id="Group">
                     <path id="Vector"
                         d="M38.2812 0H11.7188C5.24666 0 0 5.24666 0 11.7188V38.2812C0 44.7533 5.24666 50 11.7188 50H38.2812C44.7533 50 50 44.7533 50 38.2812V11.7188C50 5.24666 44.7533 0 38.2812 0Z"

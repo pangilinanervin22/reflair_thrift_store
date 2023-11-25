@@ -3,7 +3,7 @@ import React from 'react'
 export default function IconLogoFB_svg() {
     return (
         <svg width="50" height="50" viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
-            <g id="logos:facebook" clip-path="url(#clip0_1027_774)">
+            <g id="logos:facebook" clipPath="url(#clip0_1027_774)">
                 <path id="Vector"
                     d="M50 25C50 11.193 38.807 0 25 0C11.193 0 0 11.1928 0 25C0 37.4781 9.14219 47.8209 21.0938 49.6963V32.2266H14.7461V25H21.0938V19.4922C21.0938 13.2266 24.8262 9.76563 30.5365 9.76563C33.2719 9.76563 36.1328 10.2539 36.1328 10.2539V16.4063H32.9805C29.8746 16.4063 28.9062 18.3334 28.9062 20.3105V25H35.8398L34.7314 32.2266H28.9062V49.6963C40.8578 47.8209 50 37.4783 50 25Z"
                     fill="#1877F2" />

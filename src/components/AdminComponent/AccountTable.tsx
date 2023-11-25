@@ -1,15 +1,13 @@
 "use client"
 
 import MainTable, { TableStructure } from "./Table/MainTable/TableStructure";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useModalStore } from "../Modal/ModalContainer";
 import DeleteModal from "../Modal/common/DeleteModal";
-import { DeleteProductAction } from "@/lib/ProductAction";
 
 const content: TableStructure = {
     id: "id",
-    title: "Product",
+    title: "Account",
     searchPath: "name",
     structure: [
         // { label: "Image", width: "100px", element: (val: any) => <Image src={val.image} alt={val.image} width={70} height={70} /> },
@@ -29,7 +27,8 @@ export default function AccountTable({ data }: { data: any[] }) {
         structure={content}
         handleUpdate={onHandleUpdate}
         handleDelete={onHandleDelete}
-        handleAdd={onHandleAdd} />
+        handleAdd={onHandleAdd}
+    />
     );
 
     function onHandleDelete(data: any) {
