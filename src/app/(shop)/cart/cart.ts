@@ -2,13 +2,14 @@ import { create } from "zustand";
 import type { Product } from "@prisma/client";
 import { persist, createJSONStorage } from "zustand/middleware";
 
-type ModalState = {
+type CartState = {
     product: Product[];
     // closeModal: () => void;
     addProduct: (content: Product) => void;
+    removeProduct: (content: Product) => void;
 };
 
-const store = create<ModalState>()(
+const store = create<CartState>()(
     persist((set) => ({
         product: [],
         // closeModal: () => set({ isOpen: false, content: null }),
@@ -17,13 +18,21 @@ const store = create<ModalState>()(
                 if (state.product.find((item) => item.id === content.id))
                     return state;
 
-                const awit = [...state.product, content];
-                return { product: awit };
+                const temp = [...state.product, content];
+                return { product: temp };
             });
         },
+        removeProduct: (content: Product) => {
+            set((state) => {
+                const filter = state.product.filter((item) => item.id !== content.id);
+                const temp = [...filter];
+
+                return { product: temp };
+            });
+        }
     }),
         {
-            name: "AccountData", // unique name
+            name: "Storage", // unique name
             storage: createJSONStorage(() => sessionStorage), // (optional) by default, 'localStorage' is used
         }
     ));
