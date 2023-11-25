@@ -19,6 +19,7 @@ export interface TableStructure {
 export interface Column {
     label: string;
     width: string;
+    height?: string;
     fontSize?: string;
     path?: string;
     element?: (val: any) => React.ReactElement;

@@ -19,7 +19,9 @@ export default function NavigationBar({ name }: { name: string }) {
 
     return (
         <nav className={style.container}>
-            <h3>Reflair</h3>
+            <h3 onClick={() => {
+                window.location.replace("/");
+            }}>Reflair</h3>
             <div className={style.navigation_bar}>
                 <Link href="/admin/"
                     className={pathname.endsWith("/admin") ? style.active : ""}>

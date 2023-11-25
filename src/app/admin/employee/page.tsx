@@ -1,7 +1,11 @@
+import AccountTable from '@/components/AdminComponent/AccountTable'
+import prisma from '@/db/prisma'
 import React from 'react'
 
-export default function page() {
+export default async function page() {
+    const account = await prisma.account.findMany()
+
     return (
-        <h1>Employee</h1>
+        <AccountTable data={account} />
     )
 }

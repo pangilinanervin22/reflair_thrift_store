@@ -7,9 +7,11 @@ interface thisProps {
 }
 
 const defaultData = [
-    { month: 'Apr', year: "2023", total_sales: 3700 },
-    { month: 'May', year: "2023", total_sales: 3200 },
-    { month: 'June', year: "2023", total_sales: 5300 },
+    { month: 'July', year: "2023", total_sales: 5300 },
+    { month: 'August', year: "2023", total_sales: 4300 },
+    { month: 'September', year: "2023", total_sales: 4700 },
+    { month: 'October', year: "2023", total_sales: 6200 },
+    { month: 'November', year: "2023", total_sales: 1300 },
 ];
 
 const SalesChart = ({ dataProps }: thisProps) => {
