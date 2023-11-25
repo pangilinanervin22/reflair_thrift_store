@@ -78,7 +78,7 @@ export default function ProductForm({ product }: PageProps) {
                 />
             </div>
             <div className={style.container_form}>
-                <h2>Create Product</h2>
+                <h2>Edit Product</h2>
                 <br />
                 <form onSubmit={handleSubmit}>
                     <div className={style.container_input}>

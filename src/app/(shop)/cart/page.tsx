@@ -26,6 +26,8 @@ export default function LikePage() {
                                 <h1>Size: {item.size}</h1>
                                 <h1>₱ {item.price}</h1>
                             </section>
+
+
                             <section className={style.button}>
                                 {/* <button className={style.cart} onClick={() => addProduct(item)}>ADD TO CART</button> */}
                                 <button className={style.remove} onClick={() => removeProduct(item)}>REMOVE</button>

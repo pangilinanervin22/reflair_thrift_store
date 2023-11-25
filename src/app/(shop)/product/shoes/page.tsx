@@ -52,9 +52,7 @@ export default async function ProductDashboard() {
                     ))}
                 </div>
             </section>
-            <Link href="/admin/product/create">
-                <button>Add Product</button>
-            </Link>
+
         </>
     );
 }
