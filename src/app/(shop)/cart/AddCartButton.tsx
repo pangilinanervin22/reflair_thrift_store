@@ -11,7 +11,6 @@ interface AddCartButtonProps {
 
 export default function AddCartButton({ product, className, title }: AddCartButtonProps) {
     const { addProduct, product: storeProduct, removeProduct } = useCartStore();
-
     const find = storeProduct.some((item) => item.id === product.id);
     const buttonContent = find ? "ADDED TO CART" : title;
 
@@ -21,8 +20,6 @@ export default function AddCartButton({ product, className, title }: AddCartButt
                 removeProduct(product)
             else
                 addProduct(product)
-
-
             console.log(product, "passed [product]");
             console.log(find, "find");
         }}>

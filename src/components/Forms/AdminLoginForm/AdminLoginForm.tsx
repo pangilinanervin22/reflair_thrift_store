@@ -33,7 +33,7 @@ export default function AdminLoginForm({ registering }: { registering: Function 
 
             if (res?.ok) {
                 console.log("ok");
-                alert("Registration successful!");
+                alert("Login successful!");
                 window.location.reload();
             };
 

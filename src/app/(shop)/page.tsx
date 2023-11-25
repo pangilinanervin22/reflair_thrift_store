@@ -145,7 +145,7 @@ export default function ShopMainPage() {
                                 height={1080}
                             />
                             <h1>Men fashion</h1>
-                            <h2>If you're looking for unique items of clothing, sometimes buying new isn't always the way forward and vintage menswear shops are the way forward.</h2>
+                            <h2>{"If you're looking for unique items of clothing, sometimes buying new isn't always the way forward and vintage menswear shops are the way forward."}</h2>
                         </div>
 
                         <div className={style.title4}>
@@ -156,7 +156,7 @@ export default function ShopMainPage() {
                                 height={1080}
                             />
                             <h1>Rare Finds</h1>
-                            <h2>The shoe range’s earliest side features a selection of footwear from designers including Herbert Levine and Halston, ranging from the early ’50s to the ’70s.</h2>
+                            <h2>{"The shoe range’s earliest side features a selection of footwear from designers including Herbert Levine and Halston, ranging from the early ’50s to the ’70s."}</h2>
                         </div>
 
                         <div className={style.title6}>
@@ -180,7 +180,7 @@ export default function ShopMainPage() {
                                 height={1080}
                             />
                             <h1>Forgotten</h1>
-                            <h2>Slip dresses, bomber jackets, scrunchies and plaid flannel shirts were all the rage during the '90s — and many of these fashion trends are working their way back into vogue. </h2>
+                            <h2>{"Slip dresses, bomber jackets, scrunchies and plaid flannel shirts were all the rage during the '90s — and many of these fashion trends are working their way back into vogue. "}</h2>
                         </div>
 
                         <div className={style.title7}>
@@ -191,7 +191,7 @@ export default function ShopMainPage() {
                                 height={1080}
                             />
                             <h1>ReFlair Thrift</h1>
-                            <h2>It’s not just an old trailer, though — it’s a 1970s Empire that Wilson renovated into a cozy retro boutique. And they’re not just any vintage goods: each piece is carefully curated by ReFlair. </h2>
+                            <h2>{"It’s not just an old trailer, though — it’s a 1970s Empire that Wilson renovated into a cozy retro boutique. And they’re not just any vintage goods: each piece is carefully curated by ReFlair. "}</h2>
                         </div>
 
                     </div>

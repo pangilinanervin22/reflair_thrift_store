@@ -8,7 +8,6 @@ import AddCartButton from "../cart/AddCartButton";
 
 export default function LikePage() {
     const { product, addProduct, removeProduct } = useLikeStore()
-    const { addProduct: addCartProduct } = useCartStore()
     return (
         <>
             <section className={style.flex_section}>
@@ -24,15 +23,15 @@ export default function LikePage() {
                                 quality={100}
                                 alt="liked pic"
                             />
-                            <section className={style.description}>
+                            <div className={style.description}>
                                 <h3>{item.name}</h3>
                                 <h1>Size: {item.size}</h1>
                                 <h1>₱ {item.price}</h1>
-                            </section>
-                            <section className={style.button}>
+                            </div>
+                            <div className={style.button}>
                                 <AddCartButton product={item} title="ADD TO CART" className={style.cart} />
                                 <button className={style.remove} onClick={() => removeProduct(item)}>REMOVE</button>
-                            </section>
+                            </div>
                         </div>
                     ))
                     }

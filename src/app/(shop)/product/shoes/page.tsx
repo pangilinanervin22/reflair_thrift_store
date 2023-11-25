@@ -28,13 +28,15 @@ export default async function ProductDashboard() {
 
                         <div className={style.ImageWrapper} key={product.id}>
 
-                            <Image
-                                src={product.image}
-                                width={400}
-                                height={400}
-                                quality={100}
-                                alt="main page pictures"
-                            />
+                            <Link href={`/product/` + product.id}>
+                                <Image
+                                    src={product.image}
+                                    width={400}
+                                    height={400}
+                                    quality={100}
+                                    alt="main page pictures"
+                                />
+                            </Link>
                             <section className={style.description}>
                                 <h3>{product.name}</h3>
                                 <h1>Size: {product.size}</h1>

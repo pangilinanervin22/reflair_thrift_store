@@ -34,7 +34,7 @@ const Product: React.FC<ProductProps> = ({ product }) => {
       />
       <div className={style.product_description}>
         <h3>{product.name}</h3>
-        <p>{product.size}</p>
+        <p>Size: {product.size}</p>
         <h4>{`₱ ${product.price}`}</h4>
       </div>
       <div className={style.product_action}>

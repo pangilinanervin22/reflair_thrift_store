@@ -44,9 +44,9 @@ export default async function ProductPage({ params }: PageProps) {
         </section>
         <section className={style.product_details}>
           {/* Product Details */}
-          <h1>{product.name}</h1>
-          <h2>{product.size}</h2>
-          <h3>₱ {product.price}</h3>
+          <h2>{product.name}</h2>
+          <h3>{product.size}</h3>
+          <h4>₱ {product.price}</h4>
           {/* Product actions */}
           <section className={style.actions_container}>
             {/* <button className={style.cart_button}>ADD TO CART</button>
@@ -65,7 +65,7 @@ export default async function ProductPage({ params }: PageProps) {
       </section>
       <section>
         {/* Suggestions Section */}
-        <h4>You might also like</h4>
+        {/* <h4>You might also like</h4> */}
       </section>
     </article>
   );

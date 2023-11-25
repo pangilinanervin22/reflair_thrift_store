@@ -11,7 +11,7 @@ const defaultData = [
     { month: 'August', year: "2023", total_sales: 4300 },
     { month: 'September', year: "2023", total_sales: 4700 },
     { month: 'October', year: "2023", total_sales: 6200 },
-    { month: 'November', year: "2023", total_sales: 1300 },
+    { month: 'November', year: "2023", total_sales: 2300 },
 ];
 
 const SalesChart = ({ dataProps }: thisProps) => {

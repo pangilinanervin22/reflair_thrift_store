@@ -56,9 +56,9 @@ export default function ProductForm({ product }: PageProps) {
             setColor("");
             setSelectedCategory("");
             router.push("/admin/product");
-            alert("Registration successful!");
+            alert("Update successful!");
         } else {
-            alert("Registration failed!");
+            alert("Update failed!");
         }
     };
 

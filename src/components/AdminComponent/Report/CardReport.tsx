@@ -1,18 +1,21 @@
 import IconMoney_svg from "@/assets/IconMoney_svg";
 import styles from "./CardReport.module.scss"
-import IconPerson_svg from "@/assets/IconPerson_svg";
 import IconCart_svg from "@/assets/IconCart_svg";
 import IconProfile_svg from "@/assets/IconProfile_svg";
+import prisma from "@/db/prisma";
 
 
 const NOW_MONTH = new Date().toLocaleString('default', { month: 'long' });
 
-export default function CardReport() {
+export default async function CardReport() {
+
+    const total_product = prisma.product.count() || 100;
+    const total_account = prisma.account.count() || 2;
 
     const report = {
-        total_product: 32,
-        sales: 3200,
-        account: 12,
+        sales: 2300,
+        total_product: total_product,
+        account: total_account,
     }
 
     return (
