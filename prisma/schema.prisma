@@ -22,7 +22,6 @@ model Account {
 
   // orders   Order[]
   // Like     Like[]
-  @@map("Client")
 }
 
 model Product {
