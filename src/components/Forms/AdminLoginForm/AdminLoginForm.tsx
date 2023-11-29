@@ -1,24 +1,30 @@
 "use client"
 
-import { FormEvent, useState } from 'react';
-import { signIn, useSession } from "next-auth/react";
-import { redirect, useRouter } from 'next/navigation';
+import { FormEvent } from 'react';
+import { signIn } from "next-auth/react";
 import style from './page.module.scss';
-import { revalidatePath } from 'next/cache';
-
-
 
 export default function AdminLoginForm({ registering }: { registering: Function }) {
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
+
 
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
+
+        // const { username, password } = e.target as typeof e.target & {
+        //     username: { value: string };
+        //     password: { value: string };
+        // };
+
+        const formData = e.target;
+        const username = (formData as any).username.value;
+        const password = (formData as any).password.value;
 
         if (!username || !password) {
             alert("Please fill in all fields!");
             return;
         }
+
+
         try {
             const res = await signIn("credentials", {
                 username,
@@ -51,9 +57,9 @@ export default function AdminLoginForm({ registering }: { registering: Function 
                 </div>
                 <form onSubmit={handleSubmit}>
                     <label htmlFor="username">Username</label>
-                    <input id='username' type="text" placeholder='Enter Email' value={username} onChange={(e) => setUsername(e.target.value)} />
+                    <input id="username" type="text" placeholder="Enter Email" />
                     <label htmlFor="username">Password</label>
-                    <input type="password" placeholder='Enter Password' value={password} onChange={(e) => setPassword(e.target.value)} />
+                    <input id="password" type="password" placeholder="Enter Password" required />
                     <button type="submit">Log In</button>
                     <p>Don&#39;t have a account</p>
                     <span onClick={() => registering()}>register here</span>

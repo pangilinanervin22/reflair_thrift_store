@@ -1,18 +1,12 @@
 "use client"
 
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
-import { FormEvent, useState } from "react";
+import { FormEvent } from "react";
 import style from './page.module.scss';
 import { revalidatePath } from "next/cache";
-import Link from "next/link";
 import { CreateAccountAction } from "@/lib/AccountAction";
 
 export default function AdminRegisterForm({ registering }: { registering: Function }) {
-    const [name, setName] = useState("");
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("");
 
     const { data: session, status: sessionStatus } = useSession();
 
@@ -23,6 +17,12 @@ export default function AdminRegisterForm({ registering }: { registering: Functi
 
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
+
+        const formData = e.target;
+        const name = (formData as any).name.value;
+        const username = (formData as any).username.value;
+        const password = (formData as any).password.value;
+        const confirmPassword = (formData as any).confirmPassword.value;
 
         if (!name || !username || !password || !confirmPassword) {
             alert("Please fill in all fields!");
@@ -41,7 +41,8 @@ export default function AdminRegisterForm({ registering }: { registering: Functi
         // });
         try {
             // pass role as parameter
-            const res = await CreateAccountAction({ name, username, password });
+            await CreateAccountAction({ name, username, password });
+
             alert("Registration successful!");
             registering();
         } catch (error) {
@@ -57,31 +58,26 @@ export default function AdminRegisterForm({ registering }: { registering: Functi
             <form onSubmit={handleSubmit}>
                 <input
                     type="text"
-                    value={name}
+                    id="name"
                     placeholder="Enter Name"
-                    onChange={(event) => setName(event.target.value)}
                 />
                 <input
                     type="text"
-                    value={username}
+                    id="username"
                     placeholder="Enter Username"
-                    onChange={(event) => setUsername(event.target.value)}
                 />
                 <input
                     type="password"
-                    value={password}
+                    id="password"
                     placeholder="Enter Password"
-                    onChange={(event) => setPassword(event.target.value)}
                 />
 
                 <input
                     type="password"
-                    value={confirmPassword}
+                    id="confirmPassword"
                     placeholder="Confirm Password"
-                    onChange={(event) => setConfirmPassword(event.target.value)}
                 />
                 <button type="submit">Register</button>
-
                 <p>if you already have account you can login here</p>
                 <span onClick={() => registering()}>login here</span>
 
