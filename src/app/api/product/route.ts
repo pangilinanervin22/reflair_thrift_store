@@ -12,6 +12,16 @@ export interface ProductRequestBody {
     material: string;
 }
 
+// export async function GET() {
+//     try {
+//         const data = await prisma.product.findMany();
+//         return data;
+//     } catch (error) {
+//         console.log(error);
+//         return NextResponse.json({ message: "Unsuccessful register" }, { status: 400 });
+//     }
+// }
+
 export async function POST(req: any) {
     const { name, category, color, image, material, price, size } = await req.json() as ProductRequestBody;
     if (!name) {
