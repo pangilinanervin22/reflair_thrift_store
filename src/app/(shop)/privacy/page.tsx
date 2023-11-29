@@ -13,12 +13,11 @@ export default function ShopMainPage() {
 
                 <div className={style.info_container}>
                     <div className={style.info}>
-                        This Privacy Policy ( "Policy" ) explains how your personal information is collected, used, shared and processed when accessing this website or using other services provided by its operator, including any written or electronic communications and purchases performed (collectively, the "Services" ) as well as the rights and choices you have associated with that information.
+                        {`This Privacy Policy ( "Policy" ) explains how your personal information is collected, used, shared and processed when accessing this website or using other services provided by its operator, including any written or electronic communications and purchases performed (collectively, the "Services" ) as well as the rights and choices you have associated with that information.`}
                     </div>
 
                     <div className={style.info}>
-                        The Services include any services provided via this website, located at ReFlair website, our accounts and fan pages on social media platforms (the "Social Media Accounts" ), and any other websites, pages, features, or content owned and operated by the Company that hyperlink to this Policy.
-
+                        {`The Services include any services provided via this website, located at ReFlair website, our accounts and fan pages on social media platforms (the "Social Media Accounts" ), and any other websites, pages, features, or content owned and operated by the Company that hyperlink to this Policy.`}
                     </div>
 
                     <div className={style.info}>

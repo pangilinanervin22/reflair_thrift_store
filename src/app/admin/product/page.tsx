@@ -2,8 +2,6 @@ import prisma from "@/db/prisma";
 import style from "./page.module.scss";
 import ProductTable from "@/components/AdminComponent/ProductTable";
 
-export const revalidate = 2;
-
 export default async function ProductDashboard() {
   const product = await prisma.product.findMany();
 
