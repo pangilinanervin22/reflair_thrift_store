@@ -43,7 +43,7 @@ export default function AdminLoginForm({ registering }: { registering: Function 
         }
     };
     return (
-        <main>
+        <main className={style.main}>
             <section className={style.container}>
                 <div className={style.title}>
                     <h1>ReFlair</h1>

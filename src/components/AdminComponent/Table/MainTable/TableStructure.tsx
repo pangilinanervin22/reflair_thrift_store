@@ -65,7 +65,7 @@ export default function MainTable({
     //sorting by search query filter
     sortedData = useMemo(
         () => (searchQuery ? sortedData.filter((item: any) => item.name.toLowerCase().includes(searchQuery.toLowerCase())) : sortedData),
-        [searchQuery, data]
+        [searchQuery, sortedData]
     );
 
     //get total data filtered by search
@@ -73,13 +73,13 @@ export default function MainTable({
 
     //sorting by path
     sortedData = useMemo(
-        () => (sortedData = sortPath(sortedData, sortColumn.path, sortColumn.order)),
-        [sortColumn, searchQuery, data]);
+        () => (sortPath(sortedData, sortColumn.path, sortColumn.order)),
+        [sortColumn, sortedData]);
 
     //pagination data
     sortedData = useMemo(
         () => paginate(sortedData, page.current, page.size),
-        [sortColumn, page, data]
+        [page, sortedData]
     );
 
     return (

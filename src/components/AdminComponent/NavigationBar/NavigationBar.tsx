@@ -38,10 +38,10 @@ export default function NavigationBar({ name }: { name: string }) {
                     <IconMoney_svg />
                     <h4>Sales</h4>
                 </Link>
-                <Link href="/admin/employee"
-                    className={pathname.startsWith("/admin/employee") ? style.active : ""}>
+                <Link href="/admin/account"
+                    className={pathname.startsWith("/admin/account") ? style.active : ""}>
                     <IconPerson_svg />
-                    <h4>Employee</h4>
+                    <h4>Account</h4>
                 </Link>
             </div>
             <div>
