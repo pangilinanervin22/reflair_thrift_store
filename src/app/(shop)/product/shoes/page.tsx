@@ -7,8 +7,6 @@ import AddCartButton from "../../cart/AddCartButton";
 import AddLikeButton from "../../liked/AddLikeButton";
 
 
-export const revalidate = 2;
-
 export default async function ProductDashboard() {
     const shoesProduct = await prisma.product.findMany({
         where: {
@@ -16,6 +14,7 @@ export default async function ProductDashboard() {
         }
     });
 
+    console.log("shoes");
     return (
         <>
             <section className={style.product_section}>
@@ -24,10 +23,7 @@ export default async function ProductDashboard() {
                 <br />
                 <div className={style.product_container}>
                     {shoesProduct.map((product) => (
-
-
-                        <div className={style.ImageWrapper} key={product.id}>
-
+                        <div className={style.product_card} key={product.id}>
                             <Link href={`/product/` + product.id}>
                                 <Image
                                     src={product.image}
@@ -42,7 +38,6 @@ export default async function ProductDashboard() {
                                 <h1>Size: {product.size}</h1>
                                 <h1>₱ {product.price}</h1>
                             </section>
-
                             <section className={style.button}>
                                 {/* <button className={style.cart}>ADD TO CART</button>
                                 <button className={style.like}>LIKE</button> */}

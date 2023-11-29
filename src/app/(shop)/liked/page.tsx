@@ -15,7 +15,7 @@ export default function LikePage() {
 
                 <div className={style.product_container}>
                     {product.map((item) => (
-                        <div className={style.ImageWrapper} key={item.id}>
+                        <div className={style.product_card} key={item.id}>
                             <Image
                                 src={item.image}
                                 width={400}

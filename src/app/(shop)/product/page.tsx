@@ -3,17 +3,21 @@ import style from "./page.module.scss";
 import Link from "next/link";
 import { Product } from "./Product";
 
-export const revalidate = 2;
 
 export default async function ProductDashboard() {
-  const product = await prisma.product.findMany();
-  console.log(product, "hello");
+  const product = await prisma.product.findMany({
+    orderBy: {
+      color: "asc",
+    },
 
+  });
+
+  console.log("hello render");
   return (
     <>
       <section className={style.product_section}>
         <br />
-        <h3>All Products</h3>
+        <h3>All Product</h3>
         <br />
         <div className={style.product_container}>
           {product.map((product) => (
