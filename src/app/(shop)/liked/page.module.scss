@@ -1,5 +1,6 @@
 .flex_section {
   margin: 10px;
+
   .text {
     text-align: center;
     margin: 10px;
@@ -10,11 +11,13 @@
     letter-spacing: 2.6px;
   }
 }
+
 .product_container {
   display: flex;
   flex-wrap: wrap;
 }
-.ImageWrapper {
+
+.product_card {
   display: flex;
   flex-direction: column;
   width: 400px;
@@ -37,16 +40,19 @@
     font-family: "Poppins", sans-serif;
     padding: 10px;
   }
+
+  h1 {
+    color: black;
+    font-size: 13px;
+    text-align: left;
+    margin-left: 0.5rem;
+    font-weight: 400;
+    letter-spacing: 1px;
+    line-height: normal;
+  }
 }
-h1 {
-  color: black;
-  font-size: 13px;
-  text-align: left;
-  margin-left: 0.5rem;
-  font-weight: 400;
-  letter-spacing: 1px;
-  line-height: normal;
-}
+
+
 
 .actions_container {
   display: flex;
@@ -59,6 +65,7 @@ h1 {
   margin-block: 1rem;
   width: 100%;
 }
+
 .cart,
 .remove {
   width: 100%;
