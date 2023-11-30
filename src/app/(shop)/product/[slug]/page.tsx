@@ -45,7 +45,7 @@ export default async function ProductPage({ params }: PageProps) {
         <section className={style.product_details}>
           {/* Product Details */}
           <h2>{product.name}</h2>
-          <h3>{product.size}</h3>
+          <h3>size: {product.size}</h3>
           <h4>₱ {product.price}</h4>
           {/* Product actions */}
           <section className={style.actions_container}>
