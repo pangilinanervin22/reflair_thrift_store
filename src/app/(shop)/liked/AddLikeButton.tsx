@@ -1,11 +1,9 @@
 "use client"
-import { useCartStore } from '@/app/(shop)/cart/cart'
-import type { Product } from '@prisma/client'
 import React from 'react'
 import { useLikeStore } from './like';
 
 interface AddLikeButtonProps {
-    product: Product;
+    product: any;
     title: string;
     className?: string;
 }

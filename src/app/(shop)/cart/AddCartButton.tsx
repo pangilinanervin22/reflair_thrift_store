@@ -1,11 +1,10 @@
 "use client"
 
 import { useCartStore } from '@/app/(shop)/cart/cart'
-import type { Product } from '@prisma/client'
 import React from 'react'
 
 interface AddCartButtonProps {
-    product: Product;
+    product: any;
     title: string;
     className?: string;
 }
