@@ -11,12 +11,6 @@ import { CreateProductAction } from "@/lib/ProductAction";
 
 
 export default function ProductCreatePage() {
-    const [name, setName] = useState("");
-    const [price, setPrice] = useState<any>();
-    const [size, setSize] = useState("");
-    const [material, setMaterial] = useState("");
-    const [color, setColor] = useState("");
-    const [selectedCategory, setSelectedCategory] = useState('men');
     const [url, setUrl] = useState("https://utfs.io/f/dca9a6a3-7204-407a-b16d-6b224dd8b188-4pl4mu.png");
 
     const router = useRouter();
@@ -24,35 +18,36 @@ export default function ProductCreatePage() {
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
 
-        if (!name || !price || !url || !size || !material || !color || !selectedCategory) {
+
+        const { name, price, size, material, color, category } = e.target as typeof e.target & {
+            name: { value: string };
+            price: { value: number };
+            size: { value: string };
+            material: { value: string };
+            color: { value: string };
+            category: { value: string };
+        };
+
+        if (!name || !price || !url || !size || !material || !color || !category) {
             alert("Please fill in all fields!");
             return;
         }
 
         const product: ProductRequestBody = {
-            name,
-            price,
+            name: name.value,
+            price: price.value,
             image: url,
-            category: selectedCategory,
-            color,
-            material,
-            size,
+            category: category.value,
+            color: color.value,
+            material: material.value,
+            size: size.value,
         }
 
-
-        const res = await CreateProductAction(product);
-
-        if (res) {
-            setUrl("https://utfs.io/f/dca9a6a3-7204-407a-b16d-6b224dd8b188-4pl4mu.png");
-            setName("");
-            setPrice("");
-            setSize("");
-            setMaterial("");
-            setColor("");
-            setSelectedCategory("");
+        try {
+            await CreateProductAction(product);
+            alert("Successful create a product!");
             router.push("/admin/product");
-            alert("Update successful!");
-        } else {
+        } catch (error) {
             alert("Update failed!");
         }
     };
@@ -77,58 +72,57 @@ export default function ProductCreatePage() {
                 <br />
                 <form onSubmit={handleSubmit}>
                     <div className={style.container_input}>
-                        <label htmlFor="">Name</label>
+                        <label htmlFor="name">Name</label>
                         <input
                             type="text"
+                            id="name"
                             placeholder="Enter name"
-                            onChange={(event) => setName(event.target.value)}
                             min={5}
                             max={64}
                             required
                         />
                     </div>
                     <div className={style.container_input}>
-                        <label htmlFor="">Price</label>
+                        <label htmlFor="price">Price</label>
                         <input
                             type="number"
+                            id="price"
                             placeholder="₱ 00.00"
-                            onChange={(event) => setPrice(Number(event.target.value))}
                             min={10}
                             max={10000}
                             required
                         />
                     </div>
                     <div className={style.container_input}>
-                        <label htmlFor="">Size</label>
+                        <label htmlFor="size">Size</label>
                         <input
                             type="text"
+                            id="size"
                             placeholder="small, medium, large"
-                            onChange={(event) => setSize(event.target.value)}
                             required
                         />
                     </div>
                     <div className={style.container_input}>
-                        <label htmlFor="">Material</label>
+                        <label htmlFor="size">Material</label>
                         <input
                             type="text"
+                            id="size"
                             placeholder="cotton, polyester, leather"
-                            onChange={(event) => setMaterial(event.target.value)}
                             required
                         />
                     </div>
                     <div className={style.container_input}>
-                        <label htmlFor="">Color</label>
+                        <label htmlFor="color">Color</label>
                         <input
                             type="text"
+                            id="color"
                             placeholder="red, blue, green"
-                            onChange={(event) => setColor(event.target.value)}
                             required
                         />
                     </div>
                     <div className={style.container_input}>
                         <label htmlFor="category">Select a category:</label>
                         <select id="category" defaultValue={"men"}
-                            onChange={(e) => setSelectedCategory(e.target.value)}
                             required
                         >
                             <option value={"men"}>men</option>

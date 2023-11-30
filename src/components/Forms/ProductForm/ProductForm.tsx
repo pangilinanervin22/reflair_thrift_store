@@ -1,6 +1,6 @@
 "use client"
 
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
 import Image from "next/image";
 import style from "./ProductForm.module.scss";
@@ -15,12 +15,7 @@ interface PageProps {
 }
 
 export default function ProductForm({ product }: PageProps) {
-    const [name, setName] = useState(product.name);
-    const [price, setPrice] = useState(product.price);
-    const [size, setSize] = useState(product.size);
-    const [material, setMaterial] = useState(product.material);
-    const [color, setColor] = useState(product.color);
-    const [selectedCategory, setSelectedCategory] = useState(product.category);
+    const { name, price, size, material, color, category } = product;
     const [url, setUrl] = useState(product.image);
 
     const router = useRouter();
@@ -28,38 +23,35 @@ export default function ProductForm({ product }: PageProps) {
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
 
-        if (!name || !price || !url || !size || !material || !color || !selectedCategory) {
+        const { name, price, size, material, color, category } = e.target as typeof e.target & {
+            name: { value: string };
+            price: { value: number };
+            size: { value: string };
+            material: { value: string };
+            color: { value: string };
+            category: { value: string };
+        };
+
+        console.log(name.value, price.value, url, size.value, material.value, color.value, category.value);
+
+
+        if (!name || !price || !url || !size || !material || !color || !category) {
             alert("Please fill in all fields!");
             return;
         }
 
         const productValue: ProductRequestBody = {
-            name,
-            price,
+            name: name.value,
+            price: Number(price.value),
             image: url,
-            category: selectedCategory,
-            color,
-            material,
-            size,
+            category: category.value,
+            color: color.value,
+            material: material.value,
+            size: size.value,
         }
 
         console.log(product);
-
-        const res = await UpdateProductAction(product.id, productValue);
-
-        if (res) {
-            setUrl("https://utfs.io/f/dca9a6a3-7204-407a-b16d-6b224dd8b188-4pl4mu.png");
-            setName("");
-            setPrice(0);
-            setSize("");
-            setMaterial("");
-            setColor("");
-            setSelectedCategory("");
-            router.push("/admin/product");
-            alert("Update successful!");
-        } else {
-            alert("Update failed!");
-        }
+        await UpdateProductAction(product.id, productValue);
     };
 
     return (
@@ -82,64 +74,63 @@ export default function ProductForm({ product }: PageProps) {
                 <br />
                 <form onSubmit={handleSubmit}>
                     <div className={style.container_input}>
-                        <label htmlFor="">Name</label>
+                        <label htmlFor="name">Name</label>
                         <input
                             type="text"
+                            id="name"
                             placeholder="Enter name"
                             defaultValue={name}
-                            onChange={(event) => setName(event.target.value)}
                             min={5}
                             max={64}
                             required
                         />
                     </div>
                     <div className={style.container_input}>
-                        <label htmlFor="">Price</label>
+                        <label htmlFor="price">Price</label>
                         <input
                             type="number"
+                            id="price"
                             placeholder="₱ 00.00"
                             defaultValue={price}
-                            onChange={(event) => setPrice(Number(event.target.value))}
                             min={10}
                             max={10000}
                             required
                         />
                     </div>
                     <div className={style.container_input}>
-                        <label htmlFor="">Size</label>
+                        <label htmlFor="size">Size</label>
                         <input
                             type="text"
+                            id="size"
                             placeholder="small, medium, large"
                             defaultValue={size}
-                            onChange={(event) => setSize(event.target.value)}
                             required
                         />
                     </div>
                     <div className={style.container_input}>
-                        <label htmlFor="">Material</label>
+                        <label htmlFor="material">Material</label>
                         <input
                             type="text"
+                            id="material"
                             placeholder="cotton, polyester, leather"
                             defaultValue={material}
-                            onChange={(event) => setMaterial(event.target.value)}
                             required
                         />
                     </div>
                     <div className={style.container_input}>
-                        <label htmlFor="">Color</label>
+                        <label htmlFor="color">Color</label>
                         <input
                             type="text"
+                            id="color"
                             placeholder="red, blue, green"
                             defaultValue={color}
-                            onChange={(event) => setColor(event.target.value)}
                             required
                         />
                     </div>
                     <div className={style.container_input}>
                         <label htmlFor="category">Select a category:</label>
                         <select id="category"
-                            defaultValue={selectedCategory}
-                            onChange={(e) => setSelectedCategory(e.target.value)}
+                            defaultValue={category}
                             required
                         >
                             <option value={"men"}>men</option>

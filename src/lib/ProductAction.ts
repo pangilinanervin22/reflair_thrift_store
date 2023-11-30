@@ -2,13 +2,13 @@
 
 import prisma from "@/db/prisma"
 import { revalidatePath } from 'next/cache'
+import { redirect } from "next/navigation";
 
 export async function CreateProductAction(data: any) {
     const res = await prisma.product.create({ data: data });
     console.log(res, "action");
     revalidatePath('/admin/product');
-
-    return res
+    redirect('/admin/product')
 }
 
 export async function UpdateProductAction(id: string, data: any) {
@@ -16,7 +16,10 @@ export async function UpdateProductAction(id: string, data: any) {
     console.log(res, "action");
     revalidatePath('/admin/product');
 
-    return res
+    if (res)
+        redirect('/admin/product')
+
+    return res;
 }
 
 
