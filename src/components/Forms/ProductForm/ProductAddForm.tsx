@@ -4,76 +4,44 @@ import { FormEvent, useState } from "react";
 import Image from "next/image";
 import style from "./ProductForm.module.scss";
 import Link from "next/link";
-import { UpdateProductAction } from "@/lib/ProductAction";
-import type { Product } from "@prisma/client";
-import { ProductRequestBody } from "@/app/api/product/route";
 import { UploadButton } from "@/db/uploadthing";
-import { toast } from "react-toastify";
+import { CreateProductAction } from "@/lib/ProductAction";
 
 
-interface PageProps {
-    product: Product;
-}
+export default function ProductCreateForm() {
+    const [url, setUrl] = useState("https://utfs.io/f/dca9a6a3-7204-407a-b16d-6b224dd8b188-4pl4mu.png");
 
 
-export default function ProductForm({ product }: PageProps) {
-    const { name, price, size, material, color, category } = product;
-    const [url, setUrl] = useState(product.image);
-    const [isSubmitting, setIsSubmitting] = useState(false);
-
-
-    const handleSubmit = async (e: FormEvent) => {
+    const handleSubmit = async (e: any) => {
         e.preventDefault();
 
-        if (isSubmitting) {
-            return; // If already submitting, prevent additional submissions
+        const { name, price, size, material, color, category } = e.target as typeof e.target & {
+            name: { value: string };
+            price: { value: number };
+            size: { value: string };
+            material: { value: string };
+            color: { value: string };
+            category: { value: string };
+        };
+
+
+        if (!name || !price || !url || !size || !material || !color || !category) {
+            alert("Please fill in all fields!");
+            return;
         }
-        setIsSubmitting(true);
 
-        try {
-            const { name, price, size, material, color, category } = e.target as typeof e.target & {
-                name: { value: string };
-                price: { value: number };
-                size: { value: string };
-                material: { value: string };
-                color: { value: string };
-                category: { value: string };
-            };
+        const product: PostProduct = {
+            name: name.value,
+            price: Number(price.value),
+            image: url,
+            category: category.value,
+            color: color.value,
+            material: material.value,
+            size: size.value,
+        }
 
-            // console.log(name.value, price.value, url, size.value, material.value, color.value, category.value);
-
-
-            if (!name || !price || !url || !size || !material || !color || !category) {
-                alert("Please fill in all fields!");
-                return;
-            }
-
-            const productValue: ProductRequestBody = {
-                name: name.value,
-                price: Number(price.value),
-                image: url,
-                category: category.value,
-                color: color.value,
-                material: material.value,
-                size: size.value,
-            }
-
-
-
-            await toast.promise(
-                UpdateProductAction(product.id, productValue),
-                {
-                    pending: 'Promise is pending',
-                    success: 'Promise resolved 👌',
-                    error: 'Promise rejected 🤯'
-                }
-            )
-
-        } catch (error) {
-
-        } finally {
-            setIsSubmitting(false); // Reset isSubmitting flag after submission
-        } // Reset isSubmitting flag after submission
+        console.log(product);
+        await CreateProductAction(product);
     };
 
     return (
@@ -101,7 +69,6 @@ export default function ProductForm({ product }: PageProps) {
                             type="text"
                             id="name"
                             placeholder="Enter name"
-                            defaultValue={name}
                             min={5}
                             max={64}
                             required
@@ -113,7 +80,6 @@ export default function ProductForm({ product }: PageProps) {
                             type="number"
                             id="price"
                             placeholder="₱ 00.00"
-                            defaultValue={price}
                             min={10}
                             max={10000}
                             required
@@ -125,7 +91,6 @@ export default function ProductForm({ product }: PageProps) {
                             type="text"
                             id="size"
                             placeholder="small, medium, large"
-                            defaultValue={size}
                             required
                         />
                     </div>
@@ -135,7 +100,6 @@ export default function ProductForm({ product }: PageProps) {
                             type="text"
                             id="material"
                             placeholder="cotton, polyester, leather"
-                            defaultValue={material}
                             required
                         />
                     </div>
@@ -145,14 +109,12 @@ export default function ProductForm({ product }: PageProps) {
                             type="text"
                             id="color"
                             placeholder="red, blue, green"
-                            defaultValue={color}
                             required
                         />
                     </div>
                     <div className={style.container_input}>
                         <label htmlFor="category">Select a category:</label>
                         <select id="category"
-                            defaultValue={category}
                             required
                         >
                             <option value={"men"}>men</option>
@@ -169,6 +131,3 @@ export default function ProductForm({ product }: PageProps) {
         </section >
     );
 }
-
-
-

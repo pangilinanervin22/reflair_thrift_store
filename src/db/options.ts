@@ -47,27 +47,16 @@ export const authOptions: NextAuthOptions = {
         //     console.log("account", account);
         //     console.log("profile", profile);
         //     console.log("token", token);
-
-
         //     return token
         // },
         async session({ session, account, token }: any) {
-
             const user = await prisma.account.findUnique({ where: { id: token.sub } });
             // console.log("Main Session Incididunt duis ipsum consectetur dolor quis excepteur incididunt duis incididunt dolore reprehenderit officia.");
             // console.log("session", session);
             // console.log("user", account);
             // console.log("token", token);
-
             return { ...session, user: { ...session.user, role: user?.role } };
         },
 
     }
-    // session: {
-    //     strategy: "jwt",
-    // },
-    // secret: process.env.NEXTAUTH_SECRET,
-    // pages: {
-    //     siginIn: "/login",
-    // }
 }

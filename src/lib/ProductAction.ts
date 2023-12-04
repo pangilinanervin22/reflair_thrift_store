@@ -1,14 +1,27 @@
 'use server'
 
 import prisma from "@/db/prisma"
+import { uploadthingApi } from "@/db/uploadthingApi";
 import { revalidatePath } from 'next/cache'
 import { redirect } from "next/navigation";
 
-export async function CreateProductAction(data: any) {
-    const res = await prisma.product.create({ data: data });
+export async function CreateProductAction(data: PostProduct) {
+
+    console.log(data, "action");
+    const res = await prisma.product.create({
+        data:
+        {
+            ...data,
+            tags: ["tag1", "tag2"],
+            status: "available"
+            // status: "available"
+        }
+    });
     console.log(res, "action");
     revalidatePath('/admin/product');
-    redirect('/admin/product')
+
+    if (res)
+        redirect('/admin/product')
 }
 
 export async function UpdateProductAction(id: string, data: any) {
@@ -18,8 +31,6 @@ export async function UpdateProductAction(id: string, data: any) {
 
     if (res)
         redirect('/admin/product')
-
-    return res;
 }
 
 
@@ -27,9 +38,15 @@ export async function DeleteProductAction(id: string) {
     const res = await prisma.product.findUnique({ where: { id: id } });
     console.log(res, "action");
 
-    const del = await prisma.product.deleteMany({ where: { id: id } })
-    console.log("action delete");
-    revalidatePath('/admin/product');
+    if (!res) {
+        console.log("not found");
+        return
+    }
 
-    // ...
+    console.log(res?.image, "action");
+    if (res?.image !== "https://utfs.io/f/dca9a6a3-7204-407a-b16d-6b224dd8b188-4pl4mu.png")
+        await uploadthingApi.deleteFiles([res?.image.replace("https://utfs.io/f/", "")])
+
+    await prisma.product.delete({ where: { id: id } })
+    revalidatePath('/admin/product');
 }

@@ -1,8 +1,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import style from "./NavigationBar.module.scss"
-import ImageWrapper from '../ImageWrapper'
-
 
 export default function NavigationBar() {
     return (
@@ -46,7 +44,8 @@ export default function NavigationBar() {
                                 <Image src={"/assets/icons/cart.svg"}
                                     width={1080} height={1080}
                                     alt="profile link" />
-                            </div></Link>
+                            </div>
+                        </Link>
                     </div>
                 </section>
             </nav>

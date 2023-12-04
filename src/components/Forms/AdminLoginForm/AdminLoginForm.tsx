@@ -3,17 +3,15 @@
 import { FormEvent } from 'react';
 import { signIn } from "next-auth/react";
 import style from './page.module.scss';
+import { useRouter } from 'next/navigation';
+import { useFormStatus } from 'react-dom';
 
 export default function AdminLoginForm({ registering }: { registering: Function }) {
 
-
+    const router = useRouter();
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
 
-        // const { username, password } = e.target as typeof e.target & {
-        //     username: { value: string };
-        //     password: { value: string };
-        // };
 
         const formData = e.target;
         const username = (formData as any).username.value;
@@ -23,7 +21,6 @@ export default function AdminLoginForm({ registering }: { registering: Function 
             alert("Please fill in all fields!");
             return;
         }
-
 
         try {
             const res = await signIn("credentials", {
@@ -40,6 +37,7 @@ export default function AdminLoginForm({ registering }: { registering: Function 
             if (res?.ok) {
                 console.log("ok");
                 alert("Login successful!");
+                router.refresh();
             };
 
 
