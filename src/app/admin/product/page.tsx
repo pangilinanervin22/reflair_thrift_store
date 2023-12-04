@@ -10,7 +10,6 @@ export default async function ProductDashboard() {
       <section className={style.section}>
         <ProductTable data={product} />
       </section>
-      {/* <SignOut /> */}
     </>
   )
 }

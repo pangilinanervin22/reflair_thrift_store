@@ -13,7 +13,7 @@ export default async function AdminPageLayout({
 }) {
 
     const session = await getServerSession(authOptions);
-    console.log(session, "session layout");
+    // console.log(session, "session layout");
 
     if (!session)
         return (

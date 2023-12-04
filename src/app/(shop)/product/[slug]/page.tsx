@@ -4,7 +4,6 @@ import style from "./page.module.scss";
 import AddCartButton from "../../cart/AddCartButton";
 import AddLikeButton from "../../liked/AddLikeButton";
 
-
 interface PageProps {
   params: {
     slug: string;

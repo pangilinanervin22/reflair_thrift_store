@@ -2,7 +2,7 @@
 
 import { FormEvent, useState } from 'react';
 import { signIn, useSession } from "next-auth/react";
-import { redirect, useRouter } from 'next/navigation';
+import { redirect } from 'next/navigation';
 import SignOut from '@/components/SignOut';
 import style from './page.module.scss';
 
