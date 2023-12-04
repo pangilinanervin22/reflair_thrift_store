@@ -1,6 +1,6 @@
 "use client"
 
-import MainTable, { TableStructure } from "./Table/MainTable/TableStructure";
+import MainTable, { TableStructure } from "./Table/TableStructure";
 import { useRouter } from "next/navigation";
 import { useModalStore } from "../Modal/ModalContainer";
 import DeleteModal from "../Modal/common/DeleteModal";
@@ -11,9 +11,9 @@ const content: TableStructure = {
     searchPath: "name",
     structure: [
         // { label: "Image", width: "100px", element: (val: any) => <Image src={val.image} alt={val.image} width={70} height={70} /> },
-        { label: "Name", path: "name", width: "250px", height: "70px", fontSize: "20px", },
-        { label: "Username", path: "username", width: "200px", height: "70px", fontSize: "20px" },
-        { label: "Role", path: "role", width: "200px", height: "70px", fontSize: "20px" },
+        { label: "Name", path: "name", width: "250px", height: "50px", fontSize: "20px", },
+        { label: "Username", path: "username", width: "200px", height: "50px", fontSize: "20px" },
+        { label: "Role", path: "role", width: "200px", height: "50px", fontSize: "20px" },
     ]
 };
 

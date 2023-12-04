@@ -1,6 +1,6 @@
 "use client"
 
-import MainTable, { TableStructure } from "./Table/MainTable/TableStructure";
+import MainTable, { TableStructure } from "./Table/TableStructure";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useModalStore } from "../Modal/ModalContainer";
@@ -12,7 +12,7 @@ const content: TableStructure = {
     title: "Product",
     searchPath: "name",
     structure: [
-        { label: "Image", width: "100px", element: (val: any) => <Image src={val.image} alt={val.image} width={70} height={70} /> },
+        { label: "Image", width: "100px", element: (val: any) => <Image src={val.image} alt={val.image} width={56} height={56} /> },
         { label: "Name", path: "name", width: "200px", fontSize: "16px" },
         { label: "Price", path: "price", width: "200px", fontSize: "16px" },
         { label: "Category", path: "category", width: "200px", fontSize: "16px" },
