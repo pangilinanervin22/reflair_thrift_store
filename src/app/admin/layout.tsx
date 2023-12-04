@@ -5,6 +5,7 @@ import { getServerSession } from "next-auth";
 import AdminAuth from "@/components/AdminComponent/AdminAuth";
 import style from "./layout.module.scss";
 import { authOptions } from "@/db/options";
+import Unauthorized from "@/components/AdminComponent/Unauthorized";
 
 export default async function AdminPageLayout({
     children,
@@ -13,14 +14,10 @@ export default async function AdminPageLayout({
 }) {
 
     const session = await getServerSession(authOptions);
-    // console.log(session, "session layout");
+    console.log(session, "session layout");
 
-    if (!session)
-        return (
-            <>
-                <AdminAuth />
-            </>
-        )
+    if (!session) return (<AdminAuth />)
+    if (session?.user.role !== "admin") return (<Unauthorized />)
 
     return (
         <>
