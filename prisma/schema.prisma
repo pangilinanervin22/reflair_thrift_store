@@ -13,21 +13,22 @@ datasource db {
 }
 
 model Account {
-  id       String    @id @default(auto()) @map("_id") @db.ObjectId
-  username String    @unique
+  id       String  @id @default(auto()) @map("_id") @db.ObjectId
+  username String  @unique
   password String
   name     String
   address  String?
   phone    String?
-  role     String    @default("customer")
-  likes    Product[]
+  role     String  @default("customer")
 
-  // orders   Order[]
-  // Like     Like[]
+  //  many to one order >-< account
+  order Order[]
+  //  one to one account >-< cart
+  Cart  Cart?
 }
 
 model Product {
-  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  id       String        @id @default(auto()) @map("_id") @db.ObjectId
   name     String
   price    Float
   image    String
@@ -36,22 +37,51 @@ model Product {
   color    String
   material String
   tags     String[]
-  client   Account  @relation(fields: [clientId], references: [id])
-  clientId String[] @db.ObjectId
+  status   ProductStatus @default(available)
+
+  Order   Order?  @relation(fields: [orderId], references: [id])
+  orderId String? @db.ObjectId
+  Cart    Cart?   @relation(fields: [cartId], references: [id])
+  cartId  String? @db.ObjectId
 }
 
-// model Like {
-//   id         String    @id @default(auto()) @map("_id")
-//   product    Product[] @relation(fields: [productId], references: [id])
-//   productId  String    @db.ObjectId
-//   customer   Client    @relation(fields: [customerId], references: [id])
-//   customerId String    @db.ObjectId
-// }
+model Order {
+  id           String      @id @default(auto()) @map("_id") @db.ObjectId
+  order_date   DateTime    @default(now())
+  ship_date    DateTime?
+  order_status OrderStatus @default(pending)
+
+  //  many to one order >-< account
+  user_id String  @unique @db.ObjectId
+  user    Account @relation(fields: [user_id], references: [id])
+
+  // many to many order >-< account (cart)
+  product Product[]
+}
+
+model Cart {
+  id      String    @id @default(auto()) @map("_id") @db.ObjectId
+  product Product[]
+
+  // one to one account >-< cart
+  account_id String  @unique @db.ObjectId
+  account    Account @relation(fields: [account_id], references: [id])
+}
 
 enum OrderStatus {
-  Pending
-  Processing
-  Shipped
-  Delivered
-  Canceled
+  pending
+  processing
+  shipped
+  delivered
+  canceled
+}
+
+enum Role {
+  admin
+  customer
+}
+
+enum ProductStatus {
+  available
+  unavailable
 }
