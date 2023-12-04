@@ -4,7 +4,8 @@ import SessionProvider from '@/db/SessionProvider'
 import { getServerSession } from "next-auth";
 import '@/scss/globals.scss'
 import "@uploadthing/react/styles.css";
-
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const inter = Inter({ subsets: ['latin'] })
 export const metadata: Metadata = {
@@ -19,12 +20,14 @@ export default async function RootLayout({
 }) {
   const session = await getServerSession();
 
+
   return (
     <html lang="en">
       <body className={inter.className}>
         <SessionProvider session={session}>
           {children}
         </SessionProvider>
+        <ToastContainer position='bottom-center' />
       </body>
     </html>
   )
