@@ -1,3 +1,4 @@
+
 import React from 'react'
 import styles from './CardReport.module.scss'
 import CardReport from './CardReport'

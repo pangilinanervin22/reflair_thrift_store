@@ -18,7 +18,7 @@ export default function NavigationBar({ name }: { name: string }) {
     const pathname = usePathname();
 
     return (
-        <nav className={style.container}>
+        <nav className={style.nav_container}>
             <h3 onClick={() => {
                 window.location.replace("/");
             }}>Reflair</h3>
