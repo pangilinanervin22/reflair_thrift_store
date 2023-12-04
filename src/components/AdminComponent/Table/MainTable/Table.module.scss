@@ -4,11 +4,9 @@
     padding: 16px;
     border-radius: 30px;
     background: $secondary_color;
-    margin-top: 16px;
 
     table {
-        width: 100%;
-        // height: 360px;
+        width: 920px;
         display: flex;
         flex-direction: column;
         text-align: center;
@@ -32,7 +30,7 @@
                 @include flex_container();
                 font-weight: 600;
                 font-size: 22px;
-                padding: 5px 10px;
+                padding: 4px;
                 cursor: pointer;
             }
         }
@@ -103,7 +101,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 8px;
 
     .search {
         display: flex;
@@ -131,22 +129,26 @@
         display: flex;
         align-items: center;
         width: 200px;
-        height: 45px;
+        height: 40px;
         background: white;
         border-radius: 10px;
-        margin: 8px;
+        margin-block: 8px;
         cursor: pointer;
 
         >:last-child {
             background: none;
             margin-left: 10px;
-            font-size: 20px;
+            font-size: 18px;
             font-family: 'Roboto', sans-serif;
         }
 
         >:first-child {
             height: 24px;
             margin-left: 30px;
+        }
+
+        &:active {
+            background: #F3EEE8;
         }
     }
 }

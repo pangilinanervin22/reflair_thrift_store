@@ -1,12 +1,12 @@
 @import "../../../scss/_variable";
 
-.container {
+.nav_container {
     width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
     border-bottom: $black_color solid 1px;
-    padding-block: 16PX;
+    padding-block: 12PX;
 
     * {
         color: $black_color;
