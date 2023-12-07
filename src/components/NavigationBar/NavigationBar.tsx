@@ -30,7 +30,7 @@ export default function NavigationBar() {
                             </div></Link>
                     </div>
                     <div>
-                        <Link href="/">
+                        <Link href="/account">
                             <div className={style.icon}>
                                 <Image src={"/assets/icons/profile.svg"}
                                     width={1080} height={1080}

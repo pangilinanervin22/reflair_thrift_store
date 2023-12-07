@@ -1,54 +1,52 @@
 "use client"
 
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
 import style from './page.module.scss';
-
+import { CreateAccountAction } from "@/lib/AccountAction";
+import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 export default function ClientRegisterPage() {
-    const [name, setName] = useState("");
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("");
-
-    const router = useRouter();
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const { data: session, status: sessionStatus } = useSession();
+    const router = useRouter();
 
-    if (sessionStatus === "authenticated")
-        router.replace("/");
-
-
+    if (sessionStatus === "authenticated") {
+        console.log(session, "session");
+        router.push("/account");
+    }
 
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
 
-        if (!name || !username || !password || !confirmPassword) {
-            alert("Please fill in all fields!");
-            return;
-        }
-        else if (password !== confirmPassword) {
-            alert("Passwords do not match!");
-            return;
-        }
+        if (isSubmitting) return;
+        setIsSubmitting(true);
 
-        console.log(name, username, password, confirmPassword);
-        const res = await fetch("/api/account/register", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ name, username, password }),
-        });
+        const loading = toast.loading("Registration is pending");
 
-        if (res.ok) {
-            setName("");
-            setUsername("");
-            setPassword("");
-            setConfirmPassword("");
-            alert("Registration successful!");
+        // get form data
+        const formData = e.target;
+        const name = (formData as any).name.value;
+        const email = (formData as any).email.value;
+        const password = (formData as any).password.value;
+        const confirmPassword = (formData as any).confirmPassword.value;
+
+        // validation here
+        if (password !== confirmPassword)
+            toast.update(loading, { render: "Passwords do not match!", type: "error", autoClose: 2000, isLoading: false });
+
+        // action here
+        const res = await CreateAccountAction({ name, email, password, role: "admin" });
+        if (res?.ok) {
+            toast.update(loading, { render: res.message, type: "success", autoClose: 2000, isLoading: false });
             router.push("/login");
-        } else {
-            alert("Registration failed!");
         }
+        else if (res?.error) {
+            toast.update(loading, { render: res.message, type: "error", autoClose: 2000, isLoading: false });
+        }
+
+        setIsSubmitting(false);
     };
 
     return (
@@ -58,34 +56,32 @@ export default function ClientRegisterPage() {
             <form onSubmit={handleSubmit}>
                 <input
                     type="text"
-                    value={name}
+                    id="name"
                     placeholder="Enter Name"
-                    onChange={(event) => setName(event.target.value)}
+                    required
                 />
                 <input
                     type="text"
-                    value={username}
-                    placeholder="Enter Username"
-                    onChange={(event) => setUsername(event.target.value)}
+                    id="email"
+                    placeholder="Enter Email"
+                    required
                 />
                 <input
                     type="password"
-                    value={password}
+                    id="password"
                     placeholder="Enter Password"
-                    onChange={(event) => setPassword(event.target.value)}
+                    required
                 />
 
                 <input
                     type="password"
-                    value={confirmPassword}
+                    id="confirmPassword"
                     placeholder="Confirm Password"
-                    onChange={(event) => setConfirmPassword(event.target.value)}
+                    required
                 />
                 <button type="submit">Register</button>
-
                 <p>if you already have account you can login here</p>
-                <span>login here</span>
-
+                <span onClick={() => router.push("/login")}>login here</span>
             </form>
         </section>
     );
