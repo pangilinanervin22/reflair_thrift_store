@@ -15,3 +15,9 @@ enum ProductStatus {
     "available",
     "unavailable",
 }
+
+interface LoginBody {
+    name: string;
+    email: string;
+    password: string;
+}

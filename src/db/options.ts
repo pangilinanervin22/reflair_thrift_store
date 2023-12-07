@@ -10,14 +10,13 @@ export const authOptions: NextAuthOptions = {
             id: "credentials",
             name: "Credentials",
             credentials: {
-                username: { label: "Username", type: "text" },
+                email: { label: "Username", type: "text" },
                 password: { label: "Password", type: "password" }
             },
             async authorize(credentials: any) {
-                const { username, password } = credentials;
+                const { email, password } = credentials;
                 try {
-                    const user = await prisma.account.findUnique({ where: { username } });
-                    console.log(user, "login");
+                    const user = await prisma.account.findUnique({ where: { email } });
                     if (!user)
                         return null;
 
@@ -25,7 +24,7 @@ export const authOptions: NextAuthOptions = {
                     if (!passwordsMatch)
                         return null;
 
-                    return { name: user.name, email: user.username, id: user.id, role: user.role };
+                    return { name: user.name, email: user.email, id: user.id, role: user.role };
                 } catch (error: any) {
                     throw new Error(error);
                 }
@@ -41,21 +40,20 @@ export const authOptions: NextAuthOptions = {
             }
             return user;
         },
-        // async jwt({ token, account, profile }: any) {
-        //     Persist the OAuth access_token and or the user id to the token right after signin
-        //     console.log("Main JWT Incididunt duis ipsum consectetur dolor quis excepteur incididunt duis incididunt dolore reprehenderit officia.");
-        //     console.log("account", account);
-        //     console.log("profile", profile);
-        //     console.log("token", token);
-        //     return token
-        // },
-        async session({ session, account, token }: any) {
-            const user = await prisma.account.findUnique({ where: { id: token.sub } });
-            // console.log("Main Session Incididunt duis ipsum consectetur dolor quis excepteur incididunt duis incididunt dolore reprehenderit officia.");
-            // console.log("session", session);
-            // console.log("user", account);
-            // console.log("token", token);
-            return { ...session, user: { ...session.user, role: user?.role } };
+        async jwt({ token, user }) {
+            // Persist the OAuth access_token to the token right after signin
+            if (user?.role)
+                token.role = user?.role;
+
+            return token
+        },
+        async session({ session, token }: any) {
+            console.log("Main Session Incididunt duis ipsum consectetur dolor quis excepteur incididunt duis incididunt dolore reprehenderit officia.");
+            console.log("session", session);
+            console.log("token", token);
+
+            session.user.role = token.role;
+            return { ...session, user: { ...session.user } };
         },
 
     }

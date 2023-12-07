@@ -5,20 +5,27 @@ import { revalidatePath } from 'next/cache'
 import type { Account } from "@prisma/client";
 import bcrypt from "bcryptjs";
 
+interface CredentialsBody {
+    name: string;
+    email: string;
+    password: string;
+    role?: string;
+}
 
-export async function CreateAccountAction(req: any) {
-    const { username, name, password } = req;
 
+export async function CreateAccountAction(req: CredentialsBody) {
+    const { email, name, password, role } = req;
     try {
+        const validate = await prisma.account.findUnique({ where: { email: email } });
+        if (validate) return { message: "Email already exist", error: true }
+
         const hashedPassword = await bcrypt.hash(password, 10);
+        const data = await prisma.account.create({ data: { name, email, password: hashedPassword, role: role || "customer", } });
+        const cart = await prisma.cart.create({ data: { account_id: data.id, } });
 
-        const data = await prisma.account.create({ data: { name, username, password: hashedPassword } });
-        console.log(data);
-
-        return data
+        return { message: "Account created", ok: true }
     } catch (error) {
-        console.log(error);
-        return "Unsuccessful register"
+        return { message: "Registration Failed", error: error }
     }
 }
 
@@ -41,11 +48,9 @@ export async function DeleteAccountAction(id: string) {
     // ...
 }
 
-export async function LoginAccount(req: any) {
-    const { username, password } = req;
-
-    console.log(username, password);
-    const data = await prisma.account.findUnique({ where: { username: username } });
+export async function LoginAccount(req: CredentialsBody) {
+    const { email, password } = req;
+    const data = await prisma.account.findUnique({ where: { email: email } });
     if (!data) return "Client not found.";
 
     console.log("find " + data.password, data);
@@ -54,10 +59,9 @@ export async function LoginAccount(req: any) {
         password,
         data.password
     );
-    console.log(passwordMatch);
+
     if (!passwordMatch) return "Wrong password.";
 
-    // Do something with the username, e.g. save it to a database
-    return "User logged in." + username;
+    return "User logged in." + email;
 }
 
