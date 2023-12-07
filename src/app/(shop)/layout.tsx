@@ -1,9 +1,9 @@
-"use client"
 
 import FooterBar from "@/components/FooterBar/FooterBar"
 import NavigationBar from "@/components/NavigationBar/NavigationBar"
+import style from "./layout.module.scss"
 
-export default function ShopPageLayout({
+export default function layout({
     children,
 }: {
     children: React.ReactNode
@@ -11,7 +11,7 @@ export default function ShopPageLayout({
     return (
         <>
             <NavigationBar />
-            <main>
+            <main className={style.main_container}>
                 {children}
             </main>
             <FooterBar />
