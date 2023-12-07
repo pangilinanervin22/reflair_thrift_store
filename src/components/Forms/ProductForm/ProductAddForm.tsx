@@ -6,14 +6,18 @@ import style from "./ProductForm.module.scss";
 import Link from "next/link";
 import { UploadButton } from "@/db/uploadthing";
 import { CreateProductAction } from "@/lib/ProductAction";
+import { toast } from "react-toastify";
 
 
 export default function ProductCreateForm() {
     const [url, setUrl] = useState("https://utfs.io/f/dca9a6a3-7204-407a-b16d-6b224dd8b188-4pl4mu.png");
-
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const handleSubmit = async (e: any) => {
         e.preventDefault();
+
+        if (isSubmitting) return; // If already submitting, prevent additional submissions
+        setIsSubmitting(true);
 
         const { name, price, size, material, color, category } = e.target as typeof e.target & {
             name: { value: string };
@@ -40,8 +44,14 @@ export default function ProductCreateForm() {
             size: size.value,
         }
 
-        console.log(product);
-        await CreateProductAction(product);
+        await toast.promise(
+            CreateProductAction(product),
+            {
+                pending: 'Creating Product is pending',
+                success: 'Product is created👌',
+                error: 'Creation is rejected 🤯'
+            }
+        )
     };
 
     return (

@@ -25,9 +25,9 @@ export default function ProductForm({ product }: PageProps) {
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
 
-        if (isSubmitting) {
+        if (isSubmitting)
             return; // If already submitting, prevent additional submissions
-        }
+
         setIsSubmitting(true);
 
         try {
@@ -39,9 +39,6 @@ export default function ProductForm({ product }: PageProps) {
                 color: { value: string };
                 category: { value: string };
             };
-
-            // console.log(name.value, price.value, url, size.value, material.value, color.value, category.value);
-
 
             if (!name || !price || !url || !size || !material || !color || !category) {
                 alert("Please fill in all fields!");
@@ -58,14 +55,12 @@ export default function ProductForm({ product }: PageProps) {
                 size: size.value,
             }
 
-
-
             await toast.promise(
                 UpdateProductAction(product.id, productValue),
                 {
-                    pending: 'Promise is pending',
-                    success: 'Promise resolved 👌',
-                    error: 'Promise rejected 🤯'
+                    pending: 'Editing Product is pending',
+                    success: 'Product is updated👌',
+                    error: 'Update is rejected 🤯'
                 }
             )
 
