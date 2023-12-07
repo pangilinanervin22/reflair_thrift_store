@@ -1,50 +1,52 @@
 "use client"
 
-import { FormEvent } from 'react';
+import { FormEvent, useState } from 'react';
 import { signIn } from "next-auth/react";
 import style from './page.module.scss';
 import { useRouter } from 'next/navigation';
-import { useFormStatus } from 'react-dom';
+import { toast } from 'react-toastify';
 
 export default function AdminLoginForm({ registering }: { registering: Function }) {
-
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const router = useRouter();
+
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
 
+        if (isSubmitting) return;
+        setIsSubmitting(true);
 
+        const loading = toast.loading("Login is pending");
+
+        // get form data
         const formData = e.target;
-        const username = (formData as any).username.value;
+        const email = (formData as any).email.value;
         const password = (formData as any).password.value;
 
-        if (!username || !password) {
-            alert("Please fill in all fields!");
+        // validation here
+        if (!email || !password) {
+            toast.update(loading, { render: "Please fill in all fields", type: "error", autoClose: 2000, isLoading: false })
             return;
         }
 
-        try {
-            const res = await signIn("credentials", {
-                username,
-                password,
-                redirect: false,
-            });
+        // action here
+        const res = await signIn("credentials", {
+            email,
+            password,
+            redirect: false,
+        })
 
-            if (res?.error) {
-                alert("Invalid Credentials");
-                return;
-            }
-
-            if (res?.ok) {
-                console.log("ok");
-                alert("Login successful!");
-                router.refresh();
-            };
-
-
-        } catch (error) {
-            console.log(error);
+        if (res?.ok) {
+            toast.update(loading, { render: "Login Success", type: "success", autoClose: 2000, isLoading: false });
+            router.refresh();
         }
+        else if (res?.error) {
+            toast.update(loading, { render: "Invalid credentials", type: "error", autoClose: 2000, isLoading: false });
+        }
+
+        setIsSubmitting(false);
     };
+
     return (
         <main className={style.main}>
             <section className={style.container}>
@@ -53,9 +55,9 @@ export default function AdminLoginForm({ registering }: { registering: Function 
                     <p>Employee Access</p>
                 </div>
                 <form onSubmit={handleSubmit}>
-                    <label htmlFor="username">Username</label>
-                    <input id="username" type="text" placeholder="Enter Email" />
-                    <label htmlFor="username">Password</label>
+                    <label htmlFor="email">Email</label>
+                    <input id="email" type="text" placeholder="Enter Email" required />
+                    <label htmlFor="email">Password</label>
                     <input id="password" type="password" placeholder="Enter Password" required />
                     <button type="submit">Log In</button>
                     <p>Don&#39;t have a account</p>
