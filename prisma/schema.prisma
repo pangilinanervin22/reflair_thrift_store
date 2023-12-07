@@ -14,7 +14,7 @@ datasource db {
 
 model Account {
   id       String  @id @default(auto()) @map("_id") @db.ObjectId
-  username String  @unique
+  email    String  @unique
   password String
   name     String
   address  String?
@@ -24,7 +24,7 @@ model Account {
   //  many to one order >-< account
   order Order[]
   //  one to one account >-< cart
-  Cart  Cart?
+  cart  Cart?
 }
 
 model Product {
@@ -39,10 +39,10 @@ model Product {
   tags     String[]
   status   ProductStatus @default(available)
 
-  Order   Order?  @relation(fields: [orderId], references: [id])
-  orderId String? @db.ObjectId
-  Cart    Cart?   @relation(fields: [cartId], references: [id])
-  cartId  String? @db.ObjectId
+  order_id String?  @db.ObjectId
+  order    Order?   @relation(fields: [order_id], references: [id])
+  cart_id  String[] @db.ObjectId
+  Cart     Cart[]   @relation(fields: [cart_id], references: [id])
 }
 
 model Order {
@@ -60,8 +60,10 @@ model Order {
 }
 
 model Cart {
-  id      String    @id @default(auto()) @map("_id") @db.ObjectId
-  product Product[]
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  product_id String[]  @db.ObjectId
+  product    Product[] @relation(fields: [product_id], references: [id])
 
   // one to one account >-< cart
   account_id String  @unique @db.ObjectId
