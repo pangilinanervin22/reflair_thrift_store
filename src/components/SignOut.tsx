@@ -14,8 +14,6 @@ export default function SignOut() {
         console.log("lorem", data, status);
         return <p>Not Authenticated...</p>;
     }
-
-
     return (
         <>
             <h3>Hello  {status + " " + data.user.name}</h3>

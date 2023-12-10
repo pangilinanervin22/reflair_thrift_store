@@ -1,12 +1,12 @@
 "use client"
 
-import { FormEvent, useState } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import style from "./ProductForm.module.scss";
 import Link from "next/link";
+import { toast } from "react-toastify";
 import { UploadButton } from "@/db/uploadthing";
 import { CreateProductAction } from "@/lib/ProductAction";
-import { toast } from "react-toastify";
 
 
 export default function ProductCreateForm() {

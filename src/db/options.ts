@@ -34,8 +34,6 @@ export const authOptions: NextAuthOptions = {
     callbacks: {
         async signIn({ user, account }: { user: any; account: any }) {
             if (account?.provider == "credentials") {
-                // console.log("credentials", user, account);
-
                 return user;
             }
             return user;
@@ -48,13 +46,9 @@ export const authOptions: NextAuthOptions = {
             return token
         },
         async session({ session, token }: any) {
-            console.log("Main Session Incididunt duis ipsum consectetur dolor quis excepteur incididunt duis incididunt dolore reprehenderit officia.");
-            console.log("session", session);
-            console.log("token", token);
 
             session.user.role = token.role;
             return { ...session, user: { ...session.user } };
         },
-
     }
 }

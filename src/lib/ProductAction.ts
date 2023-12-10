@@ -5,9 +5,9 @@ import { uploadthingApi } from "@/db/uploadthingApi";
 import { revalidatePath } from 'next/cache'
 import { redirect } from "next/navigation";
 
-export async function CreateProductAction(data: PostProduct) {
 
-    console.log(data, "action");
+// FIXME:  validation and respond body
+export async function CreateProductAction(data: PostProduct) {
     const res = await prisma.product.create({
         data:
         {
