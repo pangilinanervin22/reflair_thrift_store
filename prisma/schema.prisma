@@ -17,8 +17,9 @@ model Account {
   email    String  @unique
   password String
   name     String
+  barangay String?
   address  String?
-  phone    String?
+  contact  String?
   role     String  @default("customer")
 
   //  many to one order >-< account
