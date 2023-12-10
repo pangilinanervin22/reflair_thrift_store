@@ -6,6 +6,7 @@ import style from './page.module.scss';
 import { revalidatePath } from "next/cache";
 import { CreateAccountAction } from "@/lib/AccountAction";
 import { toast } from "react-toastify";
+import { validateEmail } from "@/utils/email_validation";
 
 export default function AdminRegisterForm({ registering }: { registering: Function }) {
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -20,8 +21,8 @@ export default function AdminRegisterForm({ registering }: { registering: Functi
         e.preventDefault();
 
         if (isSubmitting) return;
-        setIsSubmitting(true);
 
+        setIsSubmitting(true);
         const loading = toast.loading("Registration is pending");
 
         // get form data
@@ -32,12 +33,18 @@ export default function AdminRegisterForm({ registering }: { registering: Functi
         const confirmPassword = (formData as any).confirmPassword.value;
 
         // validation here
-        if (password !== confirmPassword)
+        if (!validateEmail(email)) {
+            toast.update(loading, { render: "Invalid Email!", type: "error", autoClose: 2000, isLoading: false });
+            return
+        }
+        else if (password !== confirmPassword) {
             toast.update(loading, { render: "Passwords do not match!", type: "error", autoClose: 2000, isLoading: false });
+            return;
+        }
 
         // action here
         const res = await CreateAccountAction({ name, email, password, role: "admin" });
-        console.log(res.ok, "res");
+        console.log(res?.ok, "res");
         if (res?.ok) {
             toast.update(loading, { render: res.message, type: "success", autoClose: 2000, isLoading: false });
             registering();

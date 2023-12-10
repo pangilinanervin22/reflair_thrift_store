@@ -65,3 +65,9 @@ export async function LoginAccount(req: CredentialsBody) {
     return "User logged in." + email;
 }
 
+export async function isEmailExist(email: string) {
+    const data = await prisma.account.findUnique({ where: { email: email } });
+    if (!data) return false;
+
+    return true;
+}

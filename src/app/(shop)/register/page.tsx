@@ -6,6 +6,7 @@ import style from './page.module.scss';
 import { CreateAccountAction } from "@/lib/AccountAction";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
+import { validateEmail } from "@/utils/email_validation";
 
 export default function ClientRegisterPage() {
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -33,6 +34,8 @@ export default function ClientRegisterPage() {
         const confirmPassword = (formData as any).confirmPassword.value;
 
         // validation here
+        if (validateEmail(email))
+            return toast.update(loading, { render: "Invalid Email!", type: "error", autoClose: 2000, isLoading: false });
         if (password !== confirmPassword)
             toast.update(loading, { render: "Passwords do not match!", type: "error", autoClose: 2000, isLoading: false });
 

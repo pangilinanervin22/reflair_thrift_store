@@ -10,9 +10,8 @@ const content: TableStructure = {
     title: "Account",
     searchPath: "name",
     structure: [
-        // { label: "Image", width: "100px", element: (val: any) => <Image src={val.image} alt={val.image} width={70} height={70} /> },
         { label: "Name", path: "name", width: "250px", height: "50px", fontSize: "20px", },
-        { label: "Username", path: "username", width: "200px", height: "50px", fontSize: "20px" },
+        { label: "Username", path: "email", width: "200px", height: "50px", fontSize: "20px" },
         { label: "Role", path: "role", width: "200px", height: "50px", fontSize: "20px" },
     ]
 };

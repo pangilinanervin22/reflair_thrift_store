@@ -7,7 +7,7 @@ import SignOut from '@/components/SignOut';
 import style from './page.module.scss';
 import Link from 'next/link';
 import { toast } from 'react-toastify';
-import wait from '@/utils/wait';
+import { isEmailExist } from '@/lib/AccountAction';
 
 
 export default function LoginPage() {
@@ -29,21 +29,30 @@ export default function LoginPage() {
         const email = (formData as any).email.value;
         const password = (formData as any).password.value;
 
+        // validation here
         if (!email || !password) {
             toast.update(loading, { render: "Please fill in all fields", type: "error", autoClose: 2000, isLoading: false })
             return;
+        } else if (!(await isEmailExist(email))) {
+            toast.update(loading, { render: "Email not exist", type: "error", autoClose: 2000, isLoading: false });
+            return;
         }
 
+        // action here
         const res = await signIn("credentials", {
             email,
             password,
             redirect: false,
         })
 
-        if (res?.ok)
-            toast.update(loading, { render: "All is good", type: "success", autoClose: 2000, isLoading: false });
-        else if (res?.error)
+        console.log(res);
+
+        if (res?.ok) {
+            toast.update(loading, { render: "Login Success", type: "success", autoClose: 2000, isLoading: false });
+        } else if (res?.error) {
             toast.update(loading, { render: "Invalid credentials", type: "error", autoClose: 2000, isLoading: false });
+            return;
+        }
 
         setSubmitting(false);
     };

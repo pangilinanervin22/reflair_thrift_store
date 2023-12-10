@@ -5,6 +5,8 @@ import { signIn } from "next-auth/react";
 import style from './page.module.scss';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
+import prisma from '@/db/prisma';
+import { isEmailExist } from '@/lib/AccountAction';
 
 export default function AdminLoginForm({ registering }: { registering: Function }) {
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -14,8 +16,8 @@ export default function AdminLoginForm({ registering }: { registering: Function 
         e.preventDefault();
 
         if (isSubmitting) return;
-        setIsSubmitting(true);
 
+        setIsSubmitting(true);
         const loading = toast.loading("Login is pending");
 
         // get form data
@@ -26,6 +28,9 @@ export default function AdminLoginForm({ registering }: { registering: Function 
         // validation here
         if (!email || !password) {
             toast.update(loading, { render: "Please fill in all fields", type: "error", autoClose: 2000, isLoading: false })
+            return;
+        } else if (!(await isEmailExist(email))) {
+            toast.update(loading, { render: "Email not exist", type: "error", autoClose: 2000, isLoading: false });
             return;
         }
 
@@ -39,9 +44,9 @@ export default function AdminLoginForm({ registering }: { registering: Function 
         if (res?.ok) {
             toast.update(loading, { render: "Login Success", type: "success", autoClose: 2000, isLoading: false });
             router.refresh();
-        }
-        else if (res?.error) {
+        } else if (res?.error) {
             toast.update(loading, { render: "Invalid credentials", type: "error", autoClose: 2000, isLoading: false });
+            return;
         }
 
         setIsSubmitting(false);
