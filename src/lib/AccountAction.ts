@@ -12,7 +12,6 @@ interface CredentialsBody {
     role?: string;
 }
 
-
 export async function CreateAccountAction(req: CredentialsBody) {
     const { email, name, password, role } = req;
     try {
@@ -36,7 +35,6 @@ export async function UpdateAccountAction(id: string, data: Account) {
     return res
 }
 
-
 export async function DeleteAccountAction(id: string) {
     const res = await prisma.account.findUnique({ where: { id: id } });
     console.log(res, "action");
@@ -44,8 +42,6 @@ export async function DeleteAccountAction(id: string) {
     const del = await prisma.account.deleteMany({ where: { id: id } })
     console.log("action delete");
     revalidatePath('/admin/employee');
-
-    // ...
 }
 
 export async function LoginAccount(req: CredentialsBody) {
