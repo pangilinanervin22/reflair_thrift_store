@@ -30,8 +30,8 @@ export async function CreateAccountAction(req: CredentialsBody) {
 
 export async function UpdateAccountAction(id: string, data: Account) {
     const res = await prisma.account.update({ where: { id: id }, data: data });
-    console.log(res, "action");
     revalidatePath('/admin/account');
+
     return res
 }
 
@@ -40,25 +40,26 @@ export async function DeleteAccountAction(id: string) {
     console.log(res, "action");
 
     const del = await prisma.account.deleteMany({ where: { id: id } })
-    console.log("action delete");
     revalidatePath('/admin/employee');
 }
 
 export async function LoginAccount(req: CredentialsBody) {
-    const { email, password } = req;
-    const data = await prisma.account.findUnique({ where: { email: email } });
-    if (!data) return "Client not found.";
+    try {
+        const { email, password } = req;
+        const data = await prisma.account.findUnique({ where: { email: email } });
+        if (!data) return { message: "Client not found", error: true }
 
-    console.log("find " + data.password, data);
+        const passwordMatch = await bcrypt.compare(
+            password,
+            data.password
+        );
 
-    const passwordMatch = await bcrypt.compare(
-        password,
-        data.password
-    );
+        if (!passwordMatch) return { message: "Wrong password", error: true }
 
-    if (!passwordMatch) return "Wrong password.";
-
-    return "User logged in." + email;
+        return { message: "User logged in" + email, ok: true }
+    } catch (error) {
+        return { message: "Login Failed", error: error }
+    }
 }
 
 export async function isEmailExist(email: string) {
