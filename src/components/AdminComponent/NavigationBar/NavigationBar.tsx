@@ -12,6 +12,9 @@ import IconHeart_svg from '@/assets/IconHeart_svg'
 import DropDownHover from '@/components/DropDownHover'
 import { signOut } from "next-auth/react";
 import IconLogout_svg from '@/assets/IconLogout_svg'
+import IconProduct_svg from '@/assets/IconProduct_svg'
+import IconCloth_svg from '@/assets/IconCloth_svg'
+import IconOrder_svg from '@/assets/IconOrder_svg'
 
 
 export default function NavigationBar({ name }: { name: string }) {
@@ -30,7 +33,7 @@ export default function NavigationBar({ name }: { name: string }) {
                 </Link>
                 <Link href="/admin/product/"
                     className={pathname.startsWith("/admin/product") ? style.active : ""}>
-                    <IconHeart_svg />
+                    <IconCloth_svg />
                     <h4>Product</h4>
                 </Link>
                 <Link href="/admin/sales"
@@ -38,10 +41,10 @@ export default function NavigationBar({ name }: { name: string }) {
                     <IconMoney_svg />
                     <h4>Sales</h4>
                 </Link>
-                <Link href="/admin/account"
-                    className={pathname.startsWith("/admin/account") ? style.active : ""}>
-                    <IconPerson_svg />
-                    <h4>Account</h4>
+                <Link href="/admin/order"
+                    className={pathname.startsWith("/admin/order") ? style.active : ""}>
+                    <IconOrder_svg />
+                    <h4>Order</h4>
                 </Link>
             </div>
             <div>
