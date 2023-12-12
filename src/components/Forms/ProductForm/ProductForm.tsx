@@ -9,18 +9,18 @@ import type { Product } from "@prisma/client";
 import { ProductRequestBody } from "@/app/api/product/route";
 import { UploadButton } from "@/db/uploadthing";
 import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 
 interface PageProps {
     product: Product;
 }
 
-
 export default function ProductForm({ product }: PageProps) {
     const { name, price, size, material, color, category } = product;
     const [url, setUrl] = useState(product.image);
     const [isSubmitting, setIsSubmitting] = useState(false);
-
+    const router = useRouter();
 
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
@@ -29,47 +29,44 @@ export default function ProductForm({ product }: PageProps) {
             return; // If already submitting, prevent additional submissions
 
         setIsSubmitting(true);
+        const loading = toast.loading("Product is pending");
 
-        try {
-            const { name, price, size, material, color, category } = e.target as typeof e.target & {
-                name: { value: string };
-                price: { value: number };
-                size: { value: string };
-                material: { value: string };
-                color: { value: string };
-                category: { value: string };
-            };
+        const { name, price, size, material, color, category } = e.target as typeof e.target & {
+            name: { value: string };
+            price: { value: number };
+            size: { value: string };
+            material: { value: string };
+            color: { value: string };
+            category: { value: string };
+        };
 
-            if (!name || !price || !url || !size || !material || !color || !category) {
-                alert("Please fill in all fields!");
-                return;
-            }
+        if (!name || !price || !url || !size || !material || !color || !category) {
+            alert("Please fill in all fields!");
+            return;
+        }
 
-            const productValue: ProductRequestBody = {
-                name: name.value,
-                price: Number(price.value),
-                image: url,
-                category: category.value,
-                color: color.value,
-                material: material.value,
-                size: size.value,
-            }
+        const productValue: ProductRequestBody = {
+            name: name.value,
+            price: Number(price.value),
+            image: url,
+            category: category.value,
+            color: color.value,
+            material: material.value,
+            size: size.value,
+        }
 
-            await toast.promise(
-                UpdateProductAction(product.id, productValue),
-                {
-                    pending: 'Editing Product is pending',
-                    success: 'Product is updated👌',
-                    error: 'Update is rejected 🤯'
-                }
-            )
+        // action here
+        const res = await UpdateProductAction(product.id, productValue);
+        if (res?.ok) {
+            toast.update(loading, { render: res.message, type: "success", autoClose: 2000, isLoading: false });
+            router.push("/admin/product");
+        }
+        else if (res?.error) {
+            toast.update(loading, { render: res.message, type: "error", autoClose: 2000, isLoading: false });
+        }
 
-        } catch (error) {
-
-        } finally {
-            setIsSubmitting(false); // Reset isSubmitting flag after submission
-        } // Reset isSubmitting flag after submission
-    };
+        setIsSubmitting(false);; // Reset isSubmitting flag after submission
+    }
 
     return (
         <section className={style.main}>
