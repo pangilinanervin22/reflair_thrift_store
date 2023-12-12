@@ -7,17 +7,21 @@ import Link from "next/link";
 import { toast } from "react-toastify";
 import { UploadButton } from "@/db/uploadthing";
 import { CreateProductAction } from "@/lib/ProductAction";
+import { useRouter } from "next/navigation";
 
 
 export default function ProductCreateForm() {
     const [url, setUrl] = useState("https://utfs.io/f/dca9a6a3-7204-407a-b16d-6b224dd8b188-4pl4mu.png");
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const router = useRouter();
 
     const handleSubmit = async (e: any) => {
         e.preventDefault();
 
         if (isSubmitting) return; // If already submitting, prevent additional submissions
+
         setIsSubmitting(true);
+        const loading = toast.loading("Product is pending");
 
         const { name, price, size, material, color, category } = e.target as typeof e.target & {
             name: { value: string };
@@ -27,12 +31,6 @@ export default function ProductCreateForm() {
             color: { value: string };
             category: { value: string };
         };
-
-
-        if (!name || !price || !url || !size || !material || !color || !category) {
-            alert("Please fill in all fields!");
-            return;
-        }
 
         const product: PostProduct = {
             name: name.value,
@@ -44,14 +42,17 @@ export default function ProductCreateForm() {
             size: size.value,
         }
 
-        await toast.promise(
-            CreateProductAction(product),
-            {
-                pending: 'Creating Product is pending',
-                success: 'Product is created👌',
-                error: 'Creation is rejected 🤯'
-            }
-        )
+        //action here
+        const res = await CreateProductAction(product);
+        if (res?.ok) {
+            toast.update(loading, { render: res.message, type: "success", autoClose: 2000, isLoading: false });
+            router.push("/admin/product");
+        }
+        else if (res?.error) {
+            toast.update(loading, { render: res.message, type: "error", autoClose: 2000, isLoading: false });
+        }
+
+        setIsSubmitting(false);
     };
 
     return (
@@ -62,10 +63,10 @@ export default function ProductCreateForm() {
                     endpoint="imageUploader"
                     onClientUploadComplete={(res: any) => {
                         setUrl(String(res[0].url))
-                        alert("Upload Completed");
+                        toast.success("Image uploaded");
                     }}
                     onUploadError={(error: Error) => {
-                        alert(`ERROR! ${error.message}`);
+                        toast.error(`ERROR! ${error.message}`);
                     }}
                 />
             </div>
