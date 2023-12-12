@@ -1,5 +1,6 @@
 "use client"
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import style from './Dialog.module.scss'
 import { useRef, useEffect } from 'react'
 
 type Props = {
@@ -7,10 +8,10 @@ type Props = {
     onClose: () => void,
     onOk: () => void,
     children: React.ReactNode,
+    buttonConfrim?: string,
 }
 
-export default function Dialog({ title, onClose, onOk, children }: Props) {
-
+export default function Dialog({ title, onClose, onOk, children, buttonConfrim: buttonConfirm }: Props) {
     const searchParams = useSearchParams()
     const pathname = usePathname()
     const router = useRouter()
@@ -18,18 +19,16 @@ export default function Dialog({ title, onClose, onOk, children }: Props) {
     const showDialog = searchParams.get('showDialog')
 
     useEffect(() => {
-        if (showDialog === 'y') {
+        if (showDialog === 'y')
             dialogRef.current?.showModal()
-        } else {
+        else
             dialogRef.current?.close()
-        }
-
 
     }, [showDialog])
 
     const closeDialog = () => {
-        dialogRef.current?.close()
         onClose();
+        dialogRef.current?.close()
         router.push(pathname);
     }
 
@@ -39,24 +38,26 @@ export default function Dialog({ title, onClose, onOk, children }: Props) {
     }
 
     const dialog: JSX.Element | null = showDialog === 'y' ? (
-        <dialog ref={dialogRef} >
-            <div >
-                <div >
-                    <h1 >{title}</h1>
-                    <button onClick={closeDialog}>x</button>
-                </div>
-                <div >
-                    {children}
-                    <div >
+        <dialog ref={dialogRef} className={style.dialog} >
+            <div className={style.dialog_container} >
+                <button onClick={closeDialog} className={style.close}>
+                    {'X'}
+                </button>
+                <div className={style.dialog_content}>
+                    <div className={style.dialog_children}>
+                        {children}
+                    </div>
+                    <div className={style.action}>
+                        <button onClick={closeDialog}>
+                            {'CANCEL'}
+                        </button>
                         <button onClick={clickOk}>
-                            OK
+                            {buttonConfirm || 'CONFIRM'}
                         </button>
                     </div>
                 </div>
             </div>
         </dialog>
     ) : null
-
-
     return dialog
 }

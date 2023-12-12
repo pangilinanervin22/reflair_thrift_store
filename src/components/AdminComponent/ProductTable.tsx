@@ -3,9 +3,9 @@
 import MainTable, { TableStructure } from "./Table/TableStructure";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useModalStore } from "../Modal/ModalContainer";
-import DeleteModal from "../Modal/common/DeleteModal";
+import Dialog from "../Dialog/Dialog";
 import { DeleteProductAction } from "@/lib/ProductAction";
+import { useState } from "react";
 
 const content: TableStructure = {
     id: "id",
@@ -20,28 +20,32 @@ const content: TableStructure = {
 };
 
 export default function ProductTable({ data }: { data: any[] }) {
+    const [currentProductId, setCurrentProductId] = useState<any>("");
     const router = useRouter();
-    const { openModal } = useModalStore();
 
-    return (<MainTable
-        data={data}
-        isEditable={true}
-        structure={content}
-        handleUpdate={onHandleUpdate}
-        handleDelete={onHandleDelete}
-        handleAdd={onHandleAdd} />
+    return (
+        <>
+            <Dialog title='Sample' onClose={() => { }} onOk={() => { DeleteProductAction(currentProductId) }}>
+                <h2>Are you sure want to delete?</h2>
+                <p>This will product will delete. You cannot undo this action.</p>
+            </Dialog>
+            <MainTable
+                data={data}
+                isEditable={true}
+                structure={content}
+                handleUpdate={onHandleUpdate}
+                handleDelete={onHandleDelete}
+                handleAdd={onHandleAdd}
+            />
+        </>
     );
 
     function onHandleDelete(data: any) {
-        openModal(<DeleteModal confirmAction={() => {
-            DeleteProductAction(data.id);
-            console.log("Successfully Deleted " + data)
-        }} />)
+        setCurrentProductId(data.id);
+        router.push(`/admin/product?showDialog=y`);
     }
 
     function onHandleAdd() {
-        // openModal(<ProductAddModal />)
-        console.log("hello");
         router.push("/admin/product/create");
     }
 

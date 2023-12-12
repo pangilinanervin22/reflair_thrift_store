@@ -107,10 +107,10 @@ export default function MainTable({
 
     function onDelete(data: any) {
         handleDelete(data);
-        setPage(page => ({
-            ...page,
-            current: 0,
-        }));
+        // setPage(page => ({
+        //     ...page,
+        //     current: 0,
+        // }));
     }
 
     function onHandlePagination(inputValue: number) {
