@@ -20,7 +20,7 @@
                 "react-toastify": "^9.1.3",
                 "recharts": "^2.10.1",
                 "sass": "^1.69.5",
-                "uploadthing": "^6.0.1",
+                "uploadthing": "^6.0.4",
                 "zustand": "^4.4.6"
         },
         "devDependencies": {
