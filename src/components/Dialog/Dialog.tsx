@@ -8,10 +8,10 @@ type Props = {
     onClose: () => void,
     onOk: () => void,
     children: React.ReactNode,
-    buttonConfrim?: string,
+    buttonConfirm?: string,
 }
 
-export default function Dialog({ title, onClose, onOk, children, buttonConfrim: buttonConfirm }: Props) {
+export default function Dialog({ title, onClose, onOk, children, buttonConfirm: buttonConfirm }: Props) {
     const searchParams = useSearchParams()
     const pathname = usePathname()
     const router = useRouter()
