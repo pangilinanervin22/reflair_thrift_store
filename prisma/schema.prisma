@@ -3,7 +3,6 @@
 
 generator client {
   provider = "prisma-client-js"
-  // output   = "./generated/client"
   output   = "../node_modules/.prisma/client"
 }
 
@@ -17,15 +16,15 @@ model Account {
   email    String  @unique
   password String
   name     String
+  city     String  @default("Bacoor")
   barangay String?
   address  String?
   contact  String?
   role     String  @default("customer")
-
   //  many to one order >-< account
-  order Order[]
+  order    Order[]
   //  one to one account >-< cart
-  cart  Cart?
+  cart     Cart?
 }
 
 model Product {
@@ -39,11 +38,10 @@ model Product {
   material String
   tags     String[]
   status   ProductStatus @default(available)
-
-  order_id String?  @db.ObjectId
-  order    Order?   @relation(fields: [order_id], references: [id])
-  cart_id  String[] @db.ObjectId
-  Cart     Cart[]   @relation(fields: [cart_id], references: [id])
+  order_id String?       @db.ObjectId
+  order    Order?        @relation(fields: [order_id], references: [id])
+  cart_id  String[]      @db.ObjectId
+  Cart     Cart[]        @relation(fields: [cart_id], references: [id])
 }
 
 model Order {
@@ -51,24 +49,20 @@ model Order {
   order_date   DateTime    @default(now())
   ship_date    DateTime?
   order_status OrderStatus @default(pending)
-
   //  many to one order >-< account
-  user_id String  @unique @db.ObjectId
-  user    Account @relation(fields: [user_id], references: [id])
-
+  user_id      String      @unique @db.ObjectId
+  user         Account     @relation(fields: [user_id], references: [id])
   // many to many order >-< account (cart)
-  product Product[]
+  product      Product[]
 }
 
 model Cart {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-
+  id         String    @id @default(auto()) @map("_id") @db.ObjectId
   product_id String[]  @db.ObjectId
   product    Product[] @relation(fields: [product_id], references: [id])
-
   // one to one account >-< cart
-  account_id String  @unique @db.ObjectId
-  account    Account @relation(fields: [account_id], references: [id])
+  account_id String    @unique @db.ObjectId
+  account    Account   @relation(fields: [account_id], references: [id])
 }
 
 enum OrderStatus {
