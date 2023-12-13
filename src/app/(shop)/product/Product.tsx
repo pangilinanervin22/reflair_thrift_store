@@ -6,6 +6,7 @@ import Image from "next/image";
 import style from "./page.module.scss";
 import AddCartButton from "@/app/(shop)/cart/AddCartButton";
 import AddLikeButton from "../liked/AddLikeButton";
+import { useSession } from "next-auth/react";
 
 interface ProductProps {
   product: Product;
@@ -15,6 +16,7 @@ interface ProductProps {
 
 
 const Product: React.FC<ProductProps> = ({ product }) => {
+  const session = useSession();
   const router = useRouter();
 
   const onImageClick = (id: string) => {
@@ -38,7 +40,7 @@ const Product: React.FC<ProductProps> = ({ product }) => {
         <h4>{`₱ ${product.price}`}</h4>
       </div>
       <div className={style.product_action}>
-        <AddCartButton product={product} title="ADD TO CART" className={style.product_cart} />
+        <AddCartButton session={session} product={product} title="ADD TO CART" className={style.cart} />
         <AddLikeButton product={product} title="LIKE" className={style.product_like} />
         {/* <button className={style.product_like}>
           <p>LIKE</p>

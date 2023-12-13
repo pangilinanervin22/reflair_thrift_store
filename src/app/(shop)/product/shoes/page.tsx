@@ -5,9 +5,12 @@ import Image from "next/image";
 import type { Product } from "@prisma/client";
 import AddCartButton from "../../cart/AddCartButton";
 import AddLikeButton from "../../liked/AddLikeButton";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/db/options";
 
 
 export default async function ProductDashboard() {
+    const session = await getServerSession(authOptions);
     const shoesProduct = await prisma.product.findMany({
         where: {
             category: "shoes"
@@ -39,9 +42,7 @@ export default async function ProductDashboard() {
                                 <h1>₱ {product.price}</h1>
                             </section>
                             <section className={style.button}>
-                                {/* <button className={style.cart}>ADD TO CART</button>
-                                <button className={style.like}>LIKE</button> */}
-                                <AddCartButton product={product} title="ADD TO CART" className={style.cart} />
+                                <AddCartButton session={session} product={product} title="ADD TO CART" className={style.cart} />
                                 <AddLikeButton product={product} title="LIKE" className={style.like} />
                             </section>
 

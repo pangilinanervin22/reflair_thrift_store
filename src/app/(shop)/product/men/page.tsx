@@ -2,22 +2,23 @@ import prisma from "@/db/prisma";
 import style from "./page.module.scss";
 import Link from "next/link";
 import Image from "next/image";
-import type { Product } from "@prisma/client";
 import AddCartButton from "../../cart/AddCartButton";
 import AddLikeButton from "../../liked/AddLikeButton";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/db/options";
 
 // export const fetchCache = "no-store";
 
 export default async function ProductDashboard() {
+    const session = await getServerSession(authOptions);
     const menProduct = await prisma.product.findMany({
         where: {
             category: "men"
         }
     });
+    console.log(session, "session");
 
     console.log("men");
-
-
     return (
         <>
             <section className={style.product_section}>
@@ -43,7 +44,7 @@ export default async function ProductDashboard() {
                             </section>
 
                             <section className={style.button}>
-                                <AddCartButton product={product} title="ADD TO CART" className={style.cart} />
+                                <AddCartButton session={session} product={product} title="ADD TO CART" className={style.cart} />
                                 <AddLikeButton product={product} title="LIKE" className={style.like} />
                             </section>
 
