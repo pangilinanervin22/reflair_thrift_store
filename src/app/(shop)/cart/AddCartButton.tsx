@@ -26,9 +26,9 @@ export default function AddCartButton({ product, className, title, session }: Ad
         const res = await CartProductAddAction(session.user.email, product.id);
         console.log(res, "action");
         if (res?.ok)
-            toast.success("Added to cart");
+            toast.success(res.message);
         else
-            toast.error("Something went wrong");
+            toast.error(res.message);
     }
 
     return (
