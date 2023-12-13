@@ -22,8 +22,8 @@ export default function ClientRegisterPage() {
         e.preventDefault();
 
         if (isSubmitting) return;
-        setIsSubmitting(true);
 
+        setIsSubmitting(true);
         const loading = toast.loading("Registration is pending");
 
         // get form data
@@ -40,7 +40,7 @@ export default function ClientRegisterPage() {
             toast.update(loading, { render: "Passwords do not match!", type: "error", autoClose: 2000, isLoading: false });
 
         // action here
-        const res = await CreateAccountAction({ name, email, password, role: "admin" });
+        const res = await CreateAccountAction({ name, email, password, });
         if (res?.ok) {
             toast.update(loading, { render: res.message, type: "success", autoClose: 2000, isLoading: false });
             router.push("/login");
