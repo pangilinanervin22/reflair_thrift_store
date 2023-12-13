@@ -13,14 +13,22 @@ interface CredentialsBody {
 }
 
 export async function CreateAccountAction(req: CredentialsBody) {
-    const { email, name, password, role } = req;
+    const { email, name, password } = req;
     try {
         const validate = await prisma.account.findUnique({ where: { email: email } });
         if (validate) return { message: "Email already exist", error: true }
 
         const hashedPassword = await bcrypt.hash(password, 10);
-        const data = await prisma.account.create({ data: { name, email, password: hashedPassword, role: role || "customer", } });
-        const cart = await prisma.cart.create({ data: { account_id: data.id, } });
+        const account = await prisma.account.create({
+            data: {
+                name,
+                email,
+                password: hashedPassword,
+                cart: {
+                    create: {}
+                }
+            },
+        });
 
         return { message: "Account created", ok: true }
     } catch (error) {
@@ -28,11 +36,26 @@ export async function CreateAccountAction(req: CredentialsBody) {
     }
 }
 
-export async function UpdateAccountAction(id: string, data: Account) {
-    const res = await prisma.account.update({ where: { id: id }, data: data });
-    revalidatePath('/admin/account');
+export async function deleteAccount(email: string) {
+    try {
+        const account = await prisma.account.findUnique({ where: { email }, include: { cart: true } });
+        if (!account) {
+            return { message: "Account not found", error: true };
+        }
 
-    return res
+        // Delete the associated cart
+        if (account.cart) {
+            await prisma.cart.delete({ where: { id: account.cart.id } });
+        }
+
+        // Delete the account
+        await prisma.account.delete({ where: { email } });
+
+        return { message: "Account and associated cart deleted", ok: true };
+    } catch (error) {
+        console.error("Error deleting account and cart:", error);
+        return { message: "Deletion failed", error: error };
+    }
 }
 
 export async function DeleteAccountAction(id: string) {
