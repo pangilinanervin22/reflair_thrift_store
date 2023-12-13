@@ -2,7 +2,7 @@
 
 import { FormEvent, useState } from 'react';
 import { signIn, useSession } from "next-auth/react";
-import { redirect, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import SignOut from '@/components/SignOut';
 import style from './page.module.scss';
 import Link from 'next/link';
@@ -13,9 +13,10 @@ import { isEmailExist } from '@/lib/AccountAction';
 export default function LoginPage() {
     const [submitting, setSubmitting] = useState(false);
     const { status }: any = useSession();
+    const router = useRouter();
 
     if (status !== "loading" && status === "authenticated")
-        redirect("/account");
+        router.push("/account");
 
 
     const handleSubmit = async (e: FormEvent) => {
