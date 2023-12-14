@@ -2,9 +2,12 @@ import prisma from "@/db/prisma";
 import style from "./page.module.scss";
 import Link from "next/link";
 import { Product } from "./Product";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/db/options";
 
 
 export default async function ProductDashboard() {
+  const session = await getServerSession(authOptions);
   const product = await prisma.product.findMany({
     orderBy: {
       color: "asc",
@@ -12,7 +15,7 @@ export default async function ProductDashboard() {
 
   });
 
-  console.log("hello render");
+  console.log("hello render", session);
   return (
     <>
       <section className={style.product_section}>
@@ -21,7 +24,7 @@ export default async function ProductDashboard() {
         <br />
         <div className={style.product_container}>
           {product.map((product) => (
-            <Product key={product.id} product={product} />
+            <Product key={product.id} product={product} session={session} />
           ))}
         </div>
       </section>
