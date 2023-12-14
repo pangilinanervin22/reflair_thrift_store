@@ -19,15 +19,9 @@ export default async function AccountPage() {
             email: data?.user.email
         }
     });
-    console.log(data, "session");
-    console.log(user, "user");
 
     const city = await fetch("https://psgc.gitlab.io/api/cities/042103000/barangays/", { cache: "force-cache" });
     const barangay = await city.json();
-    console.log(barangay, "barangay");
-
-
-
     return (
         <>
             <section className={style.main_container}>
@@ -64,7 +58,7 @@ export default async function AccountPage() {
                             </select>
                         </div>
                         <div>
-                            <label htmlFor="city">House/Unit/Blk or Lot #</label>
+                            <label htmlFor="city">Street Name, Building, House No.</label>
                             <input type="text" name="city" id="city" />
                         </div>
                     </section>

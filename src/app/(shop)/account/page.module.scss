@@ -1,13 +1,9 @@
 .main_container {
-    padding: 50px 0;
+    padding: 20px 0;
     display: flex;
-    flex-direction: column;
-    align-items: center;
     justify-content: center;
-    gap: 20px;
-    width: 100%;
+    width: 100vw;
     max-width: 1200px;
-    margin: 0 auto;
 }
 
 .account_form {
@@ -18,29 +14,85 @@
     justify-content: center;
     width: 80%;
 
-    >div {
-        margin-bottom: 20px;
-        width: 40%;
+    h2 {
+        width: 100%;
+        text-align: left;
+    }
 
+    section {
+        width: 45%;
 
-        &:last-child {
-            margin-bottom: 0;
+        >div {
+            margin-bottom: 32px;
+            position: relative;
         }
+    }
 
-        input {
-            width: 100%;
-            height: 40px;
-            padding: 0 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            outline: none;
-            font-size: 14px;
-            color: #333;
-            transition: all 0.3s ease-in-out;
+    label {
+        display: block;
+        margin-bottom: 8px;
+        font-size: 14px;
+        font-weight: bold;
+    }
 
-            &:focus {
-                border-color: #000;
-            }
+
+    input,
+    select {
+        width: 100%;
+        height: 40px;
+        padding: 0 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        outline: none;
+        font-size: 14px;
+        color: #333;
+        transition: all 0.3s ease-in-out;
+
+        &:focus {
+            border-color: #000;
+        }
+    }
+
+    span {
+        position: absolute;
+        color: gray;
+        font-size: 12px;
+        margin-left: 8px;
+        left: 0;
+        bottom: -18px;
+    }
+}
+
+.action_container {
+    display: flex;
+    gap: 32px;
+    justify-content: flex-end;
+    width: 100%;
+
+    >:first-child {
+        background: red;
+        color: white;
+    }
+
+    >:last-child {
+        background: none;
+        color: black;
+        border: 2px solid black;
+    }
+
+    button {
+        width: 240px;
+        height: 40px;
+        border: none;
+        border-radius: 5px;
+        outline: none;
+        font-size: 14px;
+        transition: all 0.3s ease-in-out;
+        cursor: pointer;
+        font-weight: bolder;
+
+        &:hover {
+            opacity: 0.8;
         }
     }
 }

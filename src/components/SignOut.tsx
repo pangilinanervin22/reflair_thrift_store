@@ -16,7 +16,7 @@ export default function SignOut() {
     }
     return (
         <>
-            <h3>Hello  {status + " " + data.user.name}</h3>
+            {/* <h3>Hello  {status + " " + data.user.name}</h3> */}
             <button onClick={() => signOut()}>SignOut</button>
         </>
     )
