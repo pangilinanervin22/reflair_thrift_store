@@ -23,8 +23,9 @@ model Account {
   role     String  @default("customer")
   //  many to one order >-< account
   order    Order[]
-  //  one to one account >-< cart
+  //  one to one
   cart     Cart?
+  like     Like?
 }
 
 model Product {
@@ -42,6 +43,8 @@ model Product {
   order    Order?        @relation(fields: [order_id], references: [id])
   cart_id  String[]      @db.ObjectId
   Cart     Cart[]        @relation(fields: [cart_id], references: [id])
+  like_id  String[]      @db.ObjectId
+  Like     Like[]        @relation(fields: [like_id], references: [id])
 }
 
 model Order {
@@ -57,6 +60,15 @@ model Order {
 }
 
 model Cart {
+  id         String    @id @default(auto()) @map("_id") @db.ObjectId
+  product_id String[]  @db.ObjectId
+  product    Product[] @relation(fields: [product_id], references: [id])
+  // one to one account >-< cart
+  account_id String    @unique @db.ObjectId
+  account    Account   @relation(fields: [account_id], references: [id])
+}
+
+model Like {
   id         String    @id @default(auto()) @map("_id") @db.ObjectId
   product_id String[]  @db.ObjectId
   product    Product[] @relation(fields: [product_id], references: [id])
