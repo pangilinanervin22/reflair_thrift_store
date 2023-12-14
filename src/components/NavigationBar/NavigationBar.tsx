@@ -22,7 +22,7 @@ export default function NavigationBar() {
                             </div></Link>
                     </div>
                     <div>
-                        <Link href="/liked">
+                        <Link href="/like">
                             <div className={style.icon}>
                                 <Image src={"/assets/icons/heart.svg"}
                                     width={1080} height={1080}
