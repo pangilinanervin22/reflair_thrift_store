@@ -1,17 +1,14 @@
-"use client"
 
+import { useState } from "react";
 import style from "./page.module.scss";
 import Image from "next/image";
-import { useLikeStore } from "./like";
-import { useCartStore } from "../cart/cart";
-import AddCartButton from "../cart/AddCartButton";
 
-export default function LikePage() {
-    const { product, addProduct, removeProduct } = useLikeStore()
+export default async function LikePage() {
+    const [state, setState] = useState([]);
     return (
         <>
             <section className={style.flex_section}>
-                <h1>Total Liked: {product.length}</h1>
+                {/* <h1>Total Liked: {product.length}</h1>
 
                 <div className={style.product_container}>
                     {product.map((item) => (
@@ -35,25 +32,8 @@ export default function LikePage() {
                         </div>
                     ))
                     }
-                    {/* <div className={style.ImageWrapper}>
-                        <Image
-                            src="/"
-                            width={400}
-                            height={400}
-                            quality={100}
-                            alt="liked pic"
-                        />
-                        <section className={style.description}>
-                            <h3>Name</h3>
-                            <h1>Size: </h1>
-                            <h1>₱ </h1>
-                        </section>
-                        <section className={style.button}>
-                            <button className={style.cart}>ADD TO CART</button>
-                            <button className={style.remove}>REMOVE</button>
-                        </section>
-                    </div> */}
-                </div>
+                    
+                </div> */}
             </section>
         </>
     );
