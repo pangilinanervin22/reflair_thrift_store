@@ -2,7 +2,9 @@ import prisma from "@/db/prisma";
 import Image from "next/image";
 import style from "./page.module.scss";
 import AddCartButton from "../../cart/AddCartButton";
-import AddLikeButton from "../../liked/AddLikeButton";
+import AddLikeButton from "../../like/AddLikeButton";
+import { authOptions } from "@/db/options";
+import { getServerSession } from "next-auth";
 
 interface PageProps {
   params: {
@@ -18,6 +20,7 @@ export async function generateMetadata({ params }: PageProps) {
 }
 
 export default async function ProductPage({ params }: PageProps) {
+  const session = await getServerSession(authOptions);
   const product = await prisma.product.findFirst({
     where: {
       id: params.slug,
@@ -47,11 +50,13 @@ export default async function ProductPage({ params }: PageProps) {
           <h3>size: {product.size}</h3>
           <h4>₱ {product.price}</h4>
           {/* Product actions */}
-          <section className={style.actions_container}>
-            {/* <button className={style.cart_button}>ADD TO CART</button>
-            <button className={style.like_button}>LIKE</button> */}
-            <AddCartButton product={product} title="ADD TO CART" className={style.cart_button} />
-            <AddLikeButton product={product} title="LIKE" className={style.like_button} />
+          <section className={style.action_container}>
+            <AddCartButton session={session} product={product} title="ADD TO CART"  >
+              <button className={style.cart_button}>ADD TO CART</button>
+            </AddCartButton>
+            <AddLikeButton session={session} product={product} title="ADD TO CART"  >
+              <button className={style.like_button}>LIKE</button>
+            </AddLikeButton>
           </section>
           <span>
             <strong>Details</strong>

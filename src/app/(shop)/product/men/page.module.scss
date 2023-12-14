@@ -56,9 +56,14 @@
   gap: 1 rem;
 }
 
-.button {
+.button_container {
   display: flex;
   margin-block: 1rem;
+
+  >div {
+    width: 50%;
+
+  }
 }
 
 .cart,
@@ -67,6 +72,7 @@
   padding: 0.7rem;
   font-weight: bold;
   cursor: pointer;
+  border: black 2px solid;
 
   &:hover {
     cursor: pointer;
@@ -76,7 +82,6 @@
 
 .cart {
   background-color: white;
-  border: black 2px solid;
   color: black;
 }
 

@@ -30,9 +30,9 @@
   color: black;
 }
 
-.actions_container {
+.action_container {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   gap: 1 rem;
 }
 
@@ -42,6 +42,7 @@
   padding: 0.7rem;
   font-weight: bold;
   cursor: pointer;
+  border: $main_color 2px solid;
 }
 
 .cart_button {
