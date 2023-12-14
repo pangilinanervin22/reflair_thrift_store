@@ -4,37 +4,7 @@ import prisma from "@/db/prisma";
 import { revalidatePath } from "next/cache";
 
 
-export async function CartProductAddManyAction(userId: string, productId: string[]) {
-    try {
-        const listProduct = await prisma.product.findMany({
-            where: {
-                id: {
-                    in: productId
-                }
-            }
-        });
-
-        if (!listProduct)
-            return { message: "Product not found", error: true }
-
-        const productListId = listProduct.map((item) => item.id);
-        const cartUpdate = prisma.cart.update({
-            where: { id: userId },
-            data: {
-                product_id: {
-                    push: productListId
-                }
-            }
-        })
-
-    } catch (error) {
-        return { message: "Adding product in cart", error: error }
-    } finally {
-        revalidatePath('/product');
-    }
-}
-
-export async function CartProductAddAction(email: string, productId: string) {
+export async function CartProductAddAction(email: string, product_id: string) {
     try {
         const account = await prisma.account.findUnique({
             where: {
@@ -48,19 +18,21 @@ export async function CartProductAddAction(email: string, productId: string) {
         if (!account)
             return { message: "Account not found", error: true }
 
+
         const product = await prisma.product.findUnique({
             where: {
-                id: productId
+                id: product_id,
             }
         });
 
         if (!product)
             return { message: "Product not found", error: true }
+        else if (product.status === "unavailable")
+            return { message: "Product not available", error: true }
 
-        const productExistsInCart = account.cart?.product_id.includes(productId);
-        if (productExistsInCart) {
+        const productExistsInCart = account.cart?.product_id.includes(product_id);
+        if (productExistsInCart)
             return { message: "Product already in cart", error: true }
-        }
 
         const cartUpdate = await prisma.cart.update({
             where: {
@@ -68,32 +40,34 @@ export async function CartProductAddAction(email: string, productId: string) {
             },
             data: {
                 product_id: {
-                    push: productId
+                    push: product_id
                 }
             }
         });
 
         if (!cartUpdate)
-            return { message: "Product not found", error: true }
+            return { message: "Cart error occurred", error: true }
 
         return { message: "Product added in cart", ok: true }
     } catch (error) {
-        return { message: "Error in adding cart", error: error }
+        return { message: "Cart error occurred", error: error }
     } finally {
         revalidatePath('/product');
     }
 }
 
-export async function CartProductRemoveAction(email: string, productId: string) {
+export async function CartProductRemoveAction(email: string, product_id: string) {
     try {
         const product = await prisma.product.findUnique({
             where: {
-                id: productId
+                id: product_id,
             }
         });
 
         if (!product)
             return { message: "Product not found", error: true }
+        else if (product.status === "unavailable")
+            return { message: "Product not available", error: true }
 
         const account = await prisma.account.findUnique({
             where: {
@@ -104,30 +78,24 @@ export async function CartProductRemoveAction(email: string, productId: string) 
             }
         });
 
-
-
-
         if (!account)
             return { message: "Account not found", error: true }
-
 
         const cartUpdate = await prisma.cart.update({
             where: { id: account?.cart?.id },
             data: {
                 product_id: {
-                    set: account?.cart?.product_id.filter((item) => item !== productId)
+                    set: account?.cart?.product_id.filter((item) => item !== product_id)
                 }
             }
         })
 
-        console.log(cartUpdate);
-
         if (!cartUpdate)
-            return { message: "Remove in cart", error: true }
+            return { message: "Cart error occurred", error: true }
 
         return { message: "Product added in cart", ok: true }
     } catch (error) {
-        return { message: "Adding product in cart", error: error }
+        return { message: "Cart error occurred", error: error }
     } finally {
         revalidatePath('/cart');
     }
