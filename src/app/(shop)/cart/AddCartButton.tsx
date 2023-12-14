@@ -10,13 +10,13 @@ interface AddCartButtonProps {
     title: string;
     className?: string;
     session: any;
+    children?: React.ReactNode;
+
 }
 
-export default function AddCartButton({ product, className, title, session }: AddCartButtonProps) {
+export default function AddCartButton({ product, className, session, children }: AddCartButtonProps) {
     const router = useRouter();
     async function handleClick() {
-        console.log("add to cart", product.id);
-
         if (session === null) {
             toast.error("Please login to add to cart");
             router.push("/login");
@@ -32,8 +32,8 @@ export default function AddCartButton({ product, className, title, session }: Ad
     }
 
     return (
-        <button className={className || ""} onClick={() => handleClick()}>
-            {"ADD TO CART"}
-        </button>
+        <div className={className || ""} onClick={() => handleClick()}>
+            {children || <button>ADD TO CART</button>}
+        </div>
     )
 }

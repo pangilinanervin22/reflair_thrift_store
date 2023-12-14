@@ -6,9 +6,14 @@ import prisma from "@/db/prisma";
 import Image from "next/image";
 import { CartProductRemoveAction } from "@/lib/CartAction";
 import RemoveCartButton from "./RemoveCartButton";
+import { redirect } from "next/navigation";
 
 export default async function CartPage() {
     const session = await getServerSession(authOptions);
+
+    if (!session?.user)
+        redirect("/login");
+
     const account = await prisma.account.findUnique({
         where: {
             email: session?.user.email,
@@ -28,7 +33,6 @@ export default async function CartPage() {
 
     const product = account.cart?.product;
     const total_price = product?.reduce((total, item) => total + item.price, 0);
-    console.log(product);
 
     return (
         <>
