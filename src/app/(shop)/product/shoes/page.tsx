@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import type { Product } from "@prisma/client";
 import AddCartButton from "../../cart/AddCartButton";
-import AddLikeButton from "../../liked/AddLikeButton";
+import AddLikeButton from "../../like/AddLikeButton";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/db/options";
 
@@ -41,11 +41,14 @@ export default async function ProductDashboard() {
                                 <h1>Size: {product.size}</h1>
                                 <h1>₱ {product.price}</h1>
                             </section>
-                            <section className={style.button}>
-                                <AddCartButton session={session} product={product} title="ADD TO CART" className={style.cart} />
-                                <AddLikeButton product={product} title="LIKE" className={style.like} />
+                            <section className={style.button_container}>
+                                <AddCartButton session={session} product={product} title="ADD TO CART"  >
+                                    <button className={style.cart}>ADD TO CART</button>
+                                </AddCartButton>
+                                <AddLikeButton session={session} product={product} title="ADD TO CART"  >
+                                    <button className={style.like}>LIKE</button>
+                                </AddLikeButton>
                             </section>
-
                         </div>
                     ))}
                 </div>
