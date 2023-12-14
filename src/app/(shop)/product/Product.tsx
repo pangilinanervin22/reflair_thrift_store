@@ -5,18 +5,18 @@ import type { Product } from "@prisma/client";
 import Image from "next/image";
 import style from "./page.module.scss";
 import AddCartButton from "@/app/(shop)/cart/AddCartButton";
-import AddLikeButton from "../liked/AddLikeButton";
+import AddLikeButton from "../like/AddLikeButton";
 import { useSession } from "next-auth/react";
 
 interface ProductProps {
   product: Product;
+  session: any;
 }
 
 // extracted component to use events e.g. onClick
 
 
-const Product: React.FC<ProductProps> = ({ product }) => {
-  const session = useSession();
+const Product: React.FC<ProductProps> = ({ product, session }) => {
   const router = useRouter();
 
   const onImageClick = (id: string) => {
@@ -40,11 +40,14 @@ const Product: React.FC<ProductProps> = ({ product }) => {
         <h4>{`₱ ${product.price}`}</h4>
       </div>
       <div className={style.product_action}>
-        <AddCartButton session={session} product={product} title="ADD TO CART" className={style.cart} />
-        <AddLikeButton product={product} title="LIKE" className={style.product_like} />
-        {/* <button className={style.product_like}>
-          <p>LIKE</p>
-        </button> */}
+        <section className={style.button_container}>
+          <AddCartButton session={session} product={product} title="ADD TO CART"  >
+            <button className={style.cart}>ADD TO CART</button>
+          </AddCartButton>
+          <AddLikeButton session={session} product={product} title="ADD TO CART"  >
+            <button className={style.like}>LIKE</button>
+          </AddLikeButton>
+        </section>
       </div>
     </div>
   );
