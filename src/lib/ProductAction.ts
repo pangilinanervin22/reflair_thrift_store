@@ -23,6 +23,7 @@ export async function CreateProductAction(data: PostProduct) {
         return { message: "Product creation failed", error: error }
     } finally {
         revalidatePath('/admin/product');
+        revalidatePath('/product');
     }
 }
 
@@ -48,25 +49,58 @@ export async function UpdateProductAction(id: string, data: PostProduct) {
         return { message: "Product update failed", error: error }
     } finally {
         revalidatePath('/admin/product');
+        revalidatePath('/product');
     }
 }
 
 export async function DeleteProductAction(id: string) {
     try {
-        const res = await prisma.product.findUnique({ where: { id: id } });
+        const product = await prisma.product.findUnique({ where: { id: id }, include: { Cart: true, Like: true } });
 
-        if (!res)
+        if (!product)
             return { message: "Product not found", error: true }
 
-        if (res?.image !== "https://utfs.io/f/dca9a6a3-7204-407a-b16d-6b224dd8b188-4pl4mu.png")
-            await uploadthingApi.deleteFiles([res?.image.replace("https://utfs.io/f/", "")])
+        // Disconnect product from all carts
+        if (product?.Cart) {
+            await Promise.all(product.Cart.map((cart) => {
+                return prisma.cart.update({
+                    where: { id: cart.id },
+                    data: {
+                        product: {
+                            disconnect: {
+                                id: id
+                            }
+                        }
+                    }
+                })
+            }))
+        }
 
-        await prisma.product.delete({ where: { id: id } })
+        if (product?.Like) {
+            await Promise.all(product.Like.map((like) => {
+                return prisma.like.update({
+                    where: { id: like.id },
+                    data: {
+                        product: {
+                            disconnect: {
+                                id: id
+                            }
+                        }
+                    }
+                })
+            }))
+        }
+
+        if (product?.image !== "https://utfs.io/f/dca9a6a3-7204-407a-b16d-6b224dd8b188-4pl4mu.png")
+            await uploadthingApi.deleteFiles([product?.image.replace("https://utfs.io/f/", "")]);
+
+        await prisma.product.delete({ where: { id: id } });
         return { message: "Product deleted", ok: true }
 
     } catch (error) {
         return { message: "Deleting Failed", error: error }
     } finally {
         revalidatePath('/admin/product');
+        revalidatePath('/product');
     }
 }
