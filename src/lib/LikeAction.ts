@@ -24,10 +24,9 @@ export async function LikeProductAddAction(email: string, product_id: string) {
             }
         });
 
-        if (!product)
-            return { message: "Product not found", error: true }
-        else if (product.status === "unavailable")
-            return { message: "Product not available", error: true }
+        if (!product || product.status === "unavailable") {
+            return { message: "Product is unavailable", error: true };
+        }
 
         const productExistsInLike = account.like?.product_id.includes(product_id);
         if (productExistsInLike)
@@ -38,14 +37,17 @@ export async function LikeProductAddAction(email: string, product_id: string) {
                 account_id: account?.id
             },
             data: {
-                product_id: {
-                    push: product_id
+                product: {
+                    connect: {
+                        id: product_id
+                    }
                 }
             }
         });
 
-        if (!likeUpdate)
-            return { message: "Product not found", error: true }
+        if (!likeUpdate) {
+            return { message: "Product error occurred", error: true }
+        }
 
         return { message: "Product added in like", ok: true }
     } catch (error) {
@@ -55,18 +57,17 @@ export async function LikeProductAddAction(email: string, product_id: string) {
     }
 }
 
-export async function LikeProductRemoveAction(email: string, productId: string) {
+export async function LikeProductRemoveAction(email: string, product_id: string) {
     try {
         const product = await prisma.product.findUnique({
             where: {
-                id: productId
+                id: product_id
             }
         });
 
-        if (!product)
-            return { message: "Product not found", error: true }
-        else if (product.status === "unavailable")
-            return { message: "Product not available", error: true }
+        if (!product || product.status === "unavailable") {
+            return { message: "Product not available", error: true };
+        }
 
         const account = await prisma.account.findUnique({
             where: {
@@ -77,20 +78,24 @@ export async function LikeProductRemoveAction(email: string, productId: string) 
             }
         });
 
-        if (!account)
+        if (!account) {
             return { message: "Account not found", error: true }
+        }
 
         const likeUpdate = await prisma.like.update({
-            where: { id: account?.like?.id },
+            where: { id: account.like?.id },
             data: {
-                product_id: {
-                    set: account?.like?.product_id.filter((item) => item !== productId)
+                product: {
+                    disconnect: {
+                        id: product_id,
+                    }
                 }
             }
-        })
+        });
 
-        if (!likeUpdate)
+        if (!likeUpdate) {
             return { message: "Like error occurred", error: true }
+        }
 
         return { message: "Product added in like", ok: true }
     } catch (error) {
