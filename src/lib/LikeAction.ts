@@ -6,23 +6,26 @@ import { revalidatePath } from "next/cache";
 
 export async function LikeProductAddAction(email: string, product_id: string) {
     try {
-        const account = await prisma.account.findUnique({
-            where: {
-                email: email
-            },
-            include: {
-                like: true
-            }
-        });
+        //  validate product and account
+        const [account, product] = await Promise.all([
+            prisma.account.findUnique({
+                where: {
+                    email: email
+                },
+                include: {
+                    like: true
+                }
+            }),
+            prisma.product.findUnique({
+                where: {
+                    id: product_id,
+                }
+            })
+        ]);
 
-        if (!account)
-            return { message: "Account not found", error: true }
-
-        const product = await prisma.product.findUnique({
-            where: {
-                id: product_id,
-            }
-        });
+        if (!account) {
+            return { message: "Account not found", error: true };
+        }
 
         if (!product || product.status === "unavailable") {
             return { message: "Product is unavailable", error: true };
@@ -59,27 +62,28 @@ export async function LikeProductAddAction(email: string, product_id: string) {
 
 export async function LikeProductRemoveAction(email: string, product_id: string) {
     try {
-        const product = await prisma.product.findUnique({
-            where: {
-                id: product_id
-            }
-        });
+        const [product, account] = await Promise.all([
+            prisma.product.findUnique({
+                where: {
+                    id: product_id,
+                }
+            }),
+            prisma.account.findUnique({
+                where: {
+                    email: email
+                },
+                include: {
+                    like: true
+                }
+            })
+        ]);
 
         if (!product || product.status === "unavailable") {
             return { message: "Product not available", error: true };
         }
 
-        const account = await prisma.account.findUnique({
-            where: {
-                email: email
-            },
-            include: {
-                like: true
-            }
-        });
-
         if (!account) {
-            return { message: "Account not found", error: true }
+            return { message: "Account not found", error: true };
         }
 
         const likeUpdate = await prisma.like.update({
