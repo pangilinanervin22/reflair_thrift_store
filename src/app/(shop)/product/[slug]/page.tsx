@@ -27,10 +27,7 @@ export default async function ProductPage({ params }: PageProps) {
     },
   });
 
-  if (!product) {
-    // redirect to 404 or a custom error page
-    return;
-  }
+  if (!product) return;
 
   return (
     <article className={style.product_wrapper}>
