@@ -10,6 +10,19 @@ interface CredentialsBody {
     email: string;
     password: string;
     role?: string;
+    contact?: string;
+    city?: string;
+    barangay?: string;
+    address?: string;
+}
+
+interface UpdateCredentialsBody {
+    email: string;
+    name: string;
+    contact?: string;
+    city?: string;
+    barangay?: string;
+    address?: string;
 }
 
 export async function CreateAccountAction(req: CredentialsBody) {
@@ -39,7 +52,7 @@ export async function CreateAccountAction(req: CredentialsBody) {
     }
 }
 
-export async function deleteAccount(email: string) {
+export async function AccountDeleteAction(email: string) {
     try {
         const account = await prisma.account.findUnique({ where: { email }, include: { cart: true, like: true } });
         if (!account) {
@@ -62,30 +75,23 @@ export async function deleteAccount(email: string) {
     }
 }
 
-export async function DeleteAccountAction(id: string) {
-    const res = await prisma.account.findUnique({ where: { id: id } });
-    console.log(res, "action");
-
-    const del = await prisma.account.deleteMany({ where: { id: id } })
-    revalidatePath('/admin/employee');
-}
-
-export async function LoginAccount(req: CredentialsBody) {
+export async function AccountUpdateFormAction(data: UpdateCredentialsBody) {
+    const { email, name, contact, city, barangay, address } = data;
     try {
-        const { email, password } = req;
-        const data = await prisma.account.findUnique({ where: { email: email } });
-        if (!data) return { message: "Client not found", error: true }
+        await prisma.account.update({
+            where: { email },
+            data: {
+                name,
+                contact,
+                city,
+                barangay,
+                address,
+            }
+        });
 
-        const passwordMatch = await bcrypt.compare(
-            password,
-            data.password
-        );
-
-        if (!passwordMatch) return { message: "Wrong password", error: true }
-
-        return { message: "User logged in" + email, ok: true }
+        return { message: "Account updated", ok: true };
     } catch (error) {
-        return { message: "Login Failed", error: error }
+        return { message: "Update failed", error: error };
     }
 }
 
