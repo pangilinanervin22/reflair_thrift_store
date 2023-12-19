@@ -23,39 +23,44 @@ export default function LoginPage() {
         e.preventDefault();
 
         if (submitting) return;
+
         setSubmitting(true);
         const loading = toast.loading("Login is pending");
 
-        const formData = e.target;
-        const email = (formData as any).email.value;
-        const password = (formData as any).password.value;
+        try {
+            const formData = e.target;
+            const email = (formData as any).email.value;
+            const password = (formData as any).password.value;
 
-        // validation here
-        if (!email || !password) {
-            toast.update(loading, { render: "Please fill in all fields", type: "error", autoClose: 2000, isLoading: false })
-            return;
-        } else if (!(await isEmailExist(email))) {
-            toast.update(loading, { render: "Email not exist", type: "error", autoClose: 2000, isLoading: false });
-            return;
+            // validation here
+            if (!email || !password) {
+                toast.update(loading, { render: "Please fill in all fields", type: "error", autoClose: 2000, isLoading: false })
+                return;
+            } else if (!(await isEmailExist(email))) {
+                toast.update(loading, { render: "Email not exist", type: "error", autoClose: 2000, isLoading: false });
+                return;
+            }
+
+            // action here
+            const res = await signIn("credentials", {
+                email,
+                password,
+                redirect: false,
+            })
+
+            console.log(res);
+
+            if (res?.ok) {
+                toast.update(loading, { render: "Login Success", type: "success", autoClose: 2000, isLoading: false });
+            } else if (res?.error) {
+                toast.update(loading, { render: "Invalid credentials", type: "error", autoClose: 2000, isLoading: false });
+                return;
+            }
+        } catch (error) {
+            toast.update(loading, { render: "Error occurred", type: "error", autoClose: 2000, isLoading: false });
+        } finally {
+            setSubmitting(false);
         }
-
-        // action here
-        const res = await signIn("credentials", {
-            email,
-            password,
-            redirect: false,
-        })
-
-        console.log(res);
-
-        if (res?.ok) {
-            toast.update(loading, { render: "Login Success", type: "success", autoClose: 2000, isLoading: false });
-        } else if (res?.error) {
-            toast.update(loading, { render: "Invalid credentials", type: "error", autoClose: 2000, isLoading: false });
-            return;
-        }
-
-        setSubmitting(false);
     };
 
     return (
