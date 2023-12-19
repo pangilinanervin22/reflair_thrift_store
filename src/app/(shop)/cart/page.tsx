@@ -4,11 +4,9 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/db/options";
 import prisma from "@/db/prisma";
 import Image from "next/image";
-import { CartProductRemoveAction } from "@/lib/CartAction";
 import RemoveCartButton from "./RemoveCartButton";
 import { redirect } from "next/navigation";
-import { OrderCreateAction } from "@/lib/OrderAction";
-import CheckOutButton from "./CheckOutButton";
+import Link from "next/link";
 
 export default async function CartPage() {
     const session = await getServerSession(authOptions);
@@ -34,7 +32,7 @@ export default async function CartPage() {
     if (!account) {
         return <h1>no account</h1>;
     }
-    console.log(account?.cart, "account");
+
     const product = account.cart?.product;
     const total_price = product?.reduce((total, item) => total + item.price, 0);
 
@@ -69,7 +67,9 @@ export default async function CartPage() {
                 ))
                 }
                 <div className={style.checkout}>
-                    <CheckOutButton email={account.email} product={account.cart?.product_id} />
+                    <Link href={"/checkout"}>
+                        <button>Checkout</button>
+                    </Link>
                     <div>
                         <p>{`₱ ${total_price}` || "₱ xxxx"}</p>
                         <h4>Subtotal:</h4>
