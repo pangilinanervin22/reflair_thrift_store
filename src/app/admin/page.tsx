@@ -1,6 +1,6 @@
 import ReportPage from "@/components/AdminComponent/Report";
 
-export default function UsersPage() {
+export default function AdminDashboardPage() {
 
     return (
         <>

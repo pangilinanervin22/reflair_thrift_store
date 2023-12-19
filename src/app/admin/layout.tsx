@@ -14,7 +14,6 @@ export default async function AdminPageLayout({
 }) {
 
     const session = await getServerSession(authOptions);
-    console.log(session, "session layout");
 
     if (!session) return (<AdminAuth />)
     if (session?.user.role !== "admin") return (<Unauthorized />)
