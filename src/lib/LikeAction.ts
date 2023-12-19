@@ -19,6 +19,7 @@ export async function LikeProductAddAction(email: string, product_id: string) {
             prisma.product.findUnique({
                 where: {
                     id: product_id,
+                    order: null,
                 }
             })
         ]);
