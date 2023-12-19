@@ -15,7 +15,7 @@ export async function generateMetadata({ params }: PageProps) {
   };
 }
 
-export default async function ProductPage({ params }: PageProps) {
+export default async function ProductSlugPage({ params }: PageProps) {
   const product = await prisma.product.findFirst({
     where: {
       id: params.slug,
