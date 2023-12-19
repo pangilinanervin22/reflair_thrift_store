@@ -30,7 +30,10 @@ export async function CreateProductAction(data: PostProduct) {
 export async function UpdateProductAction(id: string, data: PostProduct) {
     try {
         const res = await prisma.product.update({
-            where: { id: id }, data: {
+            where: {
+                id: id,
+                order: null,
+            }, data: {
                 name: data.name,
                 price: data.price,
                 image: data.image,
@@ -53,9 +56,18 @@ export async function UpdateProductAction(id: string, data: PostProduct) {
     }
 }
 
-export async function DeleteProductAction(id: string) {
+export async function ProductDeleteAction(id: string) {
     try {
-        const product = await prisma.product.findUnique({ where: { id: id }, include: { Cart: true, Like: true } });
+        const product = await prisma.product.findUnique({
+            where: {
+                id: id,
+                order: null,
+            },
+            include: {
+                Cart: true,
+                Like: true
+            }
+        });
 
         if (!product)
             return { message: "Product not found", error: true }
