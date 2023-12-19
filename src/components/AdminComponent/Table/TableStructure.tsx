@@ -62,10 +62,11 @@ export default function MainTable({
 
     let sortedData = structuredClone(data);
 
+
     //sorting by search query filter
     sortedData = useMemo(
-        () => (searchQuery ? sortedData.filter((item: any) => item.name.toLowerCase().includes(searchQuery.toLowerCase())) : sortedData),
-        [searchQuery, sortedData]
+        () => (searchQuery ? sortedData.filter((item: any) => item[structure.searchPath].toLowerCase().includes(searchQuery.toLowerCase())) : sortedData),
+        [searchQuery, sortedData, structure.searchPath]
     );
 
     //get total data filtered by search
