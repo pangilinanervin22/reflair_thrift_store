@@ -4,14 +4,13 @@ import style from './Dialog.module.scss'
 import { useRef, useEffect } from 'react'
 
 type Props = {
-    title: string,
     onClose: () => void,
     onOk: () => void,
     children: React.ReactNode,
     buttonConfirm?: string,
 }
 
-export default function Dialog({ title, onClose, onOk, children, buttonConfirm: buttonConfirm }: Props) {
+export default function Dialog({ onClose, onOk, children, buttonConfirm: buttonConfirm }: Props) {
     const searchParams = useSearchParams()
     const pathname = usePathname()
     const router = useRouter()
