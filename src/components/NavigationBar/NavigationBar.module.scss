@@ -55,9 +55,10 @@
   .icon {
     margin-inline: 8px;
 
-    img {
-      width: 24px;
-      height: 24px;
+    svg {
+      width: 30px;
+      height: 36px;
+      fill-opacity: 0.8;
     }
 
     &:hover {

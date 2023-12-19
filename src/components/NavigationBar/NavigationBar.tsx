@@ -1,6 +1,10 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import style from "./NavigationBar.module.scss"
+import IconSearch_svg from '@/assets/IconSearch_svg'
+import IconHeart_svg from '@/assets/IconHeart_svg'
+import IconProfile_svg from '@/assets/IconProfile_svg'
+import IconCart_svg from '@/assets/IconCart_svg'
 
 export default function NavigationBar() {
     return (
@@ -16,34 +20,26 @@ export default function NavigationBar() {
                     <div>
                         <Link href="/product">
                             <div className={style.icon}>
-                                <Image src={"/assets/icons/search.svg"}
-                                    width={1080} height={1080}
-                                    alt="search product link" />
+                                <IconSearch_svg />
                             </div></Link>
                     </div>
                     <div>
                         <Link href="/like">
                             <div className={style.icon}>
-                                <Image src={"/assets/icons/heart.svg"}
-                                    width={1080} height={1080}
-                                    alt="liked product link" />
+                                <IconHeart_svg />
                             </div></Link>
                     </div>
                     <div>
                         <Link href="/account">
                             <div className={style.icon}>
-                                <Image src={"/assets/icons/profile.svg"}
-                                    width={1080} height={1080}
-                                    alt="profile link" />
+                                <IconProfile_svg />
                             </div></Link>
                     </div>
                     <hr className={style.separator} />
                     <div>
                         <Link href="/cart">
                             <div className={style.icon}>
-                                <Image src={"/assets/icons/cart.svg"}
-                                    width={1080} height={1080}
-                                    alt="profile link" />
+                                <IconCart_svg />
                             </div>
                         </Link>
                     </div>
