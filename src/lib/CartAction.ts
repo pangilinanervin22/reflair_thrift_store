@@ -19,6 +19,7 @@ export async function CartProductAddAction(email: string, product_id: string) {
             prisma.product.findUnique({
                 where: {
                     id: product_id,
+                    order: null,
                 }
             })
         ]);
@@ -94,7 +95,6 @@ export async function CartProductRemoveAction(email: string, product_id: string)
                 product: {
                     disconnect: {
                         id: product_id,
-
                     }
                 }
             }
