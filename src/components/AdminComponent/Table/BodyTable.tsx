@@ -38,23 +38,23 @@ export default function BodyTable({
                 </tr>
             </thead >
             <tbody>
-                {data.length == 0 ? <h1>{"No data"}</h1> : data.map((curData) => (
-                    <tr key={curData[tableProps.id]} >
-                        {tableProps.structure.map((curBase: Column) => (
-                            <td key={curBase.label} style={{ width: curBase.width, fontSize: curBase.fontSize, height: curBase.height }}  >
-                                {curBase.element ? curBase.element!(curData) : curData[curBase.path!]}
+                {data.length == 0 ? <h1>{"No data"}</h1> : data.map((currentData) => (
+                    <tr key={currentData[tableProps.id]} >
+                        {tableProps.structure.map((currentColumn: Column) => (
+                            <td key={currentColumn.label} style={{ width: currentColumn.width, fontSize: currentColumn.fontSize, height: currentColumn.height }}  >
+                                {currentColumn.element ? currentColumn.element(currentData) : currentData[currentColumn.path!]}
                             </td>
                         ))}
                         {isEditable &&
                             <>
                                 <td key={"edit"} style={{ width: "110px", fontSize: "20px" }}  >
-                                    <button className={styles.button_update} onClick={() => updateColumn(curData)}>
+                                    <button className={styles.button_update} onClick={() => updateColumn(currentData)}>
                                         EDIT
                                     </button>
                                 </td>
                                 <td key={"delete"} style={{ width: "110px", fontSize: "20px" }}  >
                                     <button className={styles.button_delete} onClick={() => {
-                                        deleteColumn(curData);
+                                        deleteColumn(currentData);
                                     }}>
                                         DELETE
                                     </button>
