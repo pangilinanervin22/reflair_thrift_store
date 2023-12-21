@@ -7,14 +7,12 @@ import Image from "next/image";
 import RemoveCartButton from "./RemoveCartButton";
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import { toast } from "react-toastify";
 
 export default async function CartPage() {
     const session = await getServerSession(authOptions);
 
     if (!session?.user)
         redirect("/login");
-
 
     const account = await prisma.account.findUnique({
         where: {
@@ -69,7 +67,7 @@ export default async function CartPage() {
                     }
                 </div>
                 <div className={style.checkout}>
-                    <Link href={"/checkout"}>
+                    <Link href={"/account/checkout"}>
                         <button>Checkout</button>
                     </Link>
                     <div>

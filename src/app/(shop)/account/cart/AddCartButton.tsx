@@ -5,25 +5,23 @@ import { useRouter } from 'next/navigation';
 import React from 'react'
 import { toast } from 'react-toastify';
 
-interface AddCartButtonProps {
-    product: any;
-    title: string;
-    className?: string;
-    session: any;
+interface Props {
+    email: string;
+    item_id: string;
+    classStyle?: string;
     children?: React.ReactNode;
-
 }
 
-export default function AddCartButton({ product, className, session, children }: AddCartButtonProps) {
+export default function AddCartButton({ item_id, classStyle, email, children }: Props) {
     const router = useRouter();
     async function handleClick() {
-        if (session === null) {
+        if (email === null) {
             toast.error("Please login to add to cart");
             router.push("/login");
             return;
         }
 
-        const res = await CartAddAction(session.user.email, product.id);
+        const res = await CartAddAction(email, item_id);
         console.log(res, "action");
         if (res?.ok)
             toast.success(res.message);
@@ -32,7 +30,7 @@ export default function AddCartButton({ product, className, session, children }:
     }
 
     return (
-        <div className={className || ""} onClick={() => handleClick()}>
+        <div className={classStyle || ""} onClick={() => handleClick()}>
             {children || <button>ADD TO CART</button>}
         </div>
     )

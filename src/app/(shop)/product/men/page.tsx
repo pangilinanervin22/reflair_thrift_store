@@ -6,6 +6,7 @@ import AddCartButton from "../../account/cart/AddCartButton";
 import AddLikeButton from "../../account/like/AddLikeButton";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/db/options";
+import IconHeart_svg from "@/assets/IconHeart_svg";
 
 // export const fetchCache = "no-store";
 export const fetchCache = 'no-store';
@@ -43,11 +44,14 @@ export default async function ProductMenPage() {
                                 <h1>₱ {product.price}</h1>
                             </section>
                             <section className={style.button_container}>
-                                <AddCartButton session={session} product={product} title="ADD TO CART"  >
+                                <AddCartButton email={session?.user.email} item_id={product.id}  >
                                     <button className={style.cart}>ADD TO CART</button>
                                 </AddCartButton>
-                                <AddLikeButton session={session} product={product} title="ADD TO CART"  >
-                                    <button className={style.like}>LIKE</button>
+                                <AddLikeButton email={session?.user.email} item_id={product.id}  >
+                                    <button className={style.like}>
+                                        <IconHeart_svg />
+                                        LIKE
+                                    </button>
                                 </AddLikeButton>
                             </section>
                         </div>

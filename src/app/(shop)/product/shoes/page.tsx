@@ -6,6 +6,7 @@ import AddCartButton from "../../account/cart/AddCartButton";
 import AddLikeButton from "../../account/like/AddLikeButton";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/db/options";
+import IconHeart_svg from "@/assets/IconHeart_svg";
 
 
 export default async function ProductShoesPage() {
@@ -37,15 +38,18 @@ export default async function ProductShoesPage() {
                             </Link>
                             <section className={style.description}>
                                 <h3>{product.name}</h3>
-                                <h1>Size: {product.size}</h1>
-                                <h1>₱ {product.price}</h1>
+                                <p>Size: {product.size}</p>
+                                <p>₱ {product.price}</p>
                             </section>
                             <section className={style.button_container}>
-                                <AddCartButton session={session} product={product} title="ADD TO CART"  >
+                                <AddCartButton email={session?.user.email} item_id={product.id}  >
                                     <button className={style.cart}>ADD TO CART</button>
                                 </AddCartButton>
-                                <AddLikeButton session={session} product={product} title="ADD TO CART"  >
-                                    <button className={style.like}>LIKE</button>
+                                <AddLikeButton email={session?.user.email} item_id={product.id}  >
+                                    <button className={style.like}>
+                                        <IconHeart_svg />
+                                        LIKE
+                                    </button>
                                 </AddLikeButton>
                             </section>
                         </div>

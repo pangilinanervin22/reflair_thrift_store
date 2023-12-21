@@ -54,7 +54,7 @@ export default async function LikePage() {
                                         <h1>₱ {item.price}</h1>
                                     </div>
                                     <div className={style.actions_container}>
-                                        <AddCartButton session={session} product={item} title="ADD TO CART"  >
+                                        <AddCartButton email={account.email} item_id={item.id}   >
                                             <button className={style.cart}>ADD TO CART</button>
                                         </AddCartButton>
                                         <RemoveLikeButton classStyle={style.remove} email={account.email} item_id={item.id} />
