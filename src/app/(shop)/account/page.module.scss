@@ -1,9 +1,9 @@
 .main_container {
-    padding: 20px 0;
     display: flex;
     justify-content: center;
-    width: 100vw;
-    max-width: 1200px;
+    max-width: 1080px;
+    width: 75vw;
+    padding: 20px 0;
 }
 
 .account_form {
@@ -12,7 +12,7 @@
     flex-wrap: wrap;
     align-items: center;
     justify-content: center;
-    width: 80%;
+    width: 100%;
 
     h2 {
         width: 100%;
@@ -68,6 +68,7 @@
     gap: 32px;
     justify-content: flex-end;
     width: 100%;
+    margin-right: 32px;
 
     >:first-child button {
         background: red;

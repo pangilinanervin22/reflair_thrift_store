@@ -1,6 +1,6 @@
 "use client"
 
-import { CartProductRemoveAction } from '@/lib/CartAction'
+import { CartRemoveAction } from '@/lib/CartAction'
 import React from 'react'
 
 interface RemoveCartButtonProps {
@@ -10,7 +10,7 @@ interface RemoveCartButtonProps {
 
 export default function RemoveCartButton({ email, item_id }: RemoveCartButtonProps) {
     return (
-        <button onClick={() => CartProductRemoveAction(email, item_id)}>
+        <button onClick={() => CartRemoveAction(email, item_id)}>
             REMOVE
         </button>
     )

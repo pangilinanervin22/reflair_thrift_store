@@ -1,6 +1,6 @@
 "use client"
 
-import { CartProductAddAction } from '@/lib/CartAction';
+import { CartAddAction } from '@/lib/CartAction';
 import { useRouter } from 'next/navigation';
 import React from 'react'
 import { toast } from 'react-toastify';
@@ -23,7 +23,7 @@ export default function AddCartButton({ product, className, session, children }:
             return;
         }
 
-        const res = await CartProductAddAction(session.user.email, product.id);
+        const res = await CartAddAction(session.user.email, product.id);
         console.log(res, "action");
         if (res?.ok)
             toast.success(res.message);

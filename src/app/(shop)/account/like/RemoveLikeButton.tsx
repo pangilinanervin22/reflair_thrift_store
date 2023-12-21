@@ -1,6 +1,6 @@
 "use client"
 
-import { LikeProductRemoveAction } from '@/lib/LikeAction'
+import { LikeRemoveAction } from '@/lib/LikeAction'
 import React from 'react'
 
 interface RemoveCartButtonProps {
@@ -11,7 +11,7 @@ interface RemoveCartButtonProps {
 
 export default function RemoveLikeButton({ email, item_id, classStyle }: RemoveCartButtonProps) {
     return (
-        <button className={classStyle || ""} onClick={() => LikeProductRemoveAction(email, item_id)}>
+        <button className={classStyle || ""} onClick={() => LikeRemoveAction(email, item_id)}>
             REMOVE
         </button>
     )

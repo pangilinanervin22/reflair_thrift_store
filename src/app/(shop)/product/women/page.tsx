@@ -2,13 +2,13 @@ import prisma from "@/db/prisma";
 import style from "./page.module.scss";
 import Link from "next/link";
 import Image from "next/image";
-import AddCartButton from "../../cart/AddCartButton";
-import AddLikeButton from "../../like/AddLikeButton";
+import AddCartButton from "../../account/cart/AddCartButton";
+import AddLikeButton from "../../account/like/AddLikeButton";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/db/options";
 
 
-export default async function ProductDashboard() {
+export default async function ProductWomenPage() {
     const session = await getServerSession(authOptions);
     const womenProduct = await prisma.product.findMany({
         where: {
@@ -16,7 +16,6 @@ export default async function ProductDashboard() {
         }
     });
 
-    console.log("women");
     return (
         <>
             <section className={style.product_section}>

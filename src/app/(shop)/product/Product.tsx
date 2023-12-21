@@ -4,17 +4,13 @@ import { useRouter } from "next/navigation";
 import type { Product } from "@prisma/client";
 import Image from "next/image";
 import style from "./page.module.scss";
-import AddCartButton from "@/app/(shop)/cart/AddCartButton";
-import AddLikeButton from "../like/AddLikeButton";
-import { useSession } from "next-auth/react";
+import AddCartButton from "@/app/(shop)/account/cart/AddCartButton";
+import AddLikeButton from "../account/like/AddLikeButton";
 
 interface ProductProps {
   product: Product;
   session: any;
 }
-
-// extracted component to use events e.g. onClick
-
 
 const Product: React.FC<ProductProps> = ({ product, session }) => {
   const router = useRouter();

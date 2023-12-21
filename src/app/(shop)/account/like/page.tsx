@@ -1,15 +1,12 @@
 
-import { useState } from "react";
 import style from "./page.module.scss";
 import Image from "next/image";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/db/options";
-import { redirect } from "next/navigation";
 import prisma from "@/db/prisma";
-import AddCartButton from "../cart/AddCartButton";
-import AddLikeButton from "./AddLikeButton";
-import RemoveCartButton from "../cart/RemoveCartButton";
 import RemoveLikeButton from "./RemoveLikeButton";
+import AddCartButton from "../cart/AddCartButton";
+import { redirect } from "next/navigation";
 
 export default async function LikePage() {
     const session = await getServerSession(authOptions);
@@ -37,7 +34,7 @@ export default async function LikePage() {
     const product = account.like?.product;
     return (
         <>
-            <section className={style.flex_section}>
+            <section className={style.main_container}>
                 {product?.length ?
                     <>
                         <h1>Total Liked: {product.length}</h1>

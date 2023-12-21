@@ -63,49 +63,47 @@ export default function AccountForm({ user, barangay }: AccountFormProps) {
 
 
     return (
-        <>
-            <section className={style.main_container}>
-                <form onSubmit={FormAction} className={style.account_form}>
-                    <h2>Account Profile</h2>
-                    <section>
-                        <div>
-                            <label htmlFor="email">Username</label>
-                            <input type="email" name="email" id="email" defaultValue={user?.email} disabled required />
-                        </div>
-                        <div>
-                            <label htmlFor="name">Full Name</label>
-                            <input type="text" name="name" id="name" defaultValue={user?.name} required />
-                        </div>
-                        <div>
-                            <label htmlFor="contact">Contact</label>
-                            <input type="tel" name="contact" id="contact" defaultValue={user?.contact || ""} required />
-                        </div>
-                    </section>
-                    <section>
-                        <div>
-                            <label htmlFor="city">City</label>
-                            <input type="text" name="city" id="city" defaultValue={'Bacoor'} disabled required />
-                            <span>available only in bacoor</span>
-                        </div>
-                        <div>
-                            <label htmlFor="barangay">Barangay</label>
-                            <select id="barangay" defaultValue={user?.barangay || "Molino VI"} required>
-                                {barangay?.map((barangay: any) => (
-                                    <option key={barangay.code} value={barangay.name}>{barangay.name}</option>
-                                ))}
-                            </select>
-                        </div>
-                        <div>
-                            <label htmlFor="address">Street Name, Building, House No.</label>
-                            <input type="text" name="address" id="address" defaultValue={user?.address || ""} required />
-                        </div>
-                    </section>
-                    <div className={style.action_container}>
-                        <Link href={"/"}><button>Cancel</button></Link>
-                        <button type="submit">Update</button>
+        <section className={style.main_container}>
+            <form onSubmit={FormAction} className={style.account_form}>
+                <h2>Profile</h2>
+                <section>
+                    <div>
+                        <label htmlFor="email">Username</label>
+                        <input type="email" name="email" id="email" defaultValue={user?.email} disabled required />
                     </div>
-                </form>
-            </section>
-        </>
+                    <div>
+                        <label htmlFor="name">Full Name</label>
+                        <input type="text" name="name" id="name" defaultValue={user?.name} required />
+                    </div>
+                    <div>
+                        <label htmlFor="contact">Contact</label>
+                        <input type="tel" name="contact" id="contact" defaultValue={user?.contact || ""} required />
+                    </div>
+                </section>
+                <section>
+                    <div>
+                        <label htmlFor="city">City</label>
+                        <input type="text" name="city" id="city" defaultValue={'Bacoor'} disabled required />
+                        <span>available only in bacoor</span>
+                    </div>
+                    <div>
+                        <label htmlFor="barangay">Barangay</label>
+                        <select id="barangay" defaultValue={user?.barangay || "Molino VI"} required>
+                            {barangay?.map((barangay: any) => (
+                                <option key={barangay.code} value={barangay.name}>{barangay.name}</option>
+                            ))}
+                        </select>
+                    </div>
+                    <div>
+                        <label htmlFor="address">Street Name, Building, House No.</label>
+                        <input type="text" name="address" id="address" defaultValue={user?.address || ""} required />
+                    </div>
+                </section>
+                <div className={style.action_container}>
+                    <Link href={"/"}><button>Cancel</button></Link>
+                    <button type="submit">Update</button>
+                </div>
+            </form>
+        </section>
     )
 }

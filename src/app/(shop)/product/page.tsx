@@ -6,7 +6,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/db/options";
 
 
-export default async function ProductDashboard() {
+export default async function ProductAllPage() {
   const session = await getServerSession(authOptions);
   const product = await prisma.product.findMany({
     orderBy: {

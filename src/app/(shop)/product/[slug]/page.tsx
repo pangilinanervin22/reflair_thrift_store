@@ -1,8 +1,8 @@
 import prisma from "@/db/prisma";
 import Image from "next/image";
 import style from "./page.module.scss";
-import AddCartButton from "../../cart/AddCartButton";
-import AddLikeButton from "../../like/AddLikeButton";
+import AddCartButton from "../../account/cart/AddCartButton";
+import AddLikeButton from "../../account/like/AddLikeButton";
 import { authOptions } from "@/db/options";
 import { getServerSession } from "next-auth";
 

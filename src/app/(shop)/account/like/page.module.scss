@@ -1,7 +1,13 @@
-.flex_section {
-  margin: 10px;
+.main_container {
+  display: flex;
+  justify-content: center;
+  max-width: 1080px;
+  width: 75vw;
+  padding: 20px 0;
+  gap: 16px;
 
-  .text {
+  >:first-child {
+    margin-bottom: 32px;
     text-align: center;
     margin: 10px;
     font-family: "Poppins", sans-serif;
@@ -11,6 +17,8 @@
     letter-spacing: 2.6px;
   }
 }
+
+
 
 .product_container {
   display: flex;

@@ -23,12 +23,6 @@ export default async function AccountPage() {
     const city = await fetch("https://psgc.gitlab.io/api/cities/042103000/barangays/", { cache: "force-cache" });
     const barangay = await city.json();
     return (
-        <>
-            <AccountForm barangay={barangay} user={account} />
-            <div>
-                <h1>Account</h1>
-                <SignOut />
-            </div>
-        </>
+        <AccountForm barangay={barangay} user={account} />
     )
 }

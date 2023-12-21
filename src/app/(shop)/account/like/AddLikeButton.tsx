@@ -1,6 +1,6 @@
 "use client"
 
-import { LikeProductAddAction } from '@/lib/LikeAction';
+import { LikeAddAction } from '@/lib/LikeAction';
 import { useRouter } from 'next/navigation';
 import React from 'react'
 import { toast } from 'react-toastify';
@@ -15,6 +15,7 @@ interface AddLikeButtonProps {
 
 export default function AddLikeButton({ product, className, session, children }: AddLikeButtonProps) {
     const router = useRouter();
+
     async function handleClick() {
         if (session === null) {
             toast.error("Please login to add to cart");
@@ -22,7 +23,7 @@ export default function AddLikeButton({ product, className, session, children }:
             return;
         }
 
-        const res = await LikeProductAddAction(session.user.email, product.id);
+        const res = await LikeAddAction(session.user.email, product.id);
         console.log(res, "action");
         if (res?.ok)
             toast.success(res.message);
