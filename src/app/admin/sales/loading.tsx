@@ -1,7 +1,7 @@
 import React from 'react'
 
-export default function loading() {
+export default function SalesLoading() {
     return (
-        <h1>...loading</h1>
+        <h1>Sales Loading...</h1>
     )
 }

@@ -8,6 +8,7 @@ import { Order } from "@prisma/client";
 import formatDate from "@/utils/formatDate";
 import { OrderDeleteAction } from "@/lib/OrderAction";
 import { toast } from "react-toastify";
+import { CreateDummyProduct } from "@/lib/dummy";
 
 const content: TableStructure = {
     id: "id",
@@ -57,6 +58,8 @@ export default function OrderTable({ data }: { data: Order[] }) {
                 handleUpdate={onHandleUpdate}
                 handleDelete={onHandleDelete}
             />
+
+            <button onClick={() => CreateDummyProduct()}>Dummy Product</button>
         </>
     );
 

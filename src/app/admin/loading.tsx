@@ -1,7 +1,7 @@
 import React from 'react'
 
-export default function loading() {
+export default function AdminLoading() {
     return (
-        <h1>...loading</h1>
+        <h1>Loading Admin...</h1>
     )
 }
