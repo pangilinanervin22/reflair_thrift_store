@@ -82,8 +82,8 @@ export async function OrderCreateAction(email: string, array_product_id: string[
                 barangay: account.barangay,
                 city: account.city,
                 product: {
-                    connect: account.cart?.product.map((item) => {
-                        return { id: item.id }
+                    connect: array_product_id.map((id) => {
+                        return { id: id }
                     })
                 },
                 account: {
@@ -102,6 +102,7 @@ export async function OrderCreateAction(email: string, array_product_id: string[
         return { message: "Order error occurred", error: error }
     } finally {
         revalidatePath('/cart');
+        revalidatePath('/admin/order');
     }
 }
 

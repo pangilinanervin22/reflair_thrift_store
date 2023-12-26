@@ -4,12 +4,13 @@ import prisma from "@/db/prisma"
 import { uploadthingApi } from "@/db/uploadthingApi";
 import { revalidatePath } from 'next/cache'
 
-export async function CreateProductAction(data: PostProduct) {
+export async function ProductCreateAction(data: PostProduct) {
     try {
         const res = await prisma.product.create({
             data:
             {
                 ...data,
+                id: data.id,
                 tags: [data.material, data.color, data.size],
                 status: "available"
             }
@@ -27,7 +28,7 @@ export async function CreateProductAction(data: PostProduct) {
     }
 }
 
-export async function UpdateProductAction(id: string, data: PostProduct) {
+export async function ProductUpdateAction(id: string, data: PostProduct) {
     try {
         const res = await prisma.product.update({
             where: {

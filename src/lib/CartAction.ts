@@ -4,7 +4,7 @@ import prisma from "@/db/prisma";
 import { revalidatePath } from "next/cache";
 
 
-export async function CartProductAddAction(email: string, product_id: string) {
+export async function CartAddAction(email: string, product_id: string) {
     try {
         // validating product and account
         const [account, product] = await Promise.all([
@@ -58,11 +58,11 @@ export async function CartProductAddAction(email: string, product_id: string) {
     } catch (error) {
         return { message: "Cart error occurred", error: error };
     } finally {
-        revalidatePath('/product');
+        revalidatePath('/cart');
     }
 }
 
-export async function CartProductRemoveAction(email: string, product_id: string) {
+export async function CartRemoveAction(email: string, product_id: string) {
     try {
         // validating product and account
         const [product, account] = await Promise.all([

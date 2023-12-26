@@ -1,8 +1,6 @@
 'use server'
 
 import prisma from "@/db/prisma"
-import { revalidatePath } from 'next/cache'
-import type { Account } from "@prisma/client";
 import bcrypt from "bcryptjs";
 
 interface CredentialsBody {
