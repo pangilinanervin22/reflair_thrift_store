@@ -4,7 +4,7 @@ import prisma from "@/db/prisma";
 import { revalidatePath } from "next/cache";
 
 
-export async function LikeProductAddAction(email: string, product_id: string) {
+export async function LikeAddAction(email: string, product_id: string) {
     try {
         //  validate product and account
         const [account, product] = await Promise.all([
@@ -57,11 +57,11 @@ export async function LikeProductAddAction(email: string, product_id: string) {
     } catch (error) {
         return { message: "Error in adding like", error: error }
     } finally {
-        revalidatePath('/product');
+        revalidatePath('/like');
     }
 }
 
-export async function LikeProductRemoveAction(email: string, product_id: string) {
+export async function LikeRemoveAction(email: string, product_id: string) {
     try {
         const [product, account] = await Promise.all([
             prisma.product.findUnique({
