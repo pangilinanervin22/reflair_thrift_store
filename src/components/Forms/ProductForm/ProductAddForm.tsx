@@ -6,7 +6,7 @@ import style from "./ProductForm.module.scss";
 import Link from "next/link";
 import { toast } from "react-toastify";
 import { UploadButton } from "@/db/uploadthing";
-import { CreateProductAction } from "@/lib/ProductAction";
+import { ProductCreateAction } from "@/lib/ProductAction";
 import { useRouter } from "next/navigation";
 
 
@@ -43,7 +43,7 @@ export default function ProductCreateForm() {
         }
 
         //action here
-        const res = await CreateProductAction(product);
+        const res = await ProductCreateAction(product);
         if (res?.ok) {
             toast.update(loading, { render: res.message, type: "success", autoClose: 2000, isLoading: false });
             router.push("/admin/product");

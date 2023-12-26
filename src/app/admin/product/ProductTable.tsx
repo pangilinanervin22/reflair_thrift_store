@@ -7,6 +7,7 @@ import Dialog from "../../../components/Dialog/Dialog";
 import { ProductDeleteAction } from "@/lib/ProductAction";
 import { useState } from "react";
 import { Product } from "@prisma/client";
+import style from "./page.module.scss";
 
 const content: TableStructure = {
     id: "id",
@@ -27,8 +28,10 @@ export default function ProductTable({ data }: { data: Product[] }) {
     return (
         <>
             <Dialog onClose={() => { }} onOk={() => { ProductDeleteAction(currentProductId) }}>
-                <h2>Are you sure want to delete?</h2>
-                <p>This will product will delete. You cannot undo this action.</p>
+                <div className={style.dialog}>
+                    <h4>Are you sure want to delete?</h4>
+                    <p>This will product will delete. You cannot undo this action.</p>
+                </div>
             </Dialog>
             <MainTable
                 data={data}

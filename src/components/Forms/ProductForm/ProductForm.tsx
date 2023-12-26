@@ -4,7 +4,7 @@ import { FormEvent, useState } from "react";
 import Image from "next/image";
 import style from "./ProductForm.module.scss";
 import Link from "next/link";
-import { UpdateProductAction } from "@/lib/ProductAction";
+import { ProductUpdateAction } from "@/lib/ProductAction";
 import type { Product } from "@prisma/client";
 import { ProductRequestBody } from "@/app/api/product/route";
 import { UploadButton } from "@/db/uploadthing";
@@ -56,7 +56,7 @@ export default function ProductForm({ product }: PageProps) {
         }
 
         // action here
-        const res = await UpdateProductAction(product.id, productValue);
+        const res = await ProductUpdateAction(product.id, productValue);
         if (res?.ok) {
             toast.update(loading, { render: res.message, type: "success", autoClose: 2000, isLoading: false });
             router.push("/admin/product");
