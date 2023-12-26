@@ -1,11 +1,19 @@
 .dialog {
     z-index: 100;
-    display: flex;
-    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
     height: 100vh;
+    display: flex;
     justify-content: center;
     align-items: center;
+    box-sizing: border-box;
     background: none;
+
+    &::backdrop {
+        background: rgba(0, 0, 0, 0.5);
+    }
 
     .dialog_container {
         padding: 16px 32px;
@@ -13,6 +21,7 @@
         display: flex;
         align-items: flex-end;
         position: relative;
+        border-radius: 16px;
 
         .close {
             position: absolute;
@@ -22,9 +31,9 @@
             cursor: pointer;
 
             &:hover {
-                background: #f5f5f5;
+                background: red;
+                color: white;
                 scale: 1.1;
-                border: 1px solid black;
             }
         }
 
