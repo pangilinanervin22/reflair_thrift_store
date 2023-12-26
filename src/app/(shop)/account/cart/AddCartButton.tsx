@@ -1,6 +1,7 @@
 "use client"
 
 import { CartAddAction } from '@/lib/CartAction';
+import { revalidateTag } from 'next/cache';
 import { useRouter } from 'next/navigation';
 import React from 'react'
 import { toast } from 'react-toastify';
@@ -27,6 +28,7 @@ export default function AddCartButton({ item_id, classStyle, email, children }: 
             toast.success(res.message);
         else
             toast.error(res.message);
+
     }
 
     return (

@@ -1,6 +1,5 @@
 'use client'
 
-import SignOut from "@/components/SignOut";
 import { useRouter } from "next/navigation";
 import style from "./page.module.scss";
 import { FormEvent, useState } from "react";
@@ -60,8 +59,6 @@ export default function AccountForm({ user, barangay }: AccountFormProps) {
 
         setIsSubmitting(false);; // Reset isSubmitting flag after submission
     }
-
-
     return (
         <section className={style.main_container}>
             <form onSubmit={FormAction} className={style.account_form}>

@@ -37,10 +37,10 @@ const Product: React.FC<ProductProps> = ({ product, session }) => {
       </div>
       <div className={style.product_action}>
         <section className={style.button_container}>
-          <AddCartButton session={session} product={product} title="ADD TO CART"  >
+          <AddCartButton email={session?.user.email} item_id={product.id} >
             <button className={style.cart}>ADD TO CART</button>
           </AddCartButton>
-          <AddLikeButton session={session} product={product} title="ADD TO CART"  >
+          <AddLikeButton email={session?.user.email} item_id={product.id}  >
             <button className={style.like}>LIKE</button>
           </AddLikeButton>
         </section>

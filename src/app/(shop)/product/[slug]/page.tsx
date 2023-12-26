@@ -48,10 +48,10 @@ export default async function ProductPage({ params }: PageProps) {
           <h4>₱ {product.price}</h4>
           {/* Product actions */}
           <section className={style.action_container}>
-            <AddCartButton session={session} product={product} title="ADD TO CART"  >
+            <AddCartButton email={session?.user.email} item_id={product.id} >
               <button className={style.cart_button}>ADD TO CART</button>
             </AddCartButton>
-            <AddLikeButton session={session} product={product} title="ADD TO CART"  >
+            <AddLikeButton email={session?.user.email} item_id={product.id} >
               <button className={style.like_button}>LIKE</button>
             </AddLikeButton>
           </section>
