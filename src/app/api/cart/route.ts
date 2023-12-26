@@ -1,40 +1,33 @@
 import prisma from "@/db/prisma";
+import { NextApiRequest, NextApiResponse } from "next";
+import { revalidateTag } from "next/cache";
 import { NextResponse } from "next/server";
 
 
-export async function GET(req: any) {
-    try {
-        const data = await prisma.order.findMany({ include: { product: true } });
-        return NextResponse.json(data, { status: 200 });
-    } catch (error) {
-        console.log(error);
-        return NextResponse.json({ message: "Unsuccessful register" }, { status: 400 });
-    }
+export async function GET(req: NextApiRequest, res: NextApiResponse) {
+    return NextResponse.json({ message: " Sample Message" }, { status: 200 });
 }
 
-export async function POST(req: any) {
-    try {
-        const myAccount = await prisma.account.findUnique({ where: { email: "ervin22" } })
-        if (!myAccount) return NextResponse.json({ message: "Unsuccessful register" }, { status: 400 });
-        const randomProduct = await prisma.product.findMany({ take: 2 })
-        const productId = randomProduct.map(p => p.id)
+export async function POST(req: any, res: NextApiResponse) {
+    const { email } = await req.json();
 
-        // const data = await prisma.order.create({
-        //     data: {
-        //         product_id: productId,
-        //     }
-        // });
+    if (!email) return NextResponse.json({ message: "Client not found." }, { status: 404 });
 
-        // console.log(data);
-        // return NextResponse.json({
-        //     message: "Product registered.",
-        //     username: myAccount.username,
-        //     account: myAccount.id,
-        //     product: productId,
-        //     data: data
-        // }, { status: 201 });
-    } catch (error) {
-        console.log(error);
-        return NextResponse.json({ message: "Unsuccessful register" }, { status: 400 });
-    }
+    const account = await prisma.account.findUnique({ where: { email: email } });
+    if (!account) return NextResponse.json({ message: "Client not found." }, { status: 404 });
+
+    const countProductCart = await prisma.cart.findFirst({
+        where: {
+            account_id: account.id,
+
+        }, include: {
+            product: true
+        }
+    });
+
+    const length = countProductCart?.product.length
+
+    revalidateTag("cart");
+    return NextResponse.json({ message: "Sample Message", count: length }, { status: 200 });
 }
+
