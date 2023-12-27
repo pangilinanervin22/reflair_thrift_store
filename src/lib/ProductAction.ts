@@ -21,7 +21,7 @@ export async function ProductCreateAction(data: PostProduct) {
 
 
     } catch (error) {
-        return { message: "Product creation failed", error: error }
+        return { message: "Product creation failed", error: true }
     } finally {
         revalidatePath('/admin/product');
         revalidatePath('/product');
@@ -30,6 +30,16 @@ export async function ProductCreateAction(data: PostProduct) {
 
 export async function ProductUpdateAction(id: string, data: PostProduct) {
     try {
+        const productValidate = await prisma.product.findUnique({
+            where: {
+                id: id,
+                order: null,
+            }
+        });
+
+        if (!productValidate)
+            return { message: "Product is currently on order", error: true }
+
         const res = await prisma.product.update({
             where: {
                 id: id,
@@ -50,7 +60,7 @@ export async function ProductUpdateAction(id: string, data: PostProduct) {
             return { message: "Product updated", ok: true }
 
     } catch (error) {
-        return { message: "Product update failed", error: error }
+        return { message: "Product update failed", error: true }
     } finally {
         revalidatePath('/admin/product');
         revalidatePath('/product');
@@ -111,7 +121,7 @@ export async function ProductDeleteAction(id: string) {
         return { message: "Product deleted", ok: true }
 
     } catch (error) {
-        return { message: "Deleting Failed", error: error }
+        return { message: "Deleting Failed", error: true }
     } finally {
         revalidatePath('/admin/product');
         revalidatePath('/product');

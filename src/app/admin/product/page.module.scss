@@ -24,3 +24,18 @@
     height: 76%;
   }
 }
+
+.dialog {
+  text-align: left;
+
+  >:first-child {
+    font-size: 24px;
+    margin-bottom: 20px;
+    font-weight: bold;
+  }
+
+  >:last-child {
+    margin-bottom: 10px;
+    font-size: 16px;
+  }
+}

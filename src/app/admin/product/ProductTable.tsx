@@ -8,6 +8,7 @@ import { ProductDeleteAction } from "@/lib/ProductAction";
 import { useState } from "react";
 import { Product } from "@prisma/client";
 import style from "./page.module.scss";
+import { toast } from "react-toastify";
 
 const content: TableStructure = {
     id: "id",
@@ -27,7 +28,17 @@ export default function ProductTable({ data }: { data: Product[] }) {
 
     return (
         <>
-            <Dialog onClose={() => { }} onOk={() => { ProductDeleteAction(currentProductId) }}>
+            <Dialog onClose={() => { }} onOk={async () => {
+                const loading = toast("Deleting product...");
+                const res = await ProductDeleteAction(currentProductId)
+
+                if (res.ok)
+                    toast.update(loading, { type: "success", render: res.message });
+                else if (res.error)
+                    toast.update(loading, { type: "error", render: res.message });
+                else
+                    toast.update(loading, { type: "error", render: "Something went wrong!" });
+            }}>
                 <div className={style.dialog}>
                     <h4>Are you sure want to delete?</h4>
                     <p>This will product will delete. You cannot undo this action.</p>

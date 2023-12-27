@@ -6,10 +6,8 @@ export default async function ProductDashboardPage() {
   const product = await prisma.product.findMany();
 
   return (
-    <>
-      <section className={style.section}>
-        <ProductTable data={product} />
-      </section>
-    </>
+    <section className={style.section}>
+      <ProductTable data={product} />
+    </section>
   )
 }
