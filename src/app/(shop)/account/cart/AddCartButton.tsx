@@ -1,7 +1,6 @@
 "use client"
 
 import { CartAddAction } from '@/lib/CartAction';
-import { revalidateTag } from 'next/cache';
 import { useRouter } from 'next/navigation';
 import React from 'react'
 import { toast } from 'react-toastify';
@@ -16,7 +15,7 @@ interface Props {
 export default function AddCartButton({ item_id, classStyle, email, children }: Props) {
     const router = useRouter();
     async function handleClick() {
-        if (email === null) {
+        if (!email) {
             toast.error("Please login to add to cart");
             router.push("/login");
             return;
@@ -28,7 +27,6 @@ export default function AddCartButton({ item_id, classStyle, email, children }: 
             toast.success(res.message);
         else
             toast.error(res.message);
-
     }
 
     return (

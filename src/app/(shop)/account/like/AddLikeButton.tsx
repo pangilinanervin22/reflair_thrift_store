@@ -16,7 +16,7 @@ export default function AddLikeButton({ email, item_id, classStyle, children }: 
     const router = useRouter();
 
     async function handleClick() {
-        if (email === null) {
+        if (!email) {
             toast.error("Please login to add to cart");
             router.push("/login");
             return;
