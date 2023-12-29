@@ -8,13 +8,11 @@ import style from './NavigationBar.module.scss'
 import IconHome_svg from '@/assets/IconHome_svg'
 import IconPerson_svg from '@/assets/IconPerson_svg'
 import IconMoney_svg from '@/assets/IconMoney_svg'
-import IconHeart_svg from '@/assets/IconHeart_svg'
 import DropDownHover from '@/components/DropDownHover'
-import { signOut } from "next-auth/react";
 import IconLogout_svg from '@/assets/IconLogout_svg'
-import IconProduct_svg from '@/assets/IconProduct_svg'
 import IconCloth_svg from '@/assets/IconCloth_svg'
 import IconOrder_svg from '@/assets/IconOrder_svg'
+import { signOut } from "next-auth/react";
 
 
 export default function NavigationBar({ name }: { name: string }) {
@@ -22,9 +20,7 @@ export default function NavigationBar({ name }: { name: string }) {
 
     return (
         <nav className={style.nav_container}>
-            <h3 onClick={() => {
-                window.location.replace("/");
-            }}>Reflair</h3>
+            <h3 onClick={() => window.location.replace("/")}>Reflair</h3>
             <div className={style.navigation_bar}>
                 <Link href="/admin/"
                     className={pathname.endsWith("/admin") ? style.active : ""}>

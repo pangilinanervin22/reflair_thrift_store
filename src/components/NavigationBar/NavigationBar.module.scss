@@ -1,5 +1,6 @@
 .nav {
   width: 100%;
+  z-index: 1000;
   position: -webkit-sticky;
   position: sticky;
   top: 0;
@@ -17,7 +18,7 @@
   font-size: 48px;
   font-weight: 400;
   text-align: center;
-  padding-block: 16px;
+  padding-block: 12px;
   font-family: Playfair Display;
   font-size: 42px;
   font-weight: 400;
