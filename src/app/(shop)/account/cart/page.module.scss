@@ -1,11 +1,10 @@
 .main_container {
   display: flex;
-  justify-content: center;
   flex-direction: column;
   max-width: 1080px;
   width: 75vw;
   padding: 20px 0;
-  gap: 16px;
+  height: 100vh;
 
   .no_item {
     width: 100%;
@@ -15,6 +14,11 @@
   .with_item {
     width: 100%;
     text-align: right;
+    margin-bottom: 16px;
+    font-size: 20px;
+    font-weight: 500;
+    background: black;
+    color: white;
   }
 }
 
@@ -23,6 +27,20 @@
   flex-direction: column;
   gap: 16px;
   width: 100%;
+  height: 60%;
+  overflow-y: scroll;
+  margin-bottom: 16px;
+  padding-right: 16px;
+
+  &::-webkit-scrollbar {
+    width: 12px;
+    background-color: #F5F5F5;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
+    background-color: red;
+  }
 }
 
 .product_card {
@@ -38,8 +56,8 @@
     gap: 16px;
 
     img {
-      width: 200px;
-      height: 200px;
+      width: 130px;
+      height: 130px;
       border: 1px solid #3333;
     }
 
@@ -52,20 +70,31 @@
     display: flex;
     align-items: flex-end;
     flex-direction: column;
-    height: auto;
     gap: 16px;
 
-    button {
-      height: 32px;
-      padding: 8px 16px;
-      color: white;
-      background: red;
+    >:first-child {
+      font-size: 20px;
     }
+
+    >:last-child {
+      display: flex;
+    }
+
+    svg {
+      cursor: pointer;
+      fill: #585858;
+
+      &:hover {
+        color: red;
+      }
+    }
+
   }
 }
 
 .checkout {
   width: 100%;
+  height: 20%;
   display: flex;
   justify-content: space-between;
   border-top: 3px solid black;
@@ -73,6 +102,7 @@
   text-align: right;
 
   button {
+    font-size: 16px;
     padding: 8px 64px;
     background-color: black;
     color: white;

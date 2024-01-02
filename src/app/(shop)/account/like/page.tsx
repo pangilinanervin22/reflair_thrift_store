@@ -9,8 +9,8 @@ import AddCartButton from "../cart/AddCartButton";
 import { redirect } from "next/navigation";
 
 export default async function LikePage() {
-    const session = await getServerSession(authOptions);
 
+    const session = await getServerSession(authOptions);
     if (!session?.user)
         redirect("/login");
 
@@ -54,10 +54,12 @@ export default async function LikePage() {
                                         <h1>₱ {item.price}</h1>
                                     </div>
                                     <div className={style.actions_container}>
-                                        <AddCartButton email={account.email} item_id={item.id}   >
+                                        <AddCartButton email={account.email} item_id={item.id}>
                                             <button className={style.cart}>ADD TO CART</button>
                                         </AddCartButton>
-                                        <RemoveLikeButton classStyle={style.remove} email={account.email} item_id={item.id} />
+                                        <RemoveLikeButton email={account.email} item_id={item.id} >
+                                            <button className={style.remove}>REMOVE</button>
+                                        </RemoveLikeButton>
                                     </div>
                                 </div>
                             ))}

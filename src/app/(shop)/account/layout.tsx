@@ -1,9 +1,8 @@
 "use client"
 
-import IconHome_svg from '@/assets/IconHome_svg';
 import IconProfile_svg from '@/assets/IconProfile_svg';
 import Link from 'next/link';
-import { redirect, usePathname, useRouter } from 'next/navigation';
+import { redirect, usePathname } from 'next/navigation';
 import React from 'react'
 import style from './layout.module.scss';
 import IconOrder_svg from '@/assets/IconOrder_svg';
@@ -17,39 +16,36 @@ export default function AccountLayout({ children, }: { children: React.ReactNode
 
     const { status }: any = useSession();
 
-    if (status !== "loading" && status === "unauthenticated")
-        redirect("/account");
+    if (status !== "loading" && status !== "authenticated")
+        redirect("/login");
 
-    // TODO : CREATE A LAYOUT FOR ACCOUNT
     return (
-        <>
-            <main className={style.main_layout} >
-                <div className={style.side_bar}>
-                    <Link href="/account/" className={pathname.endsWith("/account") ? style.active : ""}>
-                        <IconProfile_svg />
-                        <p>Account</p>
-                    </Link>
-                    <Link href="/account/order/" className={pathname.startsWith("/account/order") ? style.active : ""}>
-                        <IconOrder_svg />
-                        <p>Order</p>
-                    </Link>
-                    <Link href="/account/cart/" className={pathname.startsWith("/account/cart") ? style.active : ""}>
-                        <IconCart_svg />
-                        <p>Cart</p>
-                    </Link>
-                    <Link href="/account/like/" className={pathname.startsWith("/account/like") ? style.active : ""}>
-                        <IconHeart_svg />
-                        <p>Like</p>
-                    </Link>
-                    <div onClick={() => signOut()} >
-                        <IconLogout_svg />
-                        <p>Logout</p>
-                    </div>
+        <main className={style.main_layout} >
+            <div className={style.side_bar}>
+                <Link href="/account/" className={pathname.endsWith("/account") ? style.active : ""}>
+                    <IconProfile_svg />
+                    <p>Account</p>
+                </Link>
+                <Link href="/account/order/" className={pathname.startsWith("/account/order") ? style.active : ""}>
+                    <IconOrder_svg />
+                    <p>Order</p>
+                </Link>
+                <Link href="/account/cart/" className={pathname.startsWith("/account/cart") ? style.active : ""}>
+                    <IconCart_svg />
+                    <p>Cart</p>
+                </Link>
+                <Link href="/account/like/" className={pathname.startsWith("/account/like") ? style.active : ""}>
+                    <IconHeart_svg />
+                    <p>Like</p>
+                </Link>
+                <div onClick={() => signOut()} >
+                    <IconLogout_svg />
+                    <p>Logout</p>
                 </div>
-                <section className={style.content}>
-                    {children}
-                </section>
-            </main>
-        </>
+            </div>
+            <section className={style.content}>
+                {children}
+            </section>
+        </main>
     )
 }
