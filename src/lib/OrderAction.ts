@@ -1,7 +1,7 @@
 'use server'
 
 import prisma from "@/db/prisma";
-import { Prisma } from "@prisma/client";
+import { OrderStatus, Prisma } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 
 
@@ -177,6 +177,28 @@ export async function OrderUpdateAction(order_id: string, data: any) {
         return { message: "Order updated", ok: true }
     } catch (error) {
         return { message: "Order error occurred", error: error }
+    }
+}
+
+export async function OrderUpdateStatusAction(order_id: string, status: OrderStatus) {
+    try {
+        const order = await prisma.order.update({
+            where: {
+                id: order_id
+            },
+            data: {
+                order_status: status
+            }
+        });
+
+        if (!order)
+            return { message: "Order not found", error: true }
+
+        return { message: "Order updated", ok: true }
+    } catch (error) {
+        return { message: "Order error occurred", error: error }
+    } finally {
+        revalidatePath('/admin/order');
     }
 }
 
