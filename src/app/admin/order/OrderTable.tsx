@@ -9,6 +9,7 @@ import formatDate from "@/utils/formatDate";
 import { OrderDeleteAction } from "@/lib/OrderAction";
 import { toast } from "react-toastify";
 import { CreateDummyProduct } from "@/lib/dummy";
+import Status from "@/components/status/Status";
 
 const content: TableStructure = {
     id: "id",
@@ -16,14 +17,18 @@ const content: TableStructure = {
     searchPath: "name",
     structure: [
         { label: "Name", path: "name", width: "300px", fontSize: "16px" },
-        { label: "ID", path: "id", width: "300px", fontSize: "16px" },
+        { label: "ID", path: "id", width: "200px", fontSize: "16px" },
         {
             label: "Order Date", path: "order_date", width: "200px",
             fontSize: "20px",
             element: ((val) => <span>{formatDate(val["order_date"])}</span>),
         },
         { label: "Total Price", path: "total_price", width: "160px", fontSize: "16px" },
-        { label: "Status", path: "order_status", width: "100px", fontSize: "16px" },
+        {
+            label: "Status", path: "status", width: "200px",
+            fontSize: "20px",
+            element: ((val) => <Status status={val["order_status"]} />),
+        },
     ]
 };
 
@@ -36,13 +41,11 @@ export default function OrderTable({ data }: { data: Order[] }) {
         const order = await OrderDeleteAction(id);
 
 
-        if (order.ok) {
+        if (order.ok)
             toast.update(loading, { render: order.message, type: "success", isLoading: false, autoClose: 2000 });
-            return;
-        } else if (order.error) {
+        else if (order.error)
             toast.update(loading, { render: order.message, type: "error", isLoading: false, autoClose: 2000 });
-            return;
-        }
+
     }
 
     return (
@@ -64,8 +67,6 @@ export default function OrderTable({ data }: { data: Order[] }) {
     );
 
     function onHandleDelete(data: any) {
-        console.log(data.id);
-
         setCurrentProductId(data.id);
         router.push(`/admin/order?showDialog=y`);
     }
