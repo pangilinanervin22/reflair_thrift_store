@@ -36,14 +36,12 @@ const Product: React.FC<ProductProps> = ({ product, session }) => {
         <h4>{`₱ ${product.price}`}</h4>
       </div>
       <div className={style.product_action}>
-        <section className={style.button_container}>
-          <AddCartButton email={session?.user.email} item_id={product.id} >
-            <button className={style.cart}>ADD TO CART</button>
-          </AddCartButton>
-          <AddLikeButton email={session?.user.email} item_id={product.id}  >
-            <button className={style.like}>LIKE</button>
-          </AddLikeButton>
-        </section>
+        <AddCartButton email={session?.user.email} item_id={product.id} >
+          <button className={style.product_cart}>ADD TO CART</button>
+        </AddCartButton>
+        <AddLikeButton email={session?.user.email} item_id={product.id}  >
+          <button className={style.product_like}>LIKE</button>
+        </AddLikeButton>
       </div>
     </div>
   );

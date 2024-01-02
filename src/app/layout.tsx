@@ -6,8 +6,15 @@ import '@/scss/globals.scss'
 import "@uploadthing/react/styles.css";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { PT_Sans_Caption } from 'next/font/google'
+import { Playfair_Display } from 'next/font/google'
 
-const inter = Inter({ subsets: ['latin'] })
+const font = PT_Sans_Caption({
+  display: 'swap',
+  weight: "400",
+  subsets: ['latin'],
+});
+
 export const metadata: Metadata = {
   title: 'ReFlair',
   description: 'Thrift store: Unearth the Hidden Flair of Timeless Fashion',
@@ -22,12 +29,15 @@ export default async function RootLayout({
 
 
   return (
-    <html lang="en">
-      <body className={inter.className}>
+    <html lang="en" className={font.className}>
+      <body>
         <SessionProvider session={session}>
           {children}
         </SessionProvider>
-        <ToastContainer position='bottom-center' />
+        <ToastContainer
+          position='bottom-center'
+          limit={3}
+        />
       </body>
     </html>
   )
