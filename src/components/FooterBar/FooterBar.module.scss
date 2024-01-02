@@ -12,14 +12,15 @@
 .left_column {
   margin-left: 3rem;
   width: 60%;
+
   h1 {
     color: white;
     font-size: 50px;
     font-weight: 400;
-    font-family: Playfair Display;
     font-weight: 400;
     line-height: normal;
   }
+
   h4 {
     color: white;
     font-size: 15px;
@@ -29,16 +30,18 @@
 .right_column {
   margin-top: 2rem;
   justify-content: left;
+
   h1 {
     color: white;
     font-size: 30px;
-    font-family: Playfair Display;
     text-align: center;
   }
+
   li {
     float: right;
     padding: 15px 25px;
   }
+
   a {
     text-decoration: none;
     color: white;
@@ -48,6 +51,7 @@
     height: 50px;
     width: 50px;
   }
+
   &:hover {
     cursor: pointer;
   }
@@ -99,6 +103,7 @@
     padding: 10px;
   }
 }
+
 .row3_bottom {
   a {
     color: white;

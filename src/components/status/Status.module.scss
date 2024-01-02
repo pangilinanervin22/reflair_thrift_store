@@ -1,0 +1,32 @@
+.completed,
+.pending,
+.cancelled,
+.refunded {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: 500;
+    padding: 4px 16px;
+    border-radius: 16px;
+}
+
+.completed {
+    color: #2ecc71;
+    background: #d4f5d4;
+}
+
+.pending {
+    color: #f1c40f;
+    background: #f9f7d4;
+}
+
+.cancelled {
+    color: #e74c3c;
+    background: #f9d4d4;
+}
+
+.refunded {
+    color: #3498db;
+    background: #d4eaf5;
+}

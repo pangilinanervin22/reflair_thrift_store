@@ -1,4 +1,4 @@
-'use server'
+
 
 import Link from 'next/link'
 import style from "./NavigationBar.module.scss"
@@ -6,29 +6,38 @@ import IconSearch_svg from '@/assets/IconSearch_svg'
 import IconHeart_svg from '@/assets/IconHeart_svg'
 import IconProfile_svg from '@/assets/IconProfile_svg'
 import IconCart_svg from '@/assets/IconCart_svg'
-import { useSession } from 'next-auth/react'
 import { getServerSession } from 'next-auth'
-import { useEffect, useState } from 'react';
+import { Playfair_Display } from 'next/font/google'
+
+const font = Playfair_Display({
+    display: 'swap',
+    weight: "400",
+    subsets: ['latin'],
+});
 
 export default async function NavigationBar() {
     const session = await getServerSession();
     const email = session ? session.user.email : "";
-    const response = await fetch(`http://localhost:3000/api/cart/`,
-        {
-            method: "POST",
-            body: JSON.stringify({ email }),
-            next: { tags: ["cart"] },
-            cache: "no-cache",
-        }
-    );
+    let count = "";
 
-    const data = await response.json();
-    const count = data.count ? data.count : "";
+    if (email) {
+        const response = await fetch(`http://localhost:3000/api/cart/`,
+            {
+                method: "POST",
+                body: JSON.stringify({ email }),
+                next: { tags: ["cart"] },
+                cache: "no-cache",
+            }
+        );
+
+        const data = await response.json();
+        count = data.count;
+    }
 
     return (
         <>
             <nav className={style.nav}>
-                <Link href="/"><h1 className={style.logo}>ReFlair</h1></Link>
+                <Link href="/"><h1 className={`${style.logo} ${font.className}`}>ReFlair</h1></Link>
                 <section className={style.section_list}>
                     <div><Link href="/product/women" className={style.nav_link}>WOMEN</Link></div>
                     <div><Link href="/product/men" className={style.nav_link}>MEN</Link></div>

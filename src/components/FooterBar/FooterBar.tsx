@@ -1,6 +1,13 @@
 import Link from "next/link";
 import style from "./FooterBar.module.scss"
 import Image from "next/image";
+import { Playfair_Display } from 'next/font/google'
+
+const font = Playfair_Display({
+    display: 'swap',
+    weight: "400",
+    subsets: ['latin'],
+});
 
 export default function FooterBar() {
     return (
@@ -9,7 +16,9 @@ export default function FooterBar() {
                 <div className="Column1">
                     <div className={style.footer_flex_row1}>
                         <div className={style.left_column}>
-                            <Link href="/"><h1>ReFlair</h1></Link>
+                            <Link href="/" className={font.className}>
+                                <h1>ReFlair</h1>
+                            </Link>
                             <h4> Unearth the Hidden Flair of Timeless Fashion</h4>
                         </div>
 
