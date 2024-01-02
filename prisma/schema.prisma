@@ -86,8 +86,8 @@ enum OrderStatus {
   pending
   processing
   shipped
-  delivered
-  canceled
+  cancelled
+  received
 }
 
 enum Role {
