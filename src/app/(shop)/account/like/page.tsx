@@ -64,7 +64,15 @@ export default async function LikePage() {
                                 </div>
                             ))}
                         </div>
-                    </> : <h1>No Liked Product</h1>}
+                    </> : <div className={style.main_container}>
+                            <div className={style.cart_pic}>
+                            <Image src={"/assets/images/like_img.webp"} alt='wew' width={"100"} height={"100"} />
+                            </div>
+                            <h1 className={style.no_item}>
+                              You currently have no liked items.</h1>
+                            <button className={style.back_button}>
+                               CONTINUE SHOPPING</button>
+                    </div>}
             </section>
         </>
     );
