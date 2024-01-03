@@ -10,15 +10,12 @@ interface SortOrderClientProps {
 
 export default function SortOrderClient({ status }: SortOrderClientProps) {
     const router = useRouter();
-
-
     const sortOrders = (status: string) => {
         if (status === '')
             router.push("/account/order");
         else
             router.push("/account/order?status=" + status);
     };
-    console.log(isActive("", status), status);
 
     return (
         <div className={style.status_container}>
@@ -26,7 +23,7 @@ export default function SortOrderClient({ status }: SortOrderClientProps) {
             <button className={`${style.status} ${isActive('pending', status)}`} onClick={() => sortOrders('pending')}>Pending</button>
             <button className={`${style.status} ${isActive('shipped', status)}`} onClick={() => sortOrders('shipped')}>Shipped</button>
             <button className={`${style.status} ${isActive('cancelled', status)}`} onClick={() => sortOrders('cancelled')}>Cancelled</button>
-            <button className={`${style.status} ${isActive('received', status)}`} onClick={() => sortOrders('received')}>Completed</button>
+            <button className={`${style.status} ${isActive('received', status)}`} onClick={() => sortOrders('received')}>Received</button>
         </div>
     )
 }

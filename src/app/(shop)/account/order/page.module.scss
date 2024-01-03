@@ -2,9 +2,9 @@
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    max-width: 1080px;
-    width: 75vw;
-    padding: 20px 0;
+    width: 100%;
+    padding: 20px;
+
 
     >:first-child {
         width: 100%;
@@ -13,6 +13,60 @@
     .order_container {
         width: 100%;
         padding: 24px;
+        height: 70vh;
+        overflow-y: auto;
+
+        .order {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            padding: 16px;
+            border: 2px solid #E0E0E0;
+            border-radius: 4px;
+            margin-bottom: 16px;
+
+            >:first-child {
+                width: 100%;
+                margin-bottom: 16px;
+                display: flex;
+                justify-content: space-between;
+            }
+
+            >:last-child {
+                width: 100%;
+                display: flex;
+                border-top: 1px solid #E0E0E0;
+                padding-top: 16px;
+                justify-content: flex-end;
+            }
+        }
+
+    }
+}
+
+.product {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    border-radius: 4px;
+    margin-bottom: 8px;
+
+    img {
+        width: 75px;
+        height: 75px;
+        object-fit: cover;
+        border-radius: 4px;
+    }
+
+    >:last-child {
+        margin-left: 16px;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
     }
 }
 
@@ -32,6 +86,7 @@
         background: none;
         border-bottom: 2px solid #E0E0E0;
         width: 20%;
+        padding-bottom: 8px;
         text-align: right;
     }
 
@@ -40,17 +95,31 @@
     }
 }
 
-
-
+.pending,
+.shipped,
+.cancelled,
+.received,
+.cancelled {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 500;
+    text-transform: uppercase;
+    padding: 8px;
+    width: 120px;
+    text-align: right;
+    border-radius: 24px;
+}
 
 .pending {
-    color: #FFC107;
-    background: #FFF9E5;
+    color: #FF9800;
+    background: #FFF3E0
 }
 
 .shipped {
     color: #2196F3;
-    background: #E5F3FF;
+    background: #E3F2FD;
 }
 
 .cancelled {
@@ -60,5 +129,5 @@
 
 .received {
     color: #4CAF50;
-    background: #E5FFF0;
+    background: #E8F5E9;
 }

@@ -1,6 +1,5 @@
 import prisma from "@/db/prisma";
 import { redirect } from "next/navigation"
-import formatDate from "@/utils/formatDate";
 import style from "./page.module.scss";
 import Image from "next/image";
 import Status from "@/components/status/Status";
@@ -12,7 +11,7 @@ interface PageProps {
     };
 }
 
-function formatDates(dateString: string): string {
+function formatDate(dateString: string): string {
     const options: Intl.DateTimeFormatOptions = {
         day: '2-digit',
         month: 'short',
@@ -59,7 +58,7 @@ export default async function OrderSlugPage({ params }: PageProps) {
                         </h3>
                         <Status status={order.order_status} />
                     </div>
-                    <h4>{formatDates(String((order.order_date)))}</h4>
+                    <h4>{formatDate(String((order.order_date)))}</h4>
                 </div>
                 <EditOrder propsOrder={order} />
             </article>

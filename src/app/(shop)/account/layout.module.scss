@@ -5,6 +5,7 @@
     width: 100vw;
     margin-top: 16px;
     margin-left: 64px;
+    height: 75vh;
 }
 
 .side_bar {
@@ -14,7 +15,7 @@
     align-items: flex-start;
     gap: 16px;
     width: 240px;
-    height: 560px;
+    height: 100%;
     background-color: #f5f5f5;
 
     >* {
@@ -57,7 +58,7 @@
 }
 
 .content {
-    min-height: 720px;
+    width: 80%;
     width: 80%;
     margin-left: 32px;
 }

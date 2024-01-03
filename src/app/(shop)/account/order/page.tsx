@@ -4,7 +4,7 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/db/options';
 import prisma from '@/db/prisma';
 import { redirect } from 'next/navigation';
-import formatDate from '@/utils/formatDate';
+import formatDate, { formatDateString } from '@/utils/formatDate';
 import { OrderStatus } from '@prisma/client';
 import SortOrderClient from './SortOrderClient';
 import Image from 'next/image';
@@ -24,6 +24,9 @@ export default async function OrderPage({ searchParams, }: PageProps) {
         },
         include: {
             product: true
+        },
+        orderBy: {
+            order_date: "desc"
         }
     });
 
@@ -44,20 +47,42 @@ export default async function OrderPage({ searchParams, }: PageProps) {
             <SortOrderClient status={status} />
             <div className={style.order_container}>
                 {listOrder.map((cur) => (
-                    <div className={style.order_card} key={cur.id}>
-                        <h4>Order id: {cur.id}</h4>
-                        <Image src={cur.product[0].image} width={100} height={100} alt={cur.product[0].name} />
-                        <p>Product name: {cur.product[0].name}</p>
-                        <p>Order status: {cur.order_status}</p>
-                        <p>Order date: {formatDate(cur.order_date)}</p>
+                    <div className={style.order} key={cur.id}>
                         <div>
-                            {cur.product.length} items
+                            <h4>{"Order In: " + formatDateString(cur.order_date)}</h4>
+                            <p className={getStatusStyle(cur.order_status)}>{cur.order_status}</p>
+                        </div>
+                        <div>
+                            {cur.product.map((product) => (
+                                <div className={style.product} key={product.id}>
+                                    <Image src={product.image} alt={product.name} width={100} height={100} />
+                                    <div>
+                                        <p>{product.name}</p>
+                                        <p>{product.price}</p>
+                                    </div>
+                                </div>))}
+                        </div>
+                        <div>
                             <p> Total price: {cur.total_price}</p>
                         </div>
-                        <p></p>
                     </div>
                 ))}
             </div>
         </div>
     )
+}
+
+function getStatusStyle(status: OrderStatus) {
+    switch (status) {
+        case "processing":
+            return style.processing;
+        case "received":
+            return style.received;
+        case "cancelled":
+            return style.cancelled;
+        case "shipped":
+            return style.shipped;
+        default:
+            return style.pending;
+    }
 }
