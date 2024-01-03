@@ -7,10 +7,9 @@ import { toast } from 'react-toastify';
 interface Props {
     email: string;
     product: string[] | undefined;
-    children?: React.ReactNode;
 }
 
-export default function CheckOutButton({ email, product, children }: Props) {
+export default function CheckOutButton({ email, product }: Props) {
 
     console.log(product?.length, "product", product);
 
@@ -28,9 +27,8 @@ export default function CheckOutButton({ email, product, children }: Props) {
     }
     return (
         <>
-            <div onClick={() => checkout()}>
-                {children}
-            </div>
+            <button onClick={() => checkout()}>CHECKOUT</button>
+            {/* <button onClick={() => GetAllOrdersAction(email)}>CHECKOUT</button> */}
         </>
     )
 }

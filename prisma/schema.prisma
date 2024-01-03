@@ -29,23 +29,22 @@ model Account {
 }
 
 model Product {
-  id        String        @id @default(auto()) @map("_id") @db.ObjectId
-  name      String
-  price     Float
-  image     String
-  size      String
-  category  String
-  color     String
-  material  String
-  tags      String[]
-  status    ProductStatus @default(available)
-  order_id  String?       @db.ObjectId
-  order     Order?        @relation(fields: [order_id], references: [id])
-  cart_id   String[]      @db.ObjectId
-  Cart      Cart[]        @relation(fields: [cart_id], references: [id])
-  like_id   String[]      @db.ObjectId
-  Like      Like[]        @relation(fields: [like_id], references: [id])
-  createdAt DateTime      @default(now())
+  id       String        @id @default(auto()) @map("_id") @db.ObjectId
+  name     String
+  price    Float
+  image    String
+  size     String
+  category String
+  color    String
+  material String
+  tags     String[]
+  status   ProductStatus @default(available)
+  order_id String?       @db.ObjectId
+  order    Order?        @relation(fields: [order_id], references: [id])
+  cart_id  String[]      @db.ObjectId
+  Cart     Cart[]        @relation(fields: [cart_id], references: [id])
+  like_id  String[]      @db.ObjectId
+  Like     Like[]        @relation(fields: [like_id], references: [id])
 }
 
 model Order {

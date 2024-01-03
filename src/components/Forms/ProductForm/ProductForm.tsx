@@ -154,7 +154,7 @@ export default function ProductForm({ product }: PageProps) {
                     </div>
                     <div className={style.action_button}>
                         <Link href="/admin/product"><button className={style.cancel}>Cancel</button></Link>
-                        <button className={style.submit} type="submit">Update</button>
+                        <button className={style.submit} type="submit">Register</button>
                     </div>
                 </form>
             </div>

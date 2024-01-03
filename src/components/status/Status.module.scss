@@ -1,8 +1,7 @@
-.received,
+.completed,
 .pending,
 .cancelled,
-.shipped,
-.processing {
+.refunded {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -12,12 +11,7 @@
     border-radius: 16px;
 }
 
-.processing {
-    color: #e67e22;
-    background: #f5e9d4;
-}
-
-.received {
+.completed {
     color: #2ecc71;
     background: #d4f5d4;
 }
@@ -32,7 +26,7 @@
     background: #f9d4d4;
 }
 
-.shipped {
+.refunded {
     color: #3498db;
     background: #d4eaf5;
 }
