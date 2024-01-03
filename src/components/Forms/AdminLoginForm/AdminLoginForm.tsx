@@ -68,8 +68,8 @@ export default function AdminLoginForm({ registering }: { registering: Function 
                     <label htmlFor="email">Password</label>
                     <input id="password" type="password" placeholder="Enter Password" required />
                     <button type="submit">Log In</button>
-                    <p>Don&#39;t have a account</p>
-                    <span onClick={() => registering()}>register here</span>
+                    <p>Don&#39;t have an account?</p>
+                    <span onClick={() => registering()}>Register Here</span>
                 </form>
             </section>
         </main>
