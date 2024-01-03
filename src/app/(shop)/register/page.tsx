@@ -7,7 +7,13 @@ import { CreateAccountAction } from "@/lib/AccountAction";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { validateEmail } from "@/utils/email_validation";
-import Image from "next/image";
+import { Playfair_Display } from 'next/font/google'
+
+const font = Playfair_Display({
+    display: 'swap',
+    weight: "700",
+    subsets: ['latin'],
+});
 
 export default function ClientRegisterPage() {
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -63,12 +69,13 @@ export default function ClientRegisterPage() {
 
     return (
         <section className={style.container}>
-            <div className={style.side}>
-                {/* Add your image tag or component here */}
-                <Image src={"/assets/images/imgRegister.jpg"} alt='wew' width={"800"} height={"1200"} />
+            <div className={`${style.side} ${font.className}`}>
+                <h1>Sign up to</h1>
+                <h1><span className={style.highlight}>Reinvent</span> your look</h1>
+                <h1>with <span className={style.highlight}>pre-loved</span> fashion.</h1>
             </div>
             <form onSubmit={handleSubmit}>
-                <h1>ReFlair</h1>
+                <h1 className={font.className}>ReFlair</h1>
                 <h4> Unearth the Hidden Flair of Timeless Fashion</h4>
                 <hr className={style.underline} />
                 <input

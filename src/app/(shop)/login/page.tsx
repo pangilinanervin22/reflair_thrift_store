@@ -65,29 +65,23 @@ export default function LoginPage() {
     };
 
     return (
-        <>
-            {status === "authenticated" ? <SignOut />
-                :
-                <section className={style.container}>
-                    <div className={style.side}>
-                        {/* Add your image tag or component here */}
-                        <Image src={"/assets/images/loginbgimage.jpg"} alt='wew' width={"800"} height={"1200"} />
-                    </div>
-                    <form onSubmit={handleSubmit}>
-                        <h1>Welcome to ReFlair</h1>
-                        <h4> Unearth the Hidden Flair of Timeless Fashion</h4>
-                        <hr className={style.underline} />
-                        <input id='email' type="text" placeholder='Enter Email' required />
-                        <input id='password' type="password" placeholder='Enter Password' required />
-                        <button type="submit">Log In</button>
-                        <p>Don&#39;t have an Account?</p>
-                        <Link href={"/register"}><span>Register Here</span></Link>
-                        <hr className={style.underline} />
-                    </form>
+        <section className={style.container}>
+            <div className={style.side}>
+                <Image src={"/assets/images/loginbgimage.jpg"} alt='wew' width={"1080"} height={"1080"} />
+            </div>
+            <form onSubmit={handleSubmit}>
+                <h1>Welcome to ReFlair</h1>
+                <h4> Unearth the Hidden Flair of Timeless Fashion</h4>
+                <hr className={style.underline} />
+                <input id='email' type="text" placeholder='Enter Email' required />
+                <input id='password' type="password" placeholder='Enter Password' required />
+                <button type="submit">Log In</button>
+                <p>Don&#39;t have an Account?</p>
+                <Link href={"/register"}><span>Register Here</span></Link>
+                <hr className={style.underline} />
+            </form>
+        </section>
 
-                </section>
-            }
-        </>
     );
 }
 
