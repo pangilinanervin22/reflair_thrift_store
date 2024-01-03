@@ -8,6 +8,7 @@ import formatDate, { formatDateString } from '@/utils/formatDate';
 import { OrderStatus } from '@prisma/client';
 import SortOrderClient from './SortOrderClient';
 import Image from 'next/image';
+import CancelOrderButton from './CancelOrderButton';
 
 interface PageProps {
     searchParams: { [key: string]: string | string[] | undefined }
@@ -46,14 +47,14 @@ export default async function OrderPage({ searchParams, }: PageProps) {
         <div className={style.main_container}>
             <SortOrderClient status={status} />
             <div className={style.order_container}>
-                {listOrder.map((cur) => (
-                    <div className={style.order} key={cur.id}>
+                {listOrder.map((order) => (
+                    <div className={style.order} key={order.id}>
                         <div>
-                            <h4>{"Order In: " + formatDateString(cur.order_date)}</h4>
-                            <p className={getStatusStyle(cur.order_status)}>{cur.order_status}</p>
+                            <h4>{"Order In: " + formatDateString(order.order_date)}</h4>
+                            <p className={getStatusStyle(order.order_status)}>{order.order_status}</p>
                         </div>
                         <div>
-                            {cur.product.map((product) => (
+                            {order.product.map((product) => (
                                 <div className={style.product} key={product.id}>
                                     <Image src={product.image} alt={product.name} width={100} height={100} />
                                     <div>
@@ -63,7 +64,11 @@ export default async function OrderPage({ searchParams, }: PageProps) {
                                 </div>))}
                         </div>
                         <div>
-                            <p> Total price: {cur.total_price}</p>
+                            <p> Order Total: {order.total_price}</p>
+                            {order.order_status === "received" && <p>Received Date: {formatDateString(order.ship_date || new Date())}</p>}
+                            {order.order_status === "pending" &&
+                                <CancelOrderButton order_id={order.id}
+                                    change_status="cancelled" />}
                         </div>
                     </div>
                 ))}
@@ -71,6 +76,7 @@ export default async function OrderPage({ searchParams, }: PageProps) {
         </div>
     )
 }
+
 
 function getStatusStyle(status: OrderStatus) {
     switch (status) {
