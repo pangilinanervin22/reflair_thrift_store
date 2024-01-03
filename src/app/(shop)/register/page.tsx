@@ -7,6 +7,7 @@ import { CreateAccountAction } from "@/lib/AccountAction";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { validateEmail } from "@/utils/email_validation";
+import Image from "next/image";
 
 export default function ClientRegisterPage() {
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -62,9 +63,14 @@ export default function ClientRegisterPage() {
 
     return (
         <section className={style.container}>
-            <h1>ReFlair</h1>
-            <p> Unearth the Hidden Flair of Timeless Fashion</p>
+            <div className={style.side}>
+                {/* Add your image tag or component here */}
+                <Image src={"/assets/images/imgRegister.jpg"} alt='wew' width={"800"} height={"1200"} />
+            </div>
             <form onSubmit={handleSubmit}>
+                <h1>ReFlair</h1>
+                <h4> Unearth the Hidden Flair of Timeless Fashion</h4>
+                <hr className={style.underline} />
                 <input
                     type="text"
                     id="name"
@@ -91,8 +97,9 @@ export default function ClientRegisterPage() {
                     required
                 />
                 <button type="submit">Register</button>
-                <p>if you already have account you can login here</p>
-                <span onClick={() => router.push("/login")}>login here</span>
+                <p>If you already have an account you can login here</p>
+                <span onClick={() => router.push("/login")}>Login Here</span>
+                <hr className={style.underline} />
             </form>
         </section>
     );
