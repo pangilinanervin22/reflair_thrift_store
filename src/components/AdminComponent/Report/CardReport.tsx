@@ -8,12 +8,23 @@ import prisma from "@/db/prisma";
 const NOW_MONTH = new Date().toLocaleString('default', { month: 'long' });
 
 export default async function CardReport() {
-
-    const total_product = prisma.product.count() || 100;
+    const productsWithoutOrders = await prisma.product.findMany({
+        where: {
+            order: null
+        }
+    }); const total_product = productsWithoutOrders.length || 0;
     const total_account = prisma.account.count() || 2;
+    const totalSales = await prisma.order.aggregate({
+        _sum: {
+            total_price: true
+        },
+        where: {
+            order_status: 'received'
+        }
+    });
 
     const report = {
-        sales: 2300,
+        sales: totalSales._sum.total_price,
         total_product: total_product,
         account: total_account,
     }
