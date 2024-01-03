@@ -2,6 +2,7 @@
 
 import prisma from "@/db/prisma"
 import bcrypt from "bcryptjs";
+import { revalidatePath } from "next/cache";
 
 interface CredentialsBody {
     name: string;
@@ -47,6 +48,8 @@ export async function CreateAccountAction(req: CredentialsBody) {
         return { message: "Account created", ok: true }
     } catch (error) {
         return { message: "Registration Failed", error: error }
+    } finally {
+        revalidatePath('/account');
     }
 }
 
@@ -70,6 +73,8 @@ export async function AccountDeleteAction(email: string) {
     } catch (error) {
         console.error("Error deleting account and cart:", error);
         return { message: "Deletion failed", error: error };
+    } finally {
+        revalidatePath('/account');
     }
 }
 
@@ -90,6 +95,8 @@ export async function AccountUpdateFormAction(data: UpdateCredentialsBody) {
         return { message: "Account updated", ok: true };
     } catch (error) {
         return { message: "Update failed", error: error };
+    } finally {
+        revalidatePath('/account');
     }
 }
 
