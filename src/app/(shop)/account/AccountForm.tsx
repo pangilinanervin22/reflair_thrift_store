@@ -45,8 +45,6 @@ export default function AccountForm({ user, barangay }: AccountFormProps) {
         setIsSubmitting(true);
         const loading = toast.loading("Product is pending");
 
-
-
         //action here
         const res = await AccountUpdateFormAction(accountValue);
         if (res?.ok) {
@@ -57,7 +55,7 @@ export default function AccountForm({ user, barangay }: AccountFormProps) {
             toast.update(loading, { render: res.message, type: "error", autoClose: 2000, isLoading: false });
         }
 
-        setIsSubmitting(false);; // Reset isSubmitting flag after submission
+        setIsSubmitting(false);
     }
     return (
         <section className={style.main_container}>

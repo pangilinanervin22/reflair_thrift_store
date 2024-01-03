@@ -13,7 +13,6 @@ import { signOut, useSession } from 'next-auth/react';
 
 export default function AccountLayout({ children, }: { children: React.ReactNode }) {
     const pathname = usePathname();
-
     const { status }: any = useSession();
 
     if (status !== "loading" && status !== "authenticated")

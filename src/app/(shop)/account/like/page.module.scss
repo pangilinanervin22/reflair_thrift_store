@@ -2,8 +2,7 @@
   display: flex;
   align-items: center;
   flex-direction: column;
-  max-width: 1080px;
-  width: 75vw;
+  width: 100%;
   padding: 20px 0;
   height: 100vh;
 
@@ -40,9 +39,15 @@
   background: white;
 
 }
+
 .cart_pic {
   display: flex;
-  img{width: 150px; height: 150px;}
+
+  img {
+    width: 150px;
+    height: 150px;
+  }
+
   margin-top: 50px;
   margin-bottom: -100px;
 
@@ -93,7 +98,7 @@
     letter-spacing: 1px;
     line-height: normal;
   }
- 
+
 }
 
 .actions_container {

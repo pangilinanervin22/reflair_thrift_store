@@ -1,6 +1,7 @@
 .main_layout {
     display: flex;
     justify-content: flex-start;
+    align-items: flex-start;
     width: 100vw;
     margin-top: 16px;
     margin-left: 64px;
@@ -57,6 +58,6 @@
 
 .content {
     min-height: 720px;
-    width: 75%;
+    width: 80%;
     margin-left: 32px;
 }
