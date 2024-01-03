@@ -1,8 +1,9 @@
 .main_layout {
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     width: 100vw;
     margin-top: 16px;
+    margin-left: 64px;
 }
 
 .side_bar {
@@ -56,6 +57,6 @@
 
 .content {
     min-height: 720px;
-    min-width: 720px;
-    margin-left: 64px;
+    width: 75%;
+    margin-left: 32px;
 }

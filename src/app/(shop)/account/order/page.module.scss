@@ -1,7 +1,64 @@
 .main_container {
     display: flex;
     justify-content: center;
+    flex-wrap: wrap;
     max-width: 1080px;
     width: 75vw;
     padding: 20px 0;
+
+    >:first-child {
+        width: 100%;
+    }
+
+    .order_container {
+        width: 100%;
+        padding: 24px;
+    }
+}
+
+.status_container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+    width: 100%;
+
+    .status {
+        display: flex;
+        justify-content: center;
+        font-size: 14px;
+        font-weight: 500;
+        text-transform: uppercase;
+        background: none;
+        border-bottom: 2px solid #E0E0E0;
+        width: 20%;
+        text-align: right;
+    }
+
+    .active {
+        border-bottom: 2px solid black;
+    }
+}
+
+
+
+
+.pending {
+    color: #FFC107;
+    background: #FFF9E5;
+}
+
+.shipped {
+    color: #2196F3;
+    background: #E5F3FF;
+}
+
+.cancelled {
+    color: #F44336;
+    background: #FFE5E5;
+}
+
+.received {
+    color: #4CAF50;
+    background: #E5FFF0;
 }
