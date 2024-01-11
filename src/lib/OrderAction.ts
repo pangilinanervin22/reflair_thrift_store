@@ -201,39 +201,3 @@ export async function OrderUpdateStatusAction(order_id: string, status: OrderSta
         revalidatePath('/admin/order');
     }
 }
-
-// export async function GetAllOrdersAction(email: string) {
-//     try {
-//         const account = await prisma.account.findUnique({
-//             where: {
-//                 email: email
-//             },
-//             include: {
-//                 order: {
-//                     include: {
-//                         product: true
-//                     }
-//                 }
-//             }
-//         });
-
-//         const orders = await prisma.order.findUnique({
-//             where: {
-//                 id: account?.order[0].id
-//             },
-//             include: {
-//                 product: true
-//             }
-//         });
-
-//         console.log(account?.order, orders, orders?.product.length);
-
-//         if (!account)
-//             return { message: "Account not found", error: true }
-
-//         return { orders: account.order, ok: true };
-//     } catch (error) {
-//         console.log(error);
-//         return { message: "Error occurred while retrieving orders", error: error }
-//     }
-// }
