@@ -1,16 +1,16 @@
 .main_container {
   display: flex;
   align-items: center;
+  justify-content: center;
   flex-direction: column;
   width: 100%;
   padding: 20px;
-  height: 100vh;
+  height: 75vh;
+  gap: 16px;
 
   .no_item {
     font-size: 20px;
     color: gray;
-    margin-top: 150px;
-    width: 100%;
     text-align: center;
   }
 
@@ -18,11 +18,17 @@
     border-radius: 20px;
     width: 230px;
     font-size: 18px;
-    margin-top: 20px;
     border: 1px solid violet;
     padding: 10px;
     color: violet;
     background: white;
+    text-decoration: none;
+
+    &:hover {
+      background: violet;
+      color: white;
+      cursor: pointer;
+    }
 
   }
 
@@ -33,10 +39,6 @@
       width: 150px;
       height: 150px;
     }
-
-    margin-top: 50px;
-    margin-bottom: -100px;
-
   }
 
   .with_item {

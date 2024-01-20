@@ -40,16 +40,20 @@ export default async function CartPage() {
     const total_price = product?.reduce((total, item) => total + item.price, 0);
 
     if (product?.length === 0 || !product)
-        return <div className={style.main_container}>
-            <div className={style.cart_pic}>
-                        {/* Add your image tag or component here */}
-                        <Image src={"/assets/images/shopping.png"} alt='wew' width={"100"} height={"100"} />
-                    </div>
-            <h1 className={style.no_item}>
-                There are no items in this cart.</h1>
-                <button className={style.back_button}> 
-                CONTINUE SHOPPING</button>
-                </div>;
+        return (
+            <div className={style.main_container}>
+                <div className={style.cart_pic}>
+                    <Image src={"/assets/images/shopping.png"} alt='wew' width={"100"} height={"100"} />
+                </div>
+                <h1 className={style.no_item}>
+                    There are no items in this cart.
+                </h1>
+                <Link href={"/product"}>
+                    <button className={style.back_button}>
+                        CONTINUE SHOPPING
+                    </button>
+                </Link>
+            </div>);
 
     return (
         <div className={style.main_container}>
