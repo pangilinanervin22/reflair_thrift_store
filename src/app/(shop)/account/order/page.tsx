@@ -19,18 +19,24 @@ export default async function OrderPage({ searchParams, }: PageProps) {
     if (!session?.user)
         redirect("/login");
 
-    const UserOrder = await prisma.order.findMany({
+    console.log(session?.user?.id, "session", session?.user);
+    const user = await prisma.account.findUnique({
         where: {
-            account_id: session?.user?.id
+            email: session?.user?.email
         },
         include: {
-            product: true
-        },
-        orderBy: {
-            order_date: "desc"
+            order: {
+                include: {
+                    product: true
+                },
+                orderBy: {
+                    order_date: "desc"
+                }
+            }
         }
     });
 
+    const UserOrder = user?.order || [];
     const status = searchParams.status as OrderStatus;
     let listOrder = structuredClone(UserOrder);
     if (status)
@@ -42,7 +48,6 @@ export default async function OrderPage({ searchParams, }: PageProps) {
             return true;
         });
 
-    console.log(status);
     return (
         <div className={style.main_container}>
             <SortOrderClient status={status} />
