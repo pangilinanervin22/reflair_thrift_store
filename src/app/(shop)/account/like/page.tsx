@@ -7,6 +7,7 @@ import prisma from "@/db/prisma";
 import RemoveLikeButton from "./RemoveLikeButton";
 import AddCartButton from "../cart/AddCartButton";
 import { redirect } from "next/navigation";
+import Link from "next/link";
 
 export default async function LikePage() {
 
@@ -32,48 +33,55 @@ export default async function LikePage() {
     }
 
     const product = account.like?.product;
+
+    console.log();
+
+    if (!product || !product.length)
+        return (
+            <div className={style.main_container}>
+                <div className={style.cart_pic}>
+                    <Image src={"/assets/images/like_img.webp"} alt='wew' width={"100"} height={"100"} />
+                </div>
+                <h1 className={style.no_item}>
+                    You currently have no liked items.</h1>
+                <Link href={"/product"}>
+                    <button className={style.back_button}>
+                        CONTINUE SHOPPING
+                    </button>
+                </Link>
+            </div>
+        )
+
+
     return (
-        <>
-            <section className={style.main_container}>
-                {product?.length ?
-                    <>
-                        <h1>Total Liked: {product.length}</h1>
-                        <div className={style.product_container}>
-                            {product.map((item) => (
-                                <div className={style.product_card} key={item.id}>
-                                    <Image
-                                        src={item.image}
-                                        width={400}
-                                        height={400}
-                                        quality={100}
-                                        alt="liked pic"
-                                    />
-                                    <div className={style.description}>
-                                        <h3>{item.name}</h3>
-                                        <h1>Size: {item.size}</h1>
-                                        <h1>₱ {item.price}</h1>
-                                    </div>
-                                    <div className={style.actions_container}>
-                                        <AddCartButton email={account.email} item_id={item.id}>
-                                            <button className={style.cart}>ADD TO CART</button>
-                                        </AddCartButton>
-                                        <RemoveLikeButton email={account.email} item_id={item.id} >
-                                            <button className={style.remove}>REMOVE</button>
-                                        </RemoveLikeButton>
-                                    </div>
-                                </div>
-                            ))}
+        <section className={style.main_container}>
+            <h1>Total Liked: {product.length}</h1>
+            <div className={style.product_container}>
+                {product.map((item) => (
+                    <div className={style.product_card} key={item.id}>
+                        <Image
+                            src={item.image}
+                            width={400}
+                            height={400}
+                            quality={100}
+                            alt="liked pic"
+                        />
+                        <div className={style.description}>
+                            <h3>{item.name}</h3>
+                            <h1>Size: {item.size}</h1>
+                            <h1>₱ {item.price}</h1>
                         </div>
-                    </> : <div className={style.main_container}>
-                            <div className={style.cart_pic}>
-                            <Image src={"/assets/images/like_img.webp"} alt='wew' width={"100"} height={"100"} />
-                            </div>
-                            <h1 className={style.no_item}>
-                              You currently have no liked items.</h1>
-                            <button className={style.back_button}>
-                               CONTINUE SHOPPING</button>
-                    </div>}
-            </section>
-        </>
+                        <div className={style.actions_container}>
+                            <AddCartButton email={account.email} item_id={item.id}>
+                                <button className={style.cart}>ADD TO CART</button>
+                            </AddCartButton>
+                            <RemoveLikeButton email={account.email} item_id={item.id} >
+                                <button className={style.remove}>REMOVE</button>
+                            </RemoveLikeButton>
+                        </div>
+                    </div>
+                ))}
+            </div>
+        </section>
     );
 }
