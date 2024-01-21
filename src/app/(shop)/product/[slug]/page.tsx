@@ -5,6 +5,11 @@ import AddCartButton from "../../account/cart/AddCartButton";
 import AddLikeButton from "../../account/like/AddLikeButton";
 import { authOptions } from "@/db/options";
 import { getServerSession } from "next-auth";
+import dynamic from 'next/dynamic'
+const SuggestionProduct = dynamic(() => import('./SuggestionProduct'), {
+  loading: () => <p>Suggested Product is loading...</p>,
+})
+
 
 interface PageProps {
   params: {
@@ -64,9 +69,9 @@ export default async function ProductPage({ params }: PageProps) {
           </ul>
         </section>
       </section>
-      <section>
-        {/* Suggestions Section */}
-        {/* <h4>You might also like</h4> */}
+      <section className={style.suggestion}>
+        <h3>You might also like</h3>
+        <SuggestionProduct category={product.category} exclude={product.id} />
       </section>
     </article>
   );
