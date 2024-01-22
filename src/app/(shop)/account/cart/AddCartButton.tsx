@@ -22,11 +22,10 @@ export default function AddCartButton({ item_id, classStyle, email, children }: 
         }
 
         const res = await CartAddAction(email, item_id);
-        console.log(res, "action");
         if (res?.ok)
-            toast.success(res.message);
+            toast.success(res.message, { toastId: item_id + "cartAddSuccess" });
         else
-            toast.error(res.message);
+            toast.error(res.message, { toastId: item_id + + "cartAddError" });
     }
 
     return (

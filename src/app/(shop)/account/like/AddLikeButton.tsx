@@ -1,6 +1,7 @@
 "use client"
 
 import { LikeAddAction, LikeRemoveAction } from '@/lib/LikeAction'
+import wait from '@/utils/wait';
 import { useRouter } from 'next/navigation';
 import React from 'react'
 import { toast } from 'react-toastify';
@@ -23,11 +24,10 @@ export default function AddLikeButton({ email, item_id, classStyle, children }: 
         }
 
         const res = await LikeAddAction(email, item_id);
-        console.log(res, "action");
         if (res?.ok)
-            toast.success(res.message);
+            toast.success(res.message, { toastId: item_id + "likeAddSuccess" });
         else
-            toast.error(res.message);
+            toast.error(res.message, { toastId: item_id + "likeAddError" });
     }
 
     return (

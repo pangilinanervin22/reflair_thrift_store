@@ -23,11 +23,10 @@ export default function RemoveLikeButton({ email, item_id, classStyle, children 
         }
 
         const res = await LikeRemoveAction(email, item_id);
-        console.log(res, "action");
         if (res?.ok)
-            toast.success(res.message);
+            toast.success(res.message, { toastId: item_id + "likeRemoveSuccess" });
         else
-            toast.error(res.message);
+            toast.error(res.message, { toastId: item_id + "likeRemoveError" });
     }
 
     return (

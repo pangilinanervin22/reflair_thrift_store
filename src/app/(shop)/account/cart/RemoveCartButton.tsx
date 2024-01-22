@@ -24,9 +24,9 @@ export default function RemoveCartButton({ email, item_id, classStyle, children 
         const res = await CartRemoveAction(email, item_id);
         console.log(res, "action");
         if (res?.ok)
-            toast.success(res.message);
+            toast.success(res.message, { toastId: item_id + "cartRemoveSuccess" });
         else
-            toast.error(res.message);
+            toast.error(res.message, { toastId: item_id + "cartRemoveError" });
     }
 
     return (
