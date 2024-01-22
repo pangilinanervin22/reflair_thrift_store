@@ -4,14 +4,10 @@
   justify-content: center;
   flex-direction: column;
   width: 100%;
-  padding: 20px;
-  height: 75vh;
   gap: 16px;
 
   >:first-child {
-    margin-bottom: 32px;
     text-align: center;
-    margin: 10px;
     font-family: "Poppins", sans-serif;
     font-size: 20px;
     font-weight: 900;
@@ -29,79 +25,63 @@
   text-align: center;
 }
 
-.back_button {
-  border-radius: 20px;
-  width: 230px;
-  font-size: 18px;
-  border: 1px solid violet;
-  padding: 10px;
-  color: violet;
-  background: white;
-  text-decoration: none;
-
-  &:hover {
-    background: violet;
-    color: white;
-    cursor: pointer;
-  }
-
-}
-
-.cart_pic {
-  display: flex;
-
-  img {
-    width: 150px;
-    height: 150px;
-  }
-
-}
-
 .product_container {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   gap: 16px;
+  width: 100%;
+  overflow-y: scroll;
+  padding: 16px;
+  height: 65vh;
 }
 
 .product_card {
   display: flex;
   flex-direction: column;
-  width: 300px;
+  width: 200px;
   background: transparent;
   color: transparent;
+  border: #e2dfda 2px solid;
+  height: fit-content;
 
   &:hover {
     box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
   }
 
   .description {
-    margin-block: 4px;
+    border: #e2dfda 0.5px solid;
+
+    h4 {
+      color: black;
+      font-size: 15px;
+      text-align: left;
+      font-family: "Poppins", sans-serif;
+      padding: 8px;
+    }
+
+    p {
+      color: black;
+      font-size: 13px;
+      text-align: left;
+      margin-left: 8px;
+      font-weight: 400;
+      letter-spacing: 1px;
+      line-height: normal;
+    }
+
+    >:last-child {
+      margin-bottom: 8px;
+    }
   }
 
   img {
     width: 100%;
-    height: 250px;
+    height: 200px;
     justify-content: center;
-    border: #e2dfda 2px solid;
   }
 
-  h3 {
-    color: black;
-    font-size: 15px;
-    text-align: left;
-    font-family: "Poppins", sans-serif;
-    padding: 10px;
-  }
 
-  h1 {
-    color: black;
-    font-size: 13px;
-    text-align: left;
-    margin-left: 0.5rem;
-    font-weight: 400;
-    letter-spacing: 1px;
-    line-height: normal;
-  }
 
 }
 
@@ -119,13 +99,12 @@
 
   &:hover {
     cursor: pointer;
-    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
   }
 }
 
 .cart {
   background-color: white;
-  border: #ccc1c1 2px solid;
+  border: #ccc1c1 1px solid;
   color: black;
 }
 

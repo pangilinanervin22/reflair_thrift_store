@@ -10,7 +10,6 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 
 export default async function LikePage() {
-
     const session = await getServerSession(authOptions);
     if (!session?.user)
         redirect("/login");
@@ -67,9 +66,9 @@ export default async function LikePage() {
                             alt="liked pic"
                         />
                         <div className={style.description}>
-                            <h3>{item.name}</h3>
-                            <h1>Size: {item.size}</h1>
-                            <h1>₱ {item.price}</h1>
+                            <h4>{item.name}</h4>
+                            <p>Size: {item.size}</p>
+                            <p>₱ {item.price}</p>
                         </div>
                         <div className={style.actions_container}>
                             <AddCartButton email={account.email} item_id={item.id}>
