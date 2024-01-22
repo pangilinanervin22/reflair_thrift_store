@@ -75,7 +75,7 @@ export default async function CartPage() {
                             </div>
                         </div>
                         <div className={style.action}>
-                            <p>₱ {item.price} </p>
+                            <p>₱{item.price} </p>
                             <div>
                                 <AddLikeButton email={account.email} item_id={item.id} >
                                     <IconHeartAdd_svg />
