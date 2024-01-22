@@ -36,6 +36,7 @@ export default async function RootLayout({
         </SessionProvider>
         <ToastContainer
           position='bottom-center'
+          autoClose={2000}
           limit={3}
         />
       </body>
