@@ -4,7 +4,6 @@
   flex-direction: row;
   height: 620px;
   width: 100%;
-  margin-block: 45px;
 
   .container_first_image {
     height: 100%;
@@ -70,6 +69,7 @@
 
     a {
       color: black;
+
       &:hover {
         color: red;
       }
@@ -121,7 +121,7 @@
     align-items: center;
     text-align: center;
 
-    & > * {
+    &>* {
       margin-bottom: 32px;
     }
 
@@ -147,6 +147,7 @@
     }
   }
 }
+
 /* 4th section*/
 .fourth_flex {
   display: flex;
@@ -217,6 +218,7 @@
   flex-direction: row;
   flex-flow: row-wrap;
 }
+
 .sec5_column1 {
   display: flex;
   flex-direction: column;
@@ -225,6 +227,7 @@
 
 .title1 {
   width: 380px;
+
   img {
     width: 380px;
     height: 450px;
@@ -247,6 +250,7 @@
 .title5 {
   width: 380px;
   margin-top: 3rem;
+
   img {
     width: 380px;
     height: 450px;
@@ -295,6 +299,7 @@
 .title4 {
   width: 400px;
   margin-top: 3rem;
+
   img {
     width: 400px;
     height: 250px;
@@ -316,6 +321,7 @@
 .title6 {
   width: 400px;
   margin-top: 3rem;
+
   img {
     width: 400px;
     height: 450px;
@@ -342,6 +348,7 @@
 /*ARTICLE 3*/
 .title3 {
   width: 400px;
+
   img {
     width: 400px;
     height: 450px;
@@ -363,6 +370,7 @@
 .title7 {
   width: 400px;
   margin-top: 3rem;
+
   img {
     width: 400px;
     height: 450px;

@@ -9,7 +9,6 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import IconTrash_svg from "@/assets/IconTrash_svg";
 import AddLikeButton from "../like/AddLikeButton";
-import IconHeart_svg from "@/assets/IconHeart_svg";
 import IconHeartAdd_svg from "@/assets/IconHeartAdd._svg";
 
 export default async function CartPage() {
