@@ -5,6 +5,8 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/db/options";
 import SortPage from "./SortPage";
 import { Prisma } from "@prisma/client";
+import Image from "next/image";
+import Link from "next/link";
 
 interface PageProps {
   searchParams: { [key: string]: string | string[] | undefined }
@@ -35,9 +37,23 @@ export default async function ProductAllPage({ searchParams, }: PageProps) {
       <h3>All Product</h3>
       <SortPage />
       <div className={style.product_container}>
-        {ListOfProduct.map((product) => (
+        {ListOfProduct.length ? ListOfProduct.map((product) => (
           <Product key={product.id} product={product} session={session} />
-        ))}
+        )) :
+          <div className={style.no_item}>
+            <Image src={"/assets/images/no_order.png"} alt='wew' width={"1920"} height={"1920"} />
+            <h2>
+              No Product Found
+            </h2>
+            <p>
+              Try checking your spelling or use more general terms
+            </p>
+            <Link href={"/product"}>
+              <button className={style.back_button}>
+                CONTINUE SHOPPING
+              </button>
+            </Link>
+          </div>}
       </div>
     </section>
   );
