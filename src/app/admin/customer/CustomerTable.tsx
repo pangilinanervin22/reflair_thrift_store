@@ -29,6 +29,7 @@ export default function CustomerTable({ data }: { data: Account[] }) {
         <>
             <Dialog onClose={() => { }} onOk={async () => {
                 const loading = toast("Deleting account...");
+
                 const res = await AccountDeleteAction(currentAccountId)
 
                 if (res.ok)
@@ -49,21 +50,16 @@ export default function CustomerTable({ data }: { data: Account[] }) {
                 structure={content}
                 handleUpdate={onHandleUpdate}
                 handleDelete={onHandleDelete}
-                handleAdd={onHandleAdd}
             />
         </>
     );
 
     function onHandleDelete(data: any) {
         setCurrentAccountId(data.id);
-        router.push(`/admin/product?showDialog=y`);
-    }
-
-    function onHandleAdd() {
-        router.push("/admin/product/create");
+        router.push(`/admin/customer?showDialog=y`);
     }
 
     function onHandleUpdate(data: any) {
-        router.push(`/admin/product/${data.id}`);
+        router.push(`/admin/customer/${data.id}`);
     }
 }

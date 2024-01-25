@@ -2,7 +2,7 @@
 'use server'
 
 import prisma from "@/db/prisma"
-import CustomerTable from "./AccountTable"
+import CustomerTable from "./CustomerTable"
 
 
 export default async function CustomerPage() {

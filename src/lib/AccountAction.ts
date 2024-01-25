@@ -53,9 +53,9 @@ export async function CreateAccountAction(req: CredentialsBody) {
     }
 }
 
-export async function AccountDeleteAction(email: string) {
+export async function AccountDeleteAction(id: string) {
     try {
-        const account = await prisma.account.findUnique({ where: { email }, include: { cart: true, like: true } });
+        const account = await prisma.account.findUnique({ where: { id }, include: { cart: true, like: true } });
         if (!account) {
             return { message: "Account not found", error: true };
         }
@@ -67,7 +67,7 @@ export async function AccountDeleteAction(email: string) {
         }
 
         // Delete the account
-        await prisma.account.delete({ where: { email } });
+        await prisma.account.delete({ where: { id } });
 
         return { message: "Account and associated cart deleted", ok: true };
     } catch (error) {
