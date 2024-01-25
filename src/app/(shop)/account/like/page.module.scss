@@ -18,13 +18,6 @@
 
 }
 
-.no_item {
-  font-size: 20px;
-  color: gray;
-  width: 100%;
-  text-align: center;
-}
-
 .product_container {
   display: flex;
   flex-wrap: wrap;
@@ -111,4 +104,41 @@
 .remove {
   background-color: red;
   color: white;
+}
+
+
+.no_item {
+  font-size: 20px;
+  color: gray;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 100%;
+  height: 75vh;
+
+  p {
+    font-size: 24px;
+  }
+
+  img {
+    width: 160px;
+    height: 160px;
+  }
+
+  button {
+    margin-top: 16px;
+    padding: 8px 32px;
+    color: violet;
+    border-radius: 8px;
+    border: 1px solid violet;
+    font-weight: 700;
+
+
+    &:hover {
+      background-color: violet;
+      color: white;
+    }
+  }
 }

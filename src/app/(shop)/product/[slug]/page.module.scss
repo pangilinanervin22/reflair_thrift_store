@@ -108,7 +108,7 @@
   a {
     text-decoration: none;
     color: black;
-    width: 23%;
+    width: 20%;
   }
 }
 
@@ -116,7 +116,7 @@
   display: flex;
   flex-direction: column;
   cursor: pointer;
-  width: 100%;
+
 
   &:hover {
     box-shadow: 0 0 1px 1px gray;
@@ -140,16 +140,16 @@
     align-items: flex-start;
     width: 100%;
     gap: 4px;
-    background: rgb(242, 242, 242);
-    padding: 16px;
+    margin-top: 8px;
 
     >:first-child {
-      font-size: 14px;
+      font-size: 18px;
       font-weight: 700;
+      text-transform: uppercase;
     }
 
     >:last-child {
-      font-size: 24px;
+      font-size: 14px;
       font-weight: 400;
     }
   }

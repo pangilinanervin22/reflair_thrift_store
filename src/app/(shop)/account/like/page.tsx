@@ -37,19 +37,18 @@ export default async function LikePage() {
 
     if (!product || !product.length)
         return (
-            <div className={style.main_container}>
-                <div className={style.cart_pic}>
-                    <Image src={"/assets/images/like_img.webp"} alt='wew' width={"100"} height={"100"} />
-                </div>
-                <h1 className={style.no_item}>
-                    You currently have no liked items.</h1>
+            <div className={style.no_item}>
+                <Image src={"/assets/images/like_img.webp"} alt='wew' width={"1920"} height={"1920"} />
+                <p>
+                    You currently have no liked items.
+                </p>
                 <Link href={"/product"}>
                     <button className={style.back_button}>
                         CONTINUE SHOPPING
                     </button>
                 </Link>
             </div>
-        )
+        );
 
 
     return (

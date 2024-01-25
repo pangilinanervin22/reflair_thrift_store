@@ -9,6 +9,7 @@ import { OrderStatus } from '@prisma/client';
 import SortOrderClient from './SortOrderClient';
 import Image from 'next/image';
 import CancelOrderButton from './CancelOrderButton';
+import Link from 'next/link';
 
 interface PageProps {
     searchParams: { [key: string]: string | string[] | undefined }
@@ -19,7 +20,6 @@ export default async function OrderPage({ searchParams, }: PageProps) {
     if (!session?.user)
         redirect("/login");
 
-    console.log(session?.user?.id, "session", session?.user);
     const user = await prisma.account.findUnique({
         where: {
             email: session?.user?.email
@@ -48,11 +48,13 @@ export default async function OrderPage({ searchParams, }: PageProps) {
             return true;
         });
 
+
+
     return (
         <div className={style.main_container}>
             <SortOrderClient status={status} />
             <div className={style.order_container}>
-                {listOrder.map((order) => (
+                {listOrder.length ? listOrder.map((order) => (
                     <div className={style.order} key={order.id}>
                         <div>
                             <h4>{"Order In: " + formatDateString(order.order_date)}</h4>
@@ -76,7 +78,19 @@ export default async function OrderPage({ searchParams, }: PageProps) {
                                     change_status="cancelled" />}
                         </div>
                     </div>
-                ))}
+                )) :
+                    <div className={style.no_item}>
+                        <Image src={"/assets/images/no_order.png"} alt='wew' width={"1920"} height={"1920"} />
+                        <p>
+                            There are no items in this cart.
+                        </p>
+                        <Link href={"/product"}>
+                            <button className={style.back_button}>
+                                CONTINUE SHOPPING
+                            </button>
+                        </Link>
+                    </div>
+                }
             </div>
         </div>
     )

@@ -1,7 +1,7 @@
 .main_container {
   display: flex;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: center;
   flex-direction: column;
   width: 100%;
   padding-top: 16px;
@@ -9,11 +9,7 @@
   height: 75vh;
   gap: 8px;
 
-  .no_item {
-    font-size: 20px;
-    color: gray;
-    text-align: center;
-  }
+
 
   .with_item {
     width: 100%;
@@ -115,5 +111,40 @@
     color: red;
     font-size: 24px;
     font-weight: 700;
+  }
+}
+
+.no_item {
+  font-size: 20px;
+  color: gray;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 100%;
+  height: 75vh;
+
+  p {
+    font-size: 24px;
+  }
+
+  img {
+    width: 160px;
+    height: 160px;
+  }
+
+  button {
+    margin-top: 16px;
+    padding: 8px 32px;
+    color: violet;
+    border-radius: 8px;
+    border: 1px solid violet;
+    font-weight: 700;
+
+    &:hover {
+      background-color: violet;
+      color: white;
+    }
   }
 }

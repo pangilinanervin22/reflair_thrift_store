@@ -40,19 +40,18 @@ export default async function CartPage() {
 
     if (product?.length === 0 || !product)
         return (
-            <div className={style.main_container}>
-                <div className={style.cart_pic}>
-                    <Image src={"/assets/images/shopping.png"} alt='wew' width={"100"} height={"100"} />
-                </div>
-                <h1 className={style.no_item}>
+            <div className={style.no_item}>
+                <Image src={"/assets/images/shopping.png"} alt='wew' width={"1920"} height={"1920"} />
+                <p>
                     There are no items in this cart.
-                </h1>
+                </p>
                 <Link href={"/product"}>
                     <button className={style.back_button}>
                         CONTINUE SHOPPING
                     </button>
                 </Link>
-            </div>);
+            </div>
+        );
 
     return (
         <div className={style.main_container}>
