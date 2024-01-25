@@ -1,6 +1,7 @@
 import Image from "next/image";
 import style from "./page.module.scss";
 import Link from "next/link";
+import ThreeProductImage from "@/components/ServerComponents/ThreeProductImage";
 
 export default function ShopMainPage() {
     return (
@@ -40,7 +41,7 @@ export default function ShopMainPage() {
 
 
                 <div className={style.container_second_image}>
-                    <Image
+                    {/* <Image
                         src="/assets/jackets/3.jpg"
                         alt="Sec2-Jacket3"
                         width={1920}
@@ -59,8 +60,8 @@ export default function ShopMainPage() {
                         alt="Sec2-Jacket1"
                         width={1920}
                         height={1080}
-                    />
-
+                    /> */}
+                    <ThreeProductImage />
                 </div>
             </section>
 
