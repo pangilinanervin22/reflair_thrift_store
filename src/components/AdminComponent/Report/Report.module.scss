@@ -1,0 +1,187 @@
+@import "./../../../scss/variable";
+
+
+.display_container {
+    @include flex_container(row, space-between);
+    height: 120px;
+    width: 80vw;
+    margin-block: 16px;
+
+    .display_item {
+        @include flex_container(column, flex-start, flex-start);
+        height: 100%;
+        width: 32%;
+        border: 2px solid black;
+        background: white;
+        border-radius: 10px;
+        padding: 16px;
+
+        >:first-child {
+            // font-family: $TitleFontFamily;
+            color: red;
+            // font-size: $MinorFontSize;
+        }
+
+        >:last-child {
+            @include flex_container(row, flex-start);
+            width: 100%;
+            height: 70%;
+
+
+            >:first-child {
+                height: 80%;
+                width: max-content;
+                margin-inline: 10px 30px;
+                fill: black;
+
+            }
+
+            >:last-child {
+                font-size: 50px;
+                color: black;
+            }
+        }
+    }
+}
+
+.chart_container {
+    @include flex_container(row, center, flex_start);
+    flex-wrap: wrap;
+    width: 100%;
+    color: black;
+    font-size: 14px;
+    gap: 24px;
+
+    >* {
+        @include flex_container(column);
+        border: 2px solid black;
+        border-radius: 10px;
+        background: white;
+        height: 100%;
+        padding: 10px 15px;
+    }
+
+    .bar {
+        text-align: left;
+        width: 800px;
+        height: 460px;
+    }
+
+    .pie {
+        text-align: left;
+        width: 360px;
+        height: auto;
+        border: 2px solid black;
+        font-size: large;
+    }
+}
+
+
+.other_container {
+    @include flex_container(row, center, flex_start);
+    flex-wrap: wrap;
+    width: 100%;
+    margin-top: 36px;
+    gap: 24px;
+
+    >* {
+        @include flex_container(column);
+        border: 2px solid black;
+        border-radius: 10px;
+        background: white;
+        height: 100%;
+        padding: 10px 15px;
+    }
+
+    .order {
+        text-align: left;
+        width: 760px;
+        height: 460px;
+    }
+
+    .trend {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        width: 400px;
+        height: 460px;
+        gap: 16px;
+
+        .container_product {
+            @include flex_container(column, space-between);
+            width: 100%;
+
+            .product {
+                @include flex_container(row, flex-start, center);
+                width: 100%;
+                height: 100%;
+                background: white;
+
+                img {
+                    width: 75px;
+                    height: 75px;
+                    margin-right: 10px;
+                }
+
+                >:first-child {
+                    font-size: 20px;
+                    font-weight: 800;
+                    color: black;
+                }
+            }
+        }
+    }
+}
+
+// create a style for the table order
+.table_order {
+    width: 700px;
+    height: 100%;
+    border-collapse: collapse;
+    border: 2px solid red;
+    font-size: 14px;
+
+    th {
+        border: 2px solid black;
+        background: #f1f1f1;
+        padding: 10px 15px;
+    }
+
+    td {
+        border: 2px solid black;
+        padding: 10px 15px;
+    }
+
+    //style depends on the status of the order
+    .status {
+        color: white;
+        font-weight: 800;
+        border-radius: 10px;
+        padding: 5px 10px;
+        font-size: 12px;
+    }
+
+    .status_pending {
+        background: #ffcc00;
+    }
+
+    .status_confirmed {
+        background: #00cc00;
+    }
+
+    .status_cancelled {
+        background: #ff0000;
+    }
+
+    .status_completed {
+        background: #0000ff;
+    }
+
+    .status_shipped {
+        background: #ff9900;
+    }
+
+    .status_delivered {
+        background: #00ccff;
+    }
+}

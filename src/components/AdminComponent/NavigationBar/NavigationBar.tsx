@@ -38,15 +38,15 @@ export default function NavigationBar({ name }: { name: string }) {
                     <IconCloth_svg />
                     <h4>Product</h4>
                 </Link>
-                <Link href="/admin/sales"
-                    className={pathname.startsWith("/admin/sales") ? style.active : ""}>
-                    <IconMoney_svg />
-                    <h4>Sales</h4>
-                </Link>
                 <Link href="/admin/order"
                     className={pathname.startsWith("/admin/order") ? style.active : ""}>
                     <IconOrder_svg />
                     <h4>Order</h4>
+                </Link>
+                <Link href="/admin/customer"
+                    className={pathname.startsWith("/admin/customer") ? style.active : ""}>
+                    <IconPerson_svg />
+                    <h4>Customer</h4>
                 </Link>
             </div>
             <div>

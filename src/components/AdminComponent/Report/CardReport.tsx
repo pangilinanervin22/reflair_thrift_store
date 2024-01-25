@@ -1,5 +1,5 @@
 import IconMoney_svg from "@/assets/IconMoney_svg";
-import styles from "./CardReport.module.scss"
+import styles from "./Report.module.scss"
 import IconCart_svg from "@/assets/IconCart_svg";
 import IconProfile_svg from "@/assets/IconProfile_svg";
 import prisma from "@/db/prisma";
@@ -22,6 +22,7 @@ export default async function CardReport() {
             order_status: 'received'
         }
     });
+
 
     const report = {
         sales: totalSales._sum.total_price,

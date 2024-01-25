@@ -1,14 +1,22 @@
 
 import React from 'react'
-import styles from './CardReport.module.scss'
-import CardReport from './CardReport'
 import SalesChart from './SalesChart'
 import { Product } from '@prisma/client'
-import Image from 'next/image'
+import dynamic from 'next/dynamic'
+import RecentProduct from './RecentProduct'
+import GraphExample from './GraphExample'
+import RecentTableOrder from './RecentTableOrder'
+import styles from './Report.module.scss'
+
 
 interface ReportPageProps {
     ProductArray: Product[]
 }
+
+const CardReport = dynamic(() => import('./CardReport'), {
+    loading: () => <div>Suggested Product is loading...</div>,
+})
+
 
 export default function ReportPage({ ProductArray }: ReportPageProps) {
     return (
@@ -19,20 +27,17 @@ export default function ReportPage({ ProductArray }: ReportPageProps) {
                     <h2 style={{ width: "100%" }}>Total Sales:</h2>
                     <SalesChart />
                 </div>
-                <div className={styles.trend}>
-                    <h2>Latest Product</h2>
-                    <div className={styles.container_product}>
-                        {ProductArray.map((cur) => (
-                            <div key={cur.id} className={styles.product}>
-                                <Image src={cur.image} alt={cur.name} width={100} height={100} />
-                                <div>
-                                    <p>{cur.name}</p>
-                                    <p>{cur.price}</p>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
+                <div className={styles.pie}>
+                    <h2 style={{ width: "100%" }}>Trend Chart</h2>
+                    <GraphExample product={ProductArray} />
                 </div>
+            </div>
+            <div className={styles.other_container}>
+                <div className={styles.order}>
+                    <h3 style={{ width: "100%" }}>Recent Orders</h3>
+                    <RecentTableOrder />
+                </div>
+                <RecentProduct FiveRecentProduct={ProductArray} />
             </div>
         </section>
     )

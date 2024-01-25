@@ -89,3 +89,5 @@ export default async function CheckoutPage() {
         </main>
     )
 }
+
+// TODO: FIX DESIGN AND BUG
