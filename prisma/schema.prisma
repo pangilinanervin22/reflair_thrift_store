@@ -58,6 +58,7 @@ model Order {
   city         String
   address      String
   barangay     String
+  payment_mode PaymentMode @default(cod)
   //  many to one order >-< account
   account_id   String?     @map("accountId") @db.ObjectId
   account      Account?    @relation(fields: [account_id], references: [id])
@@ -99,4 +100,11 @@ enum Role {
 enum ProductStatus {
   available
   unavailable
+}
+
+enum PaymentMode {
+  cod
+  gcash
+  paymaya
+  paypal
 }
