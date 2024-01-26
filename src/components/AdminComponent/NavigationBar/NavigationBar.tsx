@@ -7,7 +7,6 @@ import { usePathname } from "next/navigation"
 import style from './NavigationBar.module.scss'
 import IconHome_svg from '@/assets/IconHome_svg'
 import IconPerson_svg from '@/assets/IconPerson_svg'
-import IconMoney_svg from '@/assets/IconMoney_svg'
 import DropDownHover from '@/components/DropDownHover'
 import IconLogout_svg from '@/assets/IconLogout_svg'
 import IconCloth_svg from '@/assets/IconCloth_svg'
@@ -57,10 +56,6 @@ export default function NavigationBar({ name }: { name: string }) {
                     }
                     content={
                         <section className={style.dropdown_container}>
-                            <div className={style.dropdown_item} >
-                                <IconPerson_svg />
-                                <h2>Account</h2>
-                            </div>
                             <div className={style.dropdown_item}
                                 onClick={() => {
                                     signOut();
