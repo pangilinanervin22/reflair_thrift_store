@@ -7,6 +7,7 @@ import IconLocation_svg from '@/assets/IconLocation_svg';
 import style from './page.module.scss';
 import { Playfair_Display } from 'next/font/google'
 import { authOptions } from '@/db/options';
+import { toast } from 'react-toastify';
 
 const font = Playfair_Display({
     display: 'swap',
@@ -17,6 +18,8 @@ const font = Playfair_Display({
 
 export default async function CheckoutPage() {
     const session = await getServerSession(authOptions);
+    if (!session) redirect("/login");
+
     const account = await prisma.account.findUnique({
         where: {
             email: session?.user.email,
@@ -31,7 +34,9 @@ export default async function CheckoutPage() {
     });
 
     if (!account) redirect("/login");
-    if (account?.cart?.product.length === 0) redirect("/cart");
+    if (account?.cart?.product.length === 0) {
+        redirect("/account/cart")
+    };
 
     const total = account?.cart?.product.reduce((acc, item) => acc + item.price, 0);
 
@@ -44,7 +49,6 @@ export default async function CheckoutPage() {
             </section>
             <section className={style.checkout_content}>
                 <div className={style.product_container}>
-                    <h4>Products Ordered</h4>
                     <div>
                         {account.cart?.product.map((product) => (
                             <div className={style.product} key={product.id}>
@@ -55,35 +59,63 @@ export default async function CheckoutPage() {
                                         <p>{product.size}</p>
                                     </div>
                                 </div>
-                                <div>
-                                    {product.price}
+                                <div className={style.product_price}>
+                                    ₱{product.price}
                                 </div>
                             </div>))
                         }
                     </div>
                 </div>
-                <div className={style.product_total}>
-                    <h4>Subtotal: {total}</h4>
-                    <div className={style.checkout_action}>
-                        <button>{`<- shop more`}</button>
-                        <CheckOutButton email={account?.email} product={account?.cart?.product.map(item => item.id)} >
-                            <button >Checkout</button>
+                <div className={style.checkout_total}>
+                    <div className={style.total}>
+                        <p>{`Shipping Fee`}</p>
+                        <p>₱{50}</p>
+                    </div>
+                    <div className={style.total}>
+                        <p>{`Subtotal (${account.cart?.product.length} items)`}</p>
+                        <p>₱{total}</p>
+                    </div>
+                    <div className={style.action}>
+                        <div className={style.total}>
+                            <p>{`TOTAL :`}</p>
+                            <p>₱{total ? total + 50 : ""}</p>
+                        </div>
+                        <CheckOutButton account={account} product={account?.cart?.product.map(item => item.id)} >
+                            <button className={style.checkout_button}>PLACE ORDER NOW</button>
                         </CheckOutButton>
                     </div>
                 </div>
             </section>
             <section className={style.checkout_account}>
-                <div className={style.delivery_title}>
-                    <IconLocation_svg />
-                    <h3>Delivery Address</h3>
-                </div>
                 <div className={style.delivery_description}>
+                    <div className={style.delivery_title}>
+                        <IconLocation_svg />
+                        <h3>Delivery Address</h3>
+                    </div>
                     <label htmlFor="name">Name</label>
-                    <p>{account?.name} </p>
+                    <p>{account?.name}</p>
                     <label htmlFor="contact">Contact</label>
-                    <p>{account?.contact}</p>
+                    <p className={!account?.contact ? style.error : ''}>{account?.contact || 'Contact is required'}</p>
                     <label htmlFor="name">Address</label>
-                    <p>{`(${account.city})`}  {account?.address}</p>
+                    <p className={(!account?.barangay) ? style.error : ''}> {`(${account.city})`} {account?.barangay || 'Barangay is required'}</p>
+                    <p className={(!account?.address) ? style.error : ''}>   {account?.address || 'Address is required'}</p>
+                </div>
+                <div className={style.payment_method}>
+                    <h4>Payment Method</h4>
+                    <div className={style.choice_method}>
+                        <div>
+                            <input type="radio" name="payment" id="cod" value="cod" checked defaultChecked />
+                            <label htmlFor="cod">Cash on Delivery</label>
+                        </div>
+                        <div>
+                            <input type="radio" name="payment" id="gcash" value="gcash" disabled />
+                            <label htmlFor="gcash">GCash</label>
+                        </div>
+                        <div>
+                            <input type="radio" name="payment" id="paypal" value="paypal" disabled />
+                            <label htmlFor="paypal">Paypal</label>
+                        </div>
+                    </div>
                 </div>
             </section>
         </main>

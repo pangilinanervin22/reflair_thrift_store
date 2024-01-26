@@ -1,22 +1,20 @@
 'use client'
 
 import { OrderCreateAction } from '@/lib/OrderAction';
+import { Account } from '@prisma/client';
 import React from 'react'
 import { toast } from 'react-toastify';
 
 interface Props {
-    email: string;
+    account: Account;
     product: string[] | undefined;
     children?: React.ReactNode;
 }
 
-export default function CheckOutButton({ email, product, children }: Props) {
-
-    console.log(product?.length, "product", product);
-
+export default function CheckOutButton({ account, product, children }: Props) {
     const checkout = async () => {
         const loading = toast.loading("Order is being processed");
-        const order = await OrderCreateAction(email, product || []);
+        const order = await OrderCreateAction(account, product || []);
 
         if (order.ok) {
             toast.update(loading, { render: order.message, type: "success", isLoading: false, autoClose: 2000 });
