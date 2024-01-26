@@ -21,6 +21,7 @@ export default function SortOrderClient({ status }: SortOrderClientProps) {
         <div className={style.status_container}>
             <button className={`${style.status} ${isActive('', status)}`} onClick={() => sortOrders('')}>All</button>
             <button className={`${style.status} ${isActive('pending', status)}`} onClick={() => sortOrders('pending')}>Pending</button>
+            <button className={`${style.status} ${isActive('processing', status)}`} onClick={() => sortOrders('processing')}>Processing</button>
             <button className={`${style.status} ${isActive('shipped', status)}`} onClick={() => sortOrders('shipped')}>Shipped</button>
             <button className={`${style.status} ${isActive('cancelled', status)}`} onClick={() => sortOrders('cancelled')}>Cancelled</button>
             <button className={`${style.status} ${isActive('received', status)}`} onClick={() => sortOrders('received')}>Received</button>
