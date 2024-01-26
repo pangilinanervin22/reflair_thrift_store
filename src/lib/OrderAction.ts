@@ -1,15 +1,15 @@
 'use server'
 
 import prisma from "@/db/prisma";
-import { OrderStatus, Prisma } from "@prisma/client";
+import { Account, OrderStatus, Prisma } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 
 
-export async function OrderCreateAction(email: string, array_product_id: string[],) {
+export async function OrderCreateAction(account: Account, array_product_id: string[],) {
     try {
-        const account = await prisma.account.findUnique({
+        const findAccount = await prisma.account.findUnique({
             where: {
-                email: email
+                id: account.id
             },
             include: {
                 order: {
@@ -25,9 +25,9 @@ export async function OrderCreateAction(email: string, array_product_id: string[
             }
         });
 
-        if (!account)
+        if (!findAccount)
             return { message: "Account not found", error: true }
-        if (!account.address || !account.barangay || !account.city)
+        if (!findAccount.address || !findAccount.barangay || !findAccount.city)
             return { message: "Please complete your address", error: true }
 
         const array_product = await prisma.product.findMany({
@@ -45,12 +45,11 @@ export async function OrderCreateAction(email: string, array_product_id: string[
         const total_price = array_product.reduce((acc, curr) => acc + curr.price, 0);
         console.log(total_price);
 
-
         // disconnect product from cart and like
         await Promise.all([
             prisma.cart.update({
                 where: {
-                    account_id: account.id
+                    account_id: findAccount.id
                 },
                 data: {
                     product: {
@@ -62,7 +61,7 @@ export async function OrderCreateAction(email: string, array_product_id: string[
             }),
             prisma.like.update({
                 where: {
-                    account_id: account.id
+                    account_id: findAccount.id
                 },
                 data: {
                     product: {
@@ -76,11 +75,11 @@ export async function OrderCreateAction(email: string, array_product_id: string[
 
         const order = await prisma.order.create({
             data: {
-                total_price,
-                name: account.name,
-                address: account.address,
-                barangay: account.barangay,
-                city: account.city,
+                total_price: total_price + 50,
+                name: findAccount.name,
+                address: findAccount.address,
+                barangay: findAccount.barangay,
+                city: findAccount.city,
                 product: {
                     connect: array_product_id.map((id) => {
                         return { id: id }
@@ -88,7 +87,7 @@ export async function OrderCreateAction(email: string, array_product_id: string[
                 },
                 account: {
                     connect: {
-                        id: account.id
+                        id: findAccount.id
                     }
                 }
             }
