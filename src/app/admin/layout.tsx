@@ -20,7 +20,7 @@ export default async function AdminPageLayout({
 
     return (
         <>
-            <NavigationBar name={session.user?.name || "wew"} />
+            <NavigationBar name={session.user?.name || ""} />
             <main className={style.admin_layout}>
                 {children}
             </main>
