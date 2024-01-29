@@ -3,7 +3,7 @@ import style from "./page.module.scss";
 import { Product } from "./Product";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/db/options";
-import SortPage from "./SortPage";
+import SortPage from "./SortProduct";
 import { Prisma } from "@prisma/client";
 import Image from "next/image";
 import Link from "next/link";
@@ -29,7 +29,6 @@ export default async function ProductAllPage({ searchParams, }: PageProps) {
     orderBy,
   });
 
-  console.log(searchParams);
   let ListOfProduct = structuredClone(product);
 
   return (

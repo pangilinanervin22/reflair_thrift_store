@@ -1,15 +1,16 @@
 'use client'
 
 import React from 'react'
-import { useRouter } from 'next/navigation'
-
+import { useRouter, useSearchParams } from 'next/navigation'
+import style from './SortPorduct.module.scss'
 
 export default function SortPage() {
     const [search, setSearch] = React.useState('');
     const [sort, setSort] = React.useState('');
     const [debounceTimer, setDebounceTimer] = React.useState<NodeJS.Timeout | null>(null);
 
-
+    const params = useSearchParams();
+    console.log(params, 'params', params.get('sort'));
 
     const router = useRouter();
 
@@ -39,8 +40,11 @@ export default function SortPage() {
     }, [search, sort, router]);
 
     return (
-        <div>
-            <input type="text" onChange={handleSearchChange} />
+        <div className={style.sort_product}>
+            <div>
+                <label>Search: </label>
+                <input type="text" onChange={handleSearchChange} />
+            </div>
             <select onChange={handleSortChange}>
                 <option value="price_asc">Price (Low to High)</option>
                 <option value="price_desc">Price (High to Low)</option>

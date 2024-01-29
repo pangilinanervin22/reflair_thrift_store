@@ -13,7 +13,8 @@ export default async function ProductWomenPage() {
     const session = await getServerSession(authOptions);
     const womenProduct = await prisma.product.findMany({
         where: {
-            category: "women"
+            category: "women",
+            order: null
         }
     });
 

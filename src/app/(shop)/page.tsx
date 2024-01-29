@@ -33,38 +33,14 @@ export default function ShopMainPage() {
                 </div>
             </section>
 
-
             <section className={style.second_flex}>
                 <div className={style.container_second_description}>
                     <h1> <Link href="">Discover the campaign</Link></h1>
                 </div>
-
-
                 <div className={style.container_second_image}>
-                    {/* <Image
-                        src="/assets/jackets/3.jpg"
-                        alt="Sec2-Jacket3"
-                        width={1920}
-                        height={1080}
-                    />
-
-                    <Image
-                        src="/assets/jackets/2.jpg"
-                        alt="Sec2-Jacket2"
-                        width={1920}
-                        height={1080}
-                    />
-
-                    <Image
-                        src="/assets/jackets/1.jpg"
-                        alt="Sec2-Jacket1"
-                        width={1920}
-                        height={1080}
-                    /> */}
                     <ThreeProductImage />
                 </div>
             </section>
-
 
             {/* <h3>ShopMainPage</h3> */}
             <section className={style.third_flex}>
@@ -84,7 +60,7 @@ export default function ShopMainPage() {
                     </div>
                     <p>
                         ReFlair presents collection of the past to showcase in current
-                        fashion.{" "}
+                        fashion.
                     </p>
                     <div>
                         <Link href="/product">Discover more</Link>
@@ -109,7 +85,6 @@ export default function ShopMainPage() {
                     </Link>
                 </div>
             </section>
-
 
             <section className={style.fifth_flex}>
                 <div className={style.fifth_flex_row}>
@@ -194,17 +169,9 @@ export default function ShopMainPage() {
                             <h1>ReFlair Thrift</h1>
                             <h2>{"It’s not just an old trailer, though — it’s a 1970s Empire that Wilson renovated into a cozy retro boutique. And they’re not just any vintage goods: each piece is carefully curated by ReFlair. "}</h2>
                         </div>
-
                     </div>
-
-
                 </div>
-
             </section>
-
-
-
-
         </>
     );
 }
