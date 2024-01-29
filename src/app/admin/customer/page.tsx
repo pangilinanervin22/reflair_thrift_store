@@ -9,13 +9,16 @@ export default async function CustomerPage() {
     const user = await prisma.account.findMany({
         where: {
             role: "customer"
+        },
+        include: {
+            order: true
+        },
+        orderBy: {
+            name: "asc"
         }
     })
 
-
     return (
-        <div>
-            <CustomerTable data={user} />
-        </div>
+        <CustomerTable data={user} />
     )
 }

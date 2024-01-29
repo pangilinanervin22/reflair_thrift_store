@@ -16,8 +16,13 @@ const content: TableStructure = {
     structure: [
         { label: "Name", path: "name", width: "200px", fontSize: "16px" },
         { label: "Email", path: "email", width: "260px", fontSize: "16px" },
-        { label: "City", path: "city", width: "200px", fontSize: "16px" },
-        { label: "Barangay", path: "barangay", width: "200px", fontSize: "16px" },
+        { label: "City", path: "city", width: "160px", fontSize: "16px" },
+        { label: "Barangay", path: "barangay", width: "180px", fontSize: "16px" },
+        {
+            label: "Total Order", path: "order", width: "160px", fontSize: "16px",
+            element: ((val) => <div>{val["order"].length ? val["order"].length : "none"} </div>)
+        },
+
     ]
 };
 
