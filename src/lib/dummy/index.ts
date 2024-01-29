@@ -43,6 +43,6 @@ export async function CreateDummyProduct() {
         await ProductCreateAction(product);
     }));
 
-    const res = await OrderCreateAction("SampleDummy@gmail.com", listDummyProduct.map((product) => product.id || ""));
-    console.log(res);
+    // const res = await OrderCreateAction("SampleDummy@gmail.com", listDummyProduct.map((product) => product.id || ""));
+    // console.log(res);
 }
