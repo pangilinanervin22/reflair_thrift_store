@@ -7,10 +7,11 @@ import RecentProduct from './RecentProduct'
 import GraphExample from './GraphExample'
 import RecentTableOrder from './RecentTableOrder'
 import styles from './Report.module.scss'
-
+import { SalesData } from '@/app/admin/page'
 
 interface ReportPageProps {
     ProductArray: Product[]
+    OrderData: SalesData[]
 }
 
 const CardReport = dynamic(() => import('./CardReport'), {
@@ -18,23 +19,23 @@ const CardReport = dynamic(() => import('./CardReport'), {
 })
 
 
-export default function ReportPage({ ProductArray }: ReportPageProps) {
+export default function ReportPage({ ProductArray, OrderData }: ReportPageProps) {
     return (
-        <section className={styles.container}>
+        <section className={styles.report}>
             <CardReport />
             <div className={styles.chart_container}>
                 <div className={styles.bar}>
-                    <h2 style={{ width: "100%" }}>Total Sales:</h2>
-                    <SalesChart />
+                    <h3>Sales Chart:</h3>
+                    <SalesChart dataProps={OrderData} />
                 </div>
                 <div className={styles.pie}>
-                    <h2 style={{ width: "100%" }}>Trend Chart</h2>
+                    <h3>Trend Chart</h3>
                     <GraphExample product={ProductArray} />
                 </div>
             </div>
             <div className={styles.other_container}>
                 <div className={styles.order}>
-                    <h3 style={{ width: "100%" }}>Recent Orders</h3>
+                    <h3>Recent Orders</h3>
                     <RecentTableOrder />
                 </div>
                 <RecentProduct FiveRecentProduct={ProductArray} />

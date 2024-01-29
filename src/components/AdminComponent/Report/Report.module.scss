@@ -1,10 +1,15 @@
 @import "./../../../scss/variable";
 
+.report {
+    h3 {
+        width: 100%;
+    }
+}
 
 .display_container {
-    @include flex_container(row, space-between);
+    @include flex_container(row, space-between, center);
     height: 120px;
-    width: 80vw;
+    width: 100%;
     margin-block: 16px;
 
     .display_item {
@@ -97,6 +102,11 @@
         text-align: left;
         width: 760px;
         height: 460px;
+
+        >:first-child {
+            width: 100%;
+            padding: 16px;
+        }
     }
 
     .trend {
@@ -138,50 +148,34 @@
     width: 700px;
     height: 100%;
     border-collapse: collapse;
-    border: 2px solid red;
     font-size: 14px;
+    text-align: center;
 
     th {
-        border: 2px solid black;
+        // border: 1px solid black;
         background: #f1f1f1;
         padding: 10px 15px;
+        color: gray;
     }
 
     td {
-        border: 2px solid black;
         padding: 10px 15px;
+        border-bottom: 1px solid rgb(196, 196, 196);
     }
 
     //style depends on the status of the order
-    .status {
-        color: white;
-        font-weight: 800;
-        border-radius: 10px;
-        padding: 5px 10px;
-        font-size: 12px;
-    }
+    tbody {
+        // remove the border 
 
-    .status_pending {
-        background: #ffcc00;
-    }
+        tr {
+            >:first-child {
+                width: 40px;
+            }
+        }
 
-    .status_confirmed {
-        background: #00cc00;
-    }
 
-    .status_cancelled {
-        background: #ff0000;
-    }
-
-    .status_completed {
-        background: #0000ff;
-    }
-
-    .status_shipped {
-        background: #ff9900;
-    }
-
-    .status_delivered {
-        background: #00ccff;
+        > :last-child {
+            border-bottom: black 1px solid;
+        }
     }
 }

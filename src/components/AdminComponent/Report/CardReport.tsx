@@ -4,22 +4,29 @@ import IconCart_svg from "@/assets/IconCart_svg";
 import IconProfile_svg from "@/assets/IconProfile_svg";
 import prisma from "@/db/prisma";
 
-
-const NOW_MONTH = new Date().toLocaleString('default', { month: 'long' });
+const NOW = new Date();
+const NOW_MONTH = NOW.toLocaleString('default', { month: 'long' });
+const FIRST_DAY_MONTH = new Date(NOW.getFullYear(), NOW.getMonth(), 1);
+const FIRST_DAY_NEXT_MONTH = new Date(NOW.getFullYear(), NOW.getMonth() + 1, 1);
 
 export default async function CardReport() {
     const productsWithoutOrders = await prisma.product.findMany({
         where: {
             order: null
         }
-    }); const total_product = productsWithoutOrders.length || 0;
+    });
+    const total_product = productsWithoutOrders.length || 0;
     const total_account = prisma.account.count() || 2;
     const totalSales = await prisma.order.aggregate({
         _sum: {
             total_price: true
         },
         where: {
-            order_status: 'received'
+            order_status: 'received',
+            order_date: {
+                gte: FIRST_DAY_MONTH,
+                lt: FIRST_DAY_NEXT_MONTH
+            }
         }
     });
 
@@ -29,6 +36,8 @@ export default async function CardReport() {
         total_product: total_product,
         account: total_account,
     }
+    console.log(report);
+
 
     return (
         <div className={styles.display_container}>

@@ -1,9 +1,11 @@
 'use client'
 
+import { SalesData } from '@/app/admin/page';
+import React from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, } from 'recharts';
 
 interface thisProps {
-    dataProps?: []
+    dataProps?: SalesData[]
 }
 
 const defaultData = [
@@ -13,7 +15,7 @@ const defaultData = [
     { month: 'November', year: "2023", total_sales: 2300 },
 ];
 
-const SalesChart = ({ dataProps }: thisProps) => {
+export default function SalesChart({ dataProps }: thisProps) {
     const data = dataProps || defaultData;
 
     return (
@@ -41,4 +43,4 @@ const SalesChart = ({ dataProps }: thisProps) => {
     );
 };
 
-export default SalesChart;
+
