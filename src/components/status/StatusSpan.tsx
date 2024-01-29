@@ -6,7 +6,7 @@ import { OrderStatus } from '@prisma/client';
 
 
 
-export default function Status({ status }: { status: OrderStatus }) {
+export default function StatusSpan({ status }: { status: OrderStatus }) {
 
     const statusClasses = {
         pending: style.pending,
