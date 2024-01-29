@@ -11,7 +11,7 @@ import { Playfair_Display } from 'next/font/google'
 
 const font = Playfair_Display({
     display: 'swap',
-    weight: "700",
+    weight: "600",
     subsets: ['latin'],
 });
 
@@ -83,25 +83,28 @@ export default function ClientRegisterPage() {
                     id="name"
                     placeholder="Enter Name"
                     required
+                    minLength={8}
                 />
                 <input
                     type="text"
                     id="email"
                     placeholder="Enter Email"
                     required
+                    minLength={8}
                 />
                 <input
                     type="password"
                     id="password"
                     placeholder="Enter Password"
                     required
+                    minLength={8}
                 />
-
                 <input
                     type="password"
                     id="confirmPassword"
                     placeholder="Confirm Password"
                     required
+                    minLength={8}
                 />
                 <button type="submit">Register</button>
                 <p>If you already have an account you can login here</p>

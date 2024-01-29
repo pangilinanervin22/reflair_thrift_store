@@ -3,13 +3,18 @@
 import { FormEvent, useState } from 'react';
 import { signIn, useSession } from "next-auth/react";
 import { useRouter } from 'next/navigation';
-import SignOut from '@/components/SignOut';
 import style from './page.module.scss';
 import Link from 'next/link';
 import { toast } from 'react-toastify';
 import { isEmailExist } from '@/lib/AccountAction';
 import Image from 'next/image';
+import { Playfair_Display } from 'next/font/google';
 
+const font = Playfair_Display({
+    display: 'swap',
+    weight: "600",
+    subsets: ['latin'],
+});
 
 export default function LoginPage() {
     const [submitting, setSubmitting] = useState(false);
@@ -70,7 +75,7 @@ export default function LoginPage() {
                 <Image src={"/assets/images/loginbgimage.jpg"} alt='wew' width={"1080"} height={"1080"} />
             </div>
             <form onSubmit={handleSubmit}>
-                <h1>Welcome to ReFlair</h1>
+                <h1 className={font.className}>Welcome to ReFlair</h1>
                 <h4> Unearth the Hidden Flair of Timeless Fashion</h4>
                 <hr className={style.underline} />
                 <input id='email' type="text" placeholder='Enter Email' required />
