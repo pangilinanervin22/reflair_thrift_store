@@ -74,8 +74,11 @@ export default async function OrderPage({ searchParams, }: PageProps) {
                             <p> Order Total: {order.total_price}</p>
                             {order.order_status === "received" && <p>Received Date: {formatDateString(order.ship_date || new Date())}</p>}
                             {order.order_status === "pending" &&
-                                <CancelOrderButton order_id={order.id}
-                                    change_status="cancelled" />}
+                                <CancelOrderButton order_id={order.id} change_status="cancelled" />}
+                            {order.order_status === "shipped" &&
+                                <p>Shipped Date: {formatDateString(order.ship_date || new Date())}</p>}
+                            {order.order_status === "processing" &&
+                                <p>Intial Date: {formatDateString(order.ship_date || new Date())}</p>}
                         </div>
                     </div>
                 )) :
