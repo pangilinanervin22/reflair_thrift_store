@@ -2,23 +2,28 @@
     display: flex;
     flex-direction: column;
     padding: 16px;
-    gap: 32px;
+    gap: 16px;
 }
 
 .order_title {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: flex-start;
     gap: 16px;
     width: 100%;
+    border: 1px solid #ccc;
+    padding: 16px;
+
+    >:first-child {
+        width: 50%;
+        height: max-content;
+    }
 
     .headline {
         display: flex;
         flex-direction: column;
         align-items: flex-start;
         gap: 16px;
-        width: 100%;
-        height: max-content;
 
         .title {
             display: flex;
@@ -31,6 +36,13 @@
         }
     }
 
+    >:last-child {
+        width: 50%;
+        height: max-content;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
 }
 
 .order_content {
@@ -77,6 +89,7 @@
             width: 70%;
             font-size: 16px;
             font-weight: 500;
+            color: gray;
         }
     }
 }
@@ -123,10 +136,29 @@
                 >:last-child {
                     font-size: 14px;
                     font-weight: 500;
-                    color: #666;
                 }
             }
         }
+    }
+
+    .subtotal {
+        width: 100%;
+        height: auto;
+        margin-bottom: 16px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+
+        >* {
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        >:first-child {
+            font-size: 14px;
+            color: gray;
+        }
+
     }
 
     .product_total {
@@ -140,8 +172,77 @@
         padding-top: 16px;
 
         >* {
-            font-size: 16px;
+            font-size: 20px;
             font-weight: 500;
         }
+
+        >:last-child {
+            font-size: 24px;
+            font-weight: 600;
+            color: red;
+        }
     }
+}
+
+.edit_order {
+    display: flex;
+    flex-direction: column;
+
+    label {
+        font-size: 20px;
+        font-weight: 500;
+    }
+
+    select {
+        width: 100%;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        padding: 8px;
+
+        &:focus {
+            outline: none;
+        }
+
+        option {
+            background: #f8f9fa; // change the background color
+            color: #333; // change the text color
+        }
+    }
+
+    input {
+        width: 100%;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        padding: 8px;
+        margin-bottom: 8px;
+
+        &:focus {
+            outline: none;
+        }
+    }
+
+    .edit_confirm {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+
+        button {
+            padding: 8px 16px;
+            border-radius: 8px;
+            background-color: #6189ce;
+            color: #fff;
+            font-size: 16px;
+            font-weight: 500;
+
+            &:hover {
+                cursor: pointer;
+                opacity: 0.8;
+            }
+        }
+    }
+}
+
+.error {
+    background: red;
 }

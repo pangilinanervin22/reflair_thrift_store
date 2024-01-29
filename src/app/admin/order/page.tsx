@@ -28,10 +28,7 @@ export default async function OrderPage({ searchParams, }: PageProps) {
         });
 
     return (
-        <>
-            <SortOrder />
-            <OrderTable data={listOrder} />
-        </>
+        <OrderTable data={listOrder} status={status} />
     )
 }
 

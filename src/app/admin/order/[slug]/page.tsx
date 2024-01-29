@@ -2,7 +2,7 @@ import prisma from "@/db/prisma";
 import { redirect } from "next/navigation"
 import style from "./page.module.scss";
 import Image from "next/image";
-import Status from "@/components/status/Status";
+import StatusSpan from "@/components/status/StatusSpan";
 import EditOrder from "./EditOrder";
 
 interface PageProps {
@@ -56,16 +56,17 @@ export default async function OrderSlugPage({ params }: PageProps) {
                         <h3>
                             Order: {order.id.substring(0, 6)}
                         </h3>
-                        <Status status={order.order_status} />
+                        <StatusSpan status={order.order_status} />
                     </div>
-                    <h4>{formatDate(String((order.order_date)))}</h4>
+                    <h4>Payment method: {order.payment_mode === "cod" && "Cash on delivery"}</h4>
+                    <h4>Order day: {formatDate(String((order.order_date)))}</h4>
+                    <h4>Products count: {order.product.length}</h4>
                 </div>
                 <EditOrder propsOrder={order} />
             </article>
             <article className={style.order_content}>
-
                 <div className={style.details}>
-                    <h3>Delivery Info</h3>
+                    <h3>Customer Info</h3>
                     <div className={style.details_content}>
                         <label>Name</label>
                         <h4>{order.account.name}</h4>
@@ -79,15 +80,17 @@ export default async function OrderSlugPage({ params }: PageProps) {
                         <h4>{order.account.contact}</h4>
                     </div>
                     <div className={style.details_content}>
-                        <label>City</label>
-                        <h4>{order.account.city}</h4>
+                        <label>Barangay</label>
+                        <p className={(!order?.barangay) ? style.error : ''}>
+                            {`(${order.city}) `}
+                            {order?.barangay || 'Barangay is required'}
+                        </p>
                     </div>
                     <div className={style.details_content}>
                         <label>Address</label>
                         <h4>{order.account.address}</h4>
                     </div>
                 </div>
-
                 <div className={style.products}>
                     <h3>Products</h3>
                     {order.product.map((product) => (
@@ -102,10 +105,17 @@ export default async function OrderSlugPage({ params }: PageProps) {
                             </div>
                         </div>
                     ))}
-
-                    <div className={style.product_total}>
-                        <h3>Total</h3>
+                    <div className={style.subtotal}>
+                        <h3>Shipping Fee</h3>
+                        <h3>₱50</h3>
+                    </div>
+                    <div className={style.subtotal}>
+                        <h3>Subtotal</h3>
                         <h3>₱{total}</h3>
+                    </div>
+                    <div className={style.product_total}>
+                        <h3>Total:</h3>
+                        <h3>₱{total + 50}</h3>
                     </div>
                 </div>
             </article>

@@ -8,16 +8,16 @@ import { Order } from "@prisma/client";
 import formatDate from "@/utils/formatDate";
 import { OrderDeleteAction } from "@/lib/OrderAction";
 import { toast } from "react-toastify";
-import { CreateDummyProduct } from "@/lib/dummy";
-import Status from "@/components/status/Status";
+import StatusSpan from "@/components/status/StatusSpan";
+import SortOrder from "./SortOrderAdmin";
 
 const content: TableStructure = {
     id: "id",
     title: "Order",
     searchPath: "name",
+    defaultSort: "order_date",
     structure: [
         { label: "Name", path: "name", width: "300px", fontSize: "16px" },
-        { label: "ID", path: "id", width: "200px", fontSize: "16px" },
         {
             label: "Order Date", path: "order_date", width: "200px",
             fontSize: "20px",
@@ -27,12 +27,12 @@ const content: TableStructure = {
         {
             label: "Status", path: "status", width: "200px",
             fontSize: "20px",
-            element: ((val) => <Status status={val["order_status"]} />),
+            element: ((val) => <StatusSpan status={val["order_status"]} />),
         },
     ]
 };
 
-export default function OrderTable({ data }: { data: Order[] }) {
+export default function OrderTable({ data, status }: { data: Order[], status: string }) {
     const [currentProductId, setCurrentProductId] = useState<string>("");
     const router = useRouter();
 
@@ -49,7 +49,9 @@ export default function OrderTable({ data }: { data: Order[] }) {
     }
 
     return (
-        <>
+        <> <div>
+
+            <SortOrder status={status} />
             <Dialog onClose={() => { }} onOk={() => handleDelete(currentProductId)}>
                 <h2>Are you sure want to delete?</h2>
                 <p>This will order will delete. You cannot undo this action.</p>
@@ -61,8 +63,8 @@ export default function OrderTable({ data }: { data: Order[] }) {
                 handleUpdate={onHandleUpdate}
                 handleDelete={onHandleDelete}
             />
-
-            <button onClick={() => CreateDummyProduct()}>Dummy Product</button>
+            {/* <button onClick={() => CreateDummyProduct()}>Dummy Product</button> */}
+        </div>
         </>
     );
 
