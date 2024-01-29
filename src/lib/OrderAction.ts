@@ -1,8 +1,9 @@
 'use server'
 
 import prisma from "@/db/prisma";
-import { Account, OrderStatus, Prisma } from "@prisma/client";
+import { Account, Order, OrderStatus, Prisma } from "@prisma/client";
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 
 
 export async function OrderCreateAction(account: Account, array_product_id: string[],) {
@@ -118,7 +119,6 @@ export async function OrderDeleteAction(order_id: string) {
 
         if (!currentOrder)
             return { message: "Order not found", error: true }
-        console.log(currentOrder.city, 'currentOrder');
 
         if (currentOrder.product.length !== 0)
             await Promise.all([
@@ -151,22 +151,15 @@ export async function OrderDeleteAction(order_id: string) {
     }
 }
 
-interface OrderUpdateData {
-    address?: string;
-    barangay?: string;
-    city?: string;
-    status?: string;
-
-}
-
-export async function OrderUpdateAction(order_id: string, data: any) {
+export async function OrderUpdateAction(order_id: string, data: { status: string, date: string }) {
     try {
         const order = await prisma.order.update({
             where: {
                 id: order_id
             },
             data: {
-                ...data
+                order_status: data.status as OrderStatus,
+                ship_date: new Date(data.date)
             }
         });
 
@@ -176,6 +169,8 @@ export async function OrderUpdateAction(order_id: string, data: any) {
         return { message: "Order updated", ok: true }
     } catch (error) {
         return { message: "Order error occurred", error: error }
+    } finally {
+        revalidatePath('/admin/order');
     }
 }
 
