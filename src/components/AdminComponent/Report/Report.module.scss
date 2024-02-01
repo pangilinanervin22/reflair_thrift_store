@@ -88,6 +88,7 @@
     width: 100%;
     margin-top: 36px;
     gap: 24px;
+    height: 100%;
 
     >* {
         @include flex_container(column);
@@ -101,7 +102,6 @@
     .order {
         text-align: left;
         width: 760px;
-        height: 460px;
 
         >:first-child {
             width: 100%;
@@ -114,18 +114,20 @@
         flex-direction: column;
         justify-content: flex-start;
         width: 400px;
-        height: 460px;
-        gap: 16px;
+        height: auto;
+       
 
         .container_product {
-            @include flex_container(column, space-between);
             width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
 
             .product {
                 @include flex_container(row, flex-start, center);
                 width: 100%;
-                height: 100%;
-                background: white;
+              
 
                 img {
                     width: 75px;
@@ -146,7 +148,7 @@
 // create a style for the table order
 .table_order {
     width: 700px;
-    height: 100%;
+    height: auto;
     border-collapse: collapse;
     font-size: 14px;
     text-align: center;
