@@ -5,8 +5,14 @@ import { signIn } from "next-auth/react";
 import style from './page.module.scss';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
-import prisma from '@/db/prisma';
 import { isEmailExist } from '@/lib/AccountAction';
+import { Playfair_Display } from 'next/font/google';
+
+const font = Playfair_Display({
+    display: 'swap',
+    weight: "400",
+    subsets: ['latin'],
+});
 
 export default function AdminLoginForm({ registering }: { registering: Function }) {
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -59,7 +65,7 @@ export default function AdminLoginForm({ registering }: { registering: Function 
         <main className={style.main}>
             <section className={style.container}>
                 <div className={style.title}>
-                    <h1>ReFlair</h1>
+                    <h1 className={font.className}>ReFlair</h1>
                     <p>Employee Access</p>
                 </div>
                 <form onSubmit={handleSubmit}>
