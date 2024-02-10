@@ -44,7 +44,6 @@ export async function OrderCreateAction(account: Account, array_product_id: stri
             return { message: "Product not found", error: true }
 
         const total_price = array_product.reduce((acc, curr) => acc + curr.price, 0);
-        console.log(total_price);
 
         // disconnect product from cart and like
         await Promise.all([

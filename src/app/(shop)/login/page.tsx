@@ -54,8 +54,6 @@ export default function LoginPage() {
                 redirect: false,
             })
 
-            console.log(res);
-
             if (res?.ok) {
                 toast.update(loading, { render: "Login Success", type: "success", autoClose: 2000, isLoading: false });
             } else if (res?.error) {

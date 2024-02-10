@@ -10,8 +10,6 @@ export default function SortPage() {
     const [debounceTimer, setDebounceTimer] = React.useState<NodeJS.Timeout | null>(null);
 
     const params = useSearchParams();
-    console.log(params, 'params', params.get('sort'));
-
     const router = useRouter();
 
     const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {

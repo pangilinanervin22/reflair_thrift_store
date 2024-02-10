@@ -14,7 +14,6 @@ export default function SortOrder({ status }: { status: string }) {
         else
             router.push("/admin/order?status=" + status);
     };
-    console.log(status);
 
     return (
         <div className={style.container}>

@@ -13,7 +13,7 @@ export async function GET(req: any) {
         const data = await prisma.account.findMany();
         return NextResponse.json(data, { status: 200 });
     } catch (error) {
-        console.log(error);
+        console.error(error);
         return NextResponse.json({ message: "Unsuccessful register" }, { status: 400 });
     }
 }
@@ -27,7 +27,7 @@ export async function POST(req: any) {
 
         return NextResponse.json(productId, { status: 200 });
     } catch (error) {
-        console.log(error);
+        console.error(error);
         return NextResponse.json({ message: "Unsuccessful register" }, { status: 400 });
     }
 }

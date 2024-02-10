@@ -24,7 +24,6 @@ export default function CancelOrderButton({ order_id, change_status, classStyle,
         }
 
         const res = await OrderUpdateStatusAction(order_id, change_status);
-        console.log(res, "action");
         if (res?.ok)
             toast.success(res.message);
         else

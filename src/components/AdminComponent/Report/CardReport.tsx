@@ -36,8 +36,6 @@ export default async function CardReport() {
         total_product: total_product,
         account: total_account,
     }
-    console.log(report);
-
 
     return (
         <div className={styles.display_container}>

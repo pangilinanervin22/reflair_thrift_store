@@ -36,11 +36,9 @@ export async function POST(req: any) {
             }
         });
 
-        console.log(data);
-
         return NextResponse.json({ message: "Product registered." + data.name }, { status: 201 });
     } catch (error) {
-        console.log(error);
+        console.error(error);
         return NextResponse.json({ message: "Unsuccessful register" }, { status: 400 });
     }
 }

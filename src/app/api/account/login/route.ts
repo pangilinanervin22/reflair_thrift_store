@@ -19,7 +19,6 @@ export async function POST(req: any) {
         password,
         data.password
     );
-    console.log(passwordMatch);
     if (!passwordMatch) return NextResponse.json({ message: "Wrong password." }, { status: 400 });
 
     // Do something with the username, e.g. save it to a database

@@ -13,8 +13,6 @@ export default function RecentProduct({ FiveRecentProduct }: ReportPageProps) {
     let current = FiveRecentProduct.filter((item) => item.order_id == null);
     current = current.slice(0, 5);
 
-    console.log(current);
-
     return (
         <div className={styles.trend}>
             <h2>Latest Product</h2>

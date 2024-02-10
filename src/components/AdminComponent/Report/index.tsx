@@ -24,6 +24,7 @@ export default function ReportPage({ ProductArray, OrderData }: ReportPageProps)
         <section className={styles.report}>
             <CardReport />
             <div className={styles.chart_container}>
+
                 <div className={styles.bar}>
                     <h3>Sales Chart:</h3>
                     <SalesChart dataProps={OrderData} />

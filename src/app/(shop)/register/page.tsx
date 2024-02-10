@@ -21,7 +21,6 @@ export default function ClientRegisterPage() {
     const router = useRouter();
 
     if (sessionStatus === "authenticated") {
-        console.log(session, "session");
         router.push("/account");
     }
 

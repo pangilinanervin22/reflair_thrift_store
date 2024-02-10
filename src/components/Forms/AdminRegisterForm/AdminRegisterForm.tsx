@@ -12,10 +12,9 @@ export default function AdminRegisterForm({ registering }: { registering: Functi
     const [isSubmitting, setIsSubmitting] = useState(false);
     const { data: session, status: sessionStatus } = useSession();
 
-    if (sessionStatus === "authenticated") {
-        console.log(session, "session");
+    if (sessionStatus === "authenticated")
         revalidatePath("/admin");
-    }
+
 
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();

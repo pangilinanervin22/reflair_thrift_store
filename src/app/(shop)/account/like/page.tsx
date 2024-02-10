@@ -33,8 +33,6 @@ export default async function LikePage() {
 
     const product = account.like?.product;
 
-    console.log();
-
     if (!product || !product.length)
         return (
             <div className={style.no_item}>

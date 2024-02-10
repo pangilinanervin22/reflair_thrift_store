@@ -37,7 +37,6 @@ export default function AccountForm({ user, barangay }: AccountFormProps) {
             address: address.value,
         }
 
-        console.log(accountValue);
         if (JSON.stringify(user) === JSON.stringify(accountValue)) {
             toast.error("No changes made", { toastId: "noChange" });
             return;
@@ -47,7 +46,7 @@ export default function AccountForm({ user, barangay }: AccountFormProps) {
             return; // If already submitting, prevent additional submissions
 
         setIsSubmitting(true);
-        const loading = toast.loading("Product is pending", { toastId: "formAccount" });
+        const loading = toast.loading("Updating account is pending", { toastId: "formAccount" });
 
         //action here
         const res = await AccountUpdateFormAction(accountValue);

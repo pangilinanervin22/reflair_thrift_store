@@ -32,7 +32,6 @@ export default function EditOrder({ propsOrder }: { propsOrder: Order }) {
             }
 
             const res = await OrderUpdateAction(propsOrder.id, { status: statusData, date });
-            console.log(res);
 
             if (res.error) {
                 toast.update(toastId, { type: "error", render: res.message, autoClose: 2000, isLoading: false });

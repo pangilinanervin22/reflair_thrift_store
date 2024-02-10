@@ -19,7 +19,7 @@ export async function POST(req: any) {
 
         return NextResponse.json({ message: "User registered." + email }, { status: 201 });
     } catch (error) {
-        console.log(error);
+        console.error(error);
         return NextResponse.json({ message: "Unsuccessful register" }, { status: 400 });
     }
 }

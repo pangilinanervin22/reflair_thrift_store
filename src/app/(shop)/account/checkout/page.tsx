@@ -100,23 +100,6 @@ export default async function CheckoutPage() {
                     <p className={(!account?.barangay) ? style.error : ''}> {`(${account.city})`} {account?.barangay || 'Barangay is required'}</p>
                     <p className={(!account?.address) ? style.error : ''}>   {account?.address || 'Address is required'}</p>
                 </div>
-                <div className={style.payment_method}>
-                    <h4>Payment Method</h4>
-                    <div className={style.choice_method}>
-                        <div>
-                            <input type="radio" name="payment" id="cod" value="cod" checked defaultChecked />
-                            <label htmlFor="cod">Cash on Delivery</label>
-                        </div>
-                        <div>
-                            <input type="radio" name="payment" id="gcash" value="gcash" disabled />
-                            <label htmlFor="gcash">GCash</label>
-                        </div>
-                        <div>
-                            <input type="radio" name="payment" id="paypal" value="paypal" disabled />
-                            <label htmlFor="paypal">Paypal</label>
-                        </div>
-                    </div>
-                </div>
             </section>
         </main>
     )
