@@ -23,8 +23,6 @@ export async function POST(req: any) {
         const randomProduct = await prisma.product.findMany({ take: 2 })
         const productId = randomProduct.map(p => p.id)
 
-
-
         return NextResponse.json(productId, { status: 200 });
     } catch (error) {
         console.error(error);

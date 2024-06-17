@@ -4,7 +4,7 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/db/options';
 import prisma from '@/db/prisma';
 import { redirect } from 'next/navigation';
-import formatDate, { formatDateString } from '@/utils/formatDate';
+import { formatDateString } from '@/utils/formatDate';
 import { OrderStatus } from '@prisma/client';
 import SortOrderClient from './SortOrderClient';
 import Image from 'next/image';

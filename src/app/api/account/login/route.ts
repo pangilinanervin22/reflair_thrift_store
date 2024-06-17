@@ -13,8 +13,6 @@ export async function POST(req: any) {
     const data = await prisma.account.findUnique({ where: { email: email } });
     if (!data) return NextResponse.json({ message: "Client not found." }, { status: 404 });
 
-    console.log("find " + data.password, data);
-
     const passwordMatch = await bcrypt.compare(
         password,
         data.password
