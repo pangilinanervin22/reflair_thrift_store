@@ -19,6 +19,7 @@ export default async function ProductMenPage() {
         }
     });
 
+    console.log(session);
     return (
         <section className={style.product_section}>
             <br />

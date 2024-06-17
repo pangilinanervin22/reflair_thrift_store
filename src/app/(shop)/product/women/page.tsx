@@ -8,7 +8,6 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/db/options";
 import IconHeart_svg from "@/assets/IconHeart_svg";
 
-
 export default async function ProductWomenPage() {
     const session = await getServerSession(authOptions);
     const womenProduct = await prisma.product.findMany({
