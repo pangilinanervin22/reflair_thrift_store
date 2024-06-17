@@ -106,7 +106,8 @@
 .shipped,
 .cancelled,
 .received,
-.cancelled {
+.cancelled,
+.processing {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -122,6 +123,11 @@
 .pending {
     color: #FF9800;
     background: #FFF3E0
+}
+
+.processing {
+    color: #FFC107;
+    background: #FFF8E1;
 }
 
 .shipped {
