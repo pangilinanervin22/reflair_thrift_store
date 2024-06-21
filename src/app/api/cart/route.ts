@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 
 
 export async function GET(req: any, res: any) {
-    return NextResponse.json({ message: " Sample Message" }, { status: 200 });
+    return NextResponse.json({ message: "Sample Message" }, { status: 200 });
 }
 
 export async function POST(req: any, res: any) {
@@ -12,19 +12,25 @@ export async function POST(req: any, res: any) {
 
     if (!email) return NextResponse.json({ message: "Client not found." }, { status: 404 });
 
-    const account = await prisma.account.findUnique({ where: { email: email } });
-    if (!account) return NextResponse.json({ message: "Client not found." }, { status: 404 });
+    try {
+        const account = await prisma.account.findUnique({ where: { email: email } });
+        if (!account) return NextResponse.json({ message: "Client not found." }, { status: 404 });
 
-    const countProductCart = await prisma.cart.findFirst({
-        where: {
-            account_id: account.id,
+        const countProductCart = await prisma.cart.findFirst({
+            where: {
+                account_id: account.id,
 
-        }, include: {
-            product: true
-        }
-    });
+            }, include: {
+                product: true
+            }
+        });
 
-    const length = countProductCart?.product.length
-    return NextResponse.json({ message: "Sample Message", count: length }, { status: 200 });
+        const length = countProductCart?.product.length
+        return NextResponse.json({ message: "Sample Message", count: length }, { status: 200 });
+
+    } catch (error) {
+        console.error(error);
+        return NextResponse.json({ message: "Server Error" }, { status: 500 });
+    }
 }
 
