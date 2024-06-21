@@ -21,7 +21,7 @@ export default async function NavigationBar() {
     let count = "";
 
     if (email) {
-        const response = await fetch(`http://localhost:3000/api/cart/`,
+        const response = await fetch(`${process.env.NEXTAUTH_URL}/api/cart/`,
             {
                 method: "POST",
                 body: JSON.stringify({ email }),
