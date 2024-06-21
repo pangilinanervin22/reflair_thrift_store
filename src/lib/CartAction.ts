@@ -6,27 +6,27 @@ import { revalidatePath } from "next/cache";
 
 export async function CartAddAction(email: string, product_id: string) {
     try {
+
         // validating product and account
-        const [account, product] = await Promise.all([
-            prisma.account.findUnique({
-                where: {
-                    email: email
-                },
-                include: {
-                    cart: true
-                }
-            }),
-            prisma.product.findUnique({
-                where: {
-                    id: product_id,
-                    order: null,
-                }
-            })
-        ]);
+        const account = await prisma.account.findUnique({
+            where: {
+                email: email
+            },
+            include: {
+                cart: true
+            }
+        });
 
         if (!account) {
             return { message: "Account not found", error: true };
         }
+
+        const product = await prisma.product.findUnique({
+            where: {
+                id: product_id,
+                order: null
+            }
+        });
 
         if (!product || product.status === "unavailable") {
             return { message: "Product is unavailable", error: true };
@@ -56,6 +56,8 @@ export async function CartAddAction(email: string, product_id: string) {
 
         return { message: "Product added to cart", ok: true };
     } catch (error) {
+        console.log(error);
+
         return { message: "Cart error occurred", error: error };
     } finally {
         revalidatePath('/cart');
