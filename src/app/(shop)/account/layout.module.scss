@@ -1,4 +1,4 @@
-@import "../../../scss/variable"; // Add missing import for SCSS variables
+@use "../../../scss/variable" as *;
 
 .main_layout {
     display: flex;

@@ -1,4 +1,4 @@
-@import '../../../../scss/variable.scss';
+@use '../../../../scss/variable' as *;
 
 .checkout_container {
     display: flex;

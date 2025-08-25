@@ -1,4 +1,4 @@
-@import "./../../../scss/variable";
+@use "./../../../scss/variable" as *;
 
 .report {
     h3 {
@@ -115,7 +115,7 @@
         justify-content: flex-start;
         width: 400px;
         height: auto;
-       
+
 
         .container_product {
             width: 100%;
@@ -127,7 +127,7 @@
             .product {
                 @include flex_container(row, flex-start, center);
                 width: 100%;
-              
+
 
                 img {
                     width: 75px;
