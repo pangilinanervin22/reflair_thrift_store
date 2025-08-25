@@ -1,6 +1,6 @@
 "use client"
 
-import { FormEvent, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import { signIn, useSession } from "next-auth/react";
 import { useRouter } from 'next/navigation';
 import style from './page.module.scss';
@@ -21,11 +21,15 @@ export default function LoginPage() {
     const { status }: any = useSession();
     const router = useRouter();
 
-    if (status !== "loading" && status === "authenticated")
-        router.push("/account");
+    // Avoid router updates during render; redirect after mount when authenticated
+    useEffect(() => {
+        if (status === "authenticated") {
+            router.replace("/account");
+        }
+    }, [status, router]);
 
 
-    const handleSubmit = async (e: FormEvent) => {
+    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         if (submitting) return;
@@ -34,9 +38,10 @@ export default function LoginPage() {
         const loading = toast.loading("Login is pending");
 
         try {
-            const formData = e.target;
-            const email = (formData as any).email.value;
-            const password = (formData as any).password.value;
+            const formEl = e.currentTarget;
+            const formData = new FormData(formEl);
+            const email = String(formData.get('email') || '').trim();
+            const password = String(formData.get('password') || '').trim();
 
             // validation here
             if (!email || !password) {
@@ -76,8 +81,8 @@ export default function LoginPage() {
                 <h1 className={font.className}>Welcome to ReFlair</h1>
                 <h4> Unearth the Hidden Flair of Timeless Fashion</h4>
                 <hr className={style.underline} />
-                <input id='email' type="text" placeholder='Enter Email' required />
-                <input id='password' type="password" placeholder='Enter Password' required />
+                <input id='email' name='email' type="email" placeholder='Enter Email' autoComplete="email" required />
+                <input id='password' name='password' type="password" placeholder='Enter Password' autoComplete="current-password" required />
                 <button type="submit">Log In</button>
                 <p>Don&#39;t have an Account?</p>
                 <Link href={"/register"}><span>Register Here</span></Link>

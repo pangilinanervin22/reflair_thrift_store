@@ -3,7 +3,6 @@
 import { useSession } from "next-auth/react";
 import { FormEvent, useState } from "react";
 import style from './page.module.scss';
-import { revalidatePath } from "next/cache";
 import { CreateAccountAction } from "@/lib/AccountAction";
 import { toast } from "react-toastify";
 import { validateEmail } from "@/utils/email_validation";
@@ -12,11 +11,9 @@ export default function AdminRegisterForm({ registering }: { registering: Functi
     const [isSubmitting, setIsSubmitting] = useState(false);
     const { data: session, status: sessionStatus } = useSession();
 
-    if (sessionStatus === "authenticated")
-        revalidatePath("/admin");
 
 
-    const handleSubmit = async (e: FormEvent) => {
+    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         if (isSubmitting) return;
@@ -26,11 +23,12 @@ export default function AdminRegisterForm({ registering }: { registering: Functi
 
         try {
             // get form data
-            const formData = e.target;
-            const name = (formData as any).name.value;
-            const email = (formData as any).email.value;
-            const password = (formData as any).password.value;
-            const confirmPassword = (formData as any).confirmPassword.value;
+            const formEl = e.currentTarget;
+            const fd = new FormData(formEl);
+            const name = String(fd.get('name') || '').trim();
+            const email = String(fd.get('email') || '').trim();
+            const password = String(fd.get('password') || '').trim();
+            const confirmPassword = String(fd.get('confirmPassword') || '').trim();
 
             // validation here
             if (!validateEmail(email)) {
@@ -65,31 +63,10 @@ export default function AdminRegisterForm({ registering }: { registering: Functi
             <h1>ReFlair</h1>
             <p> Unearth the Hidden Flair of Timeless Fashion</p>
             <form onSubmit={handleSubmit}>
-                <input
-                    type="text"
-                    id="name"
-                    placeholder="Enter Name"
-                    required
-                />
-                <input
-                    type="text"
-                    id="email"
-                    placeholder="Enter Email"
-                    required
-                />
-                <input
-                    type="password"
-                    id="password"
-                    placeholder="Enter Password"
-                    required
-                />
-
-                <input
-                    type="password"
-                    id="confirmPassword"
-                    placeholder="Confirm Password"
-                    required
-                />
+                <input type="text" id="name" name="name" placeholder="Enter Name" autoComplete="name" required />
+                <input type="email" id="email" name="email" placeholder="Enter Email" autoComplete="email" required />
+                <input type="password" id="password" name="password" placeholder="Enter Password" autoComplete="new-password" required />
+                <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password" autoComplete="new-password" required />
                 <button type="submit">Register</button>
                 <p>if you already have account you can login here</p>
                 <span onClick={() => registering()}>login here</span>

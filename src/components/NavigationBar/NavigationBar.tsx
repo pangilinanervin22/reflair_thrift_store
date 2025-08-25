@@ -20,18 +20,32 @@ export default async function NavigationBar() {
     const email = session ? session.user.email : "";
     let count = "";
 
-    if (email) {
-        const response = await fetch(`${process.env.NEXTAUTH_URL}/api/cart/`,
-            {
-                method: "POST",
-                body: JSON.stringify({ email }),
-                next: { tags: ["cart"] },
-                cache: "no-cache",
-            }
-        );
+    try {
+        if (email) {
+            const body = JSON.stringify({ email: email });
+            const response = await fetch(`${process.env.NEXTAUTH_URL}/api/cart/`,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: body,  // Ensure this matches the serialized JSON string
+                });
 
-        const data = await response.json();
-        count = data.count;
+            if (response.ok) {
+                const text = await response.text();
+                if (text) {
+                    const data = JSON.parse(text);
+                    count = data.count ?? "0";
+                } else {
+                    console.error('Empty response from server');
+                }
+            } else {
+                console.error('Failed to fetch cart data:', response.statusText);
+            }
+        }
+    } catch (error) {
+        console.error('An error occurred while fetching cart data:', error);
     }
 
     return (

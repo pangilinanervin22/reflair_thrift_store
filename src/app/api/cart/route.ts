@@ -1,7 +1,5 @@
 import prisma from "@/db/prisma";
-import { NextApiRequest, NextApiResponse } from "next";
 import { NextResponse } from "next/server";
-
 
 export async function GET(req: any, res: any) {
     return NextResponse.json({ message: "Sample Message" }, { status: 200 });
@@ -30,7 +28,6 @@ export async function POST(req: any, res: any) {
 
     } catch (error) {
         console.error(error);
-        return NextResponse.json({ message: "Server Error" }, { status: 500 });
+        return NextResponse.json({ message: "Server Error: " + error }, { status: 500 });
     }
 }
-

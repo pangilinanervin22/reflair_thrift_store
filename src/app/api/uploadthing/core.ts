@@ -13,7 +13,7 @@ export const ourFileRouter = {
             return { userId: "2" };
         })
         .onUploadComplete(({ metadata, file }) => {
-            return file.url;
+            return { url: file.url };
         }),
 } satisfies FileRouter;
 
