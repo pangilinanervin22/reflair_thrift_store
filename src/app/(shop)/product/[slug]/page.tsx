@@ -6,7 +6,6 @@ import AddLikeButton from "../../account/like/AddLikeButton";
 import { authOptions } from "@/db/options";
 import { getServerSession } from "next-auth";
 import dynamic from 'next/dynamic'
-import wait from "@/utils/wait";
 const SuggestionProduct = dynamic(() => import('./SuggestionProduct'), {
   loading: () => <p>Suggested Product is loading...</p>,
 })
@@ -33,7 +32,6 @@ export default async function ProductPage({ params }: PageProps) {
     },
   });
 
-  await wait(10000);
   if (!product) return;
 
   return (
