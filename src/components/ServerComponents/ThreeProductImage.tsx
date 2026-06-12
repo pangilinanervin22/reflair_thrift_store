@@ -38,12 +38,13 @@ export default async function ThreeProductImage() {
 }
 
 
-function shuffleArray(array: any[], getNumber = 3) {
-    const newArray = [];
-    for (let i = 0; i < getNumber; i++) {
-        const random = Math.floor(Math.random() * array.length);
-        newArray.push(array[random]);
+function shuffleArray<T>(array: T[], getNumber = 3): T[] {
+    const newArray = [...array];
+    // Fisher–Yates shuffle
+    for (let i = newArray.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
     }
 
-    return newArray;
+    return newArray.slice(0, getNumber);
 }

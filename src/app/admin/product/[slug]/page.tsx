@@ -3,22 +3,24 @@ import ProductUpdatePage from "@/components/Forms/ProductForm/ProductForm";
 import { redirect } from "next/navigation"
 
 interface PageProps {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 }
 
 export async function generateMetadata({ params }: PageProps) {
+  const { slug } = await params;
   return {
-    title: "Product: " + params.slug,
-    description: "Product: " + params.slug,
+    title: "Product: " + slug,
+    description: "Product: " + slug,
   };
 }
 
 export default async function ProductEditPage({ params }: PageProps) {
+  const { slug } = await params;
   const product = await prisma.product.findFirst({
     where: {
-      id: params.slug,
+      id: slug,
     },
   });
 

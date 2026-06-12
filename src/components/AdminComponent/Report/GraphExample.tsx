@@ -55,15 +55,9 @@ const GraphExample = ({ product }: Props) => {
 
 
 
-    const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }: {
-        cx: number,
-        cy: number,
-        midAngle: number,
-        innerRadius: number,
-        outerRadius: number,
-        percent: number,
-        index: number
-    }) => {
+    // recharts 3.x passes PieLabelRenderProps (all fields optional); typed loosely
+    // to match recharts' label render-prop signature.
+    const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }: any) => {
         const radius = innerRadius + (outerRadius - innerRadius) * 1;
         const x = cx + radius * Math.cos(-midAngle * RADIAN);
         const y = cy + radius * Math.sin(-midAngle * RADIAN);

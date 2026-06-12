@@ -7,18 +7,19 @@ import StatusSpan from "@/components/status/StatusSpan";
 import Link from "next/link";
 
 interface PageProps {
-    params: {
+    params: Promise<{
         slug: string;
-    };
+    }>;
 }
 
 export default async function CustomerpAGE({ params }: PageProps) {
+    const { slug } = await params;
 
     let customer;
     try {
         customer = await prisma.account.findFirst({
             where: {
-                id: params.slug,
+                id: slug,
                 role: "customer"
             },
             include: {

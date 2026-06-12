@@ -60,27 +60,28 @@ export default function MainTable({
     });
 
 
-    let sortedData = structuredClone(data);
-
-
     //sorting by search query filter
-    sortedData = useMemo(
-        () => (searchQuery ? sortedData.filter((item: any) => item[structure.searchPath].toLowerCase().includes(searchQuery.toLowerCase())) : sortedData),
-        [searchQuery, sortedData, structure.searchPath]
-    );
+    const filteredData = useMemo(() => {
+        const cloned = structuredClone(data);
+        return searchQuery
+            ? cloned.filter((item: any) => item[structure.searchPath].toLowerCase().includes(searchQuery.toLowerCase()))
+            : cloned;
+    }, [data, searchQuery, structure.searchPath]);
 
     //get total data filtered by search
-    const sizeData = sortedData.length;
+    const sizeData = filteredData.length;
 
-    //sorting by path
-    sortedData = useMemo(
-        () => (sortPath(sortedData, sortColumn.path, sortColumn.order)),
-        [sortColumn, sortedData]);
+    //sorting by path (copy first: sortPath sorts in place)
+    const sortedData = useMemo(
+        () => sortPath([...filteredData], sortColumn.path, sortColumn.order),
+        [filteredData, sortColumn.path, sortColumn.order]
+    );
 
     //pagination data
-    sortedData = useMemo(
-        () => paginate(sortedData, page.current, page.size),
-        [page, sortedData]
+    const { current, size } = page;
+    const paginatedData = useMemo(
+        () => paginate(sortedData, current, size),
+        [sortedData, current, size]
     );
 
     return (
@@ -95,14 +96,14 @@ export default function MainTable({
 
             <BodyTable
                 isEditable={isEditable}
-                data={sortedData}
+                data={paginatedData}
                 tableProps={structure}
                 sortColumn={sortColumn}
                 handleSortColumn={onHandleSortColumn}
                 deleteColumn={onDelete}
                 updateColumn={handleUpdate}
             />
-            <PaginateTable page={page.current} size={page.size} currentTotal={sortedData.length} total={sizeData} handlePagination={onHandlePagination} />
+            <PaginateTable page={page.current} size={page.size} currentTotal={paginatedData.length} total={sizeData} handlePagination={onHandlePagination} />
         </section>
     );
 

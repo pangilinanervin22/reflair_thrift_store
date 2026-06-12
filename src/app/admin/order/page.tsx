@@ -6,10 +6,11 @@ import wait from "@/utils/wait";
 import { OrderStatus } from "@prisma/client";
 
 interface PageProps {
-    searchParams: { [key: string]: string | string[] | undefined }
+    searchParams: Promise<{ [key: string]: string | string[] | undefined }>
 }
 
 export default async function OrderPage({ searchParams, }: PageProps) {
+    const params = await searchParams;
 
     const allOrder = await prisma.order.findMany({
         include: {
@@ -17,12 +18,12 @@ export default async function OrderPage({ searchParams, }: PageProps) {
         }
     });
 
-    const status = searchParams.status as OrderStatus;
+    const status = params.status as OrderStatus;
     let listOrder = [...allOrder];
     if (status)
         listOrder = allOrder.filter((order) => {
-            if (searchParams.status) {
-                return order.order_status === searchParams.status;
+            if (params.status) {
+                return order.order_status === params.status;
             }
             return true;
         });

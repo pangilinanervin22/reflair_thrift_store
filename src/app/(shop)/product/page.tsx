@@ -9,22 +9,23 @@ import Image from "next/image";
 import Link from "next/link";
 
 interface PageProps {
-  searchParams: { [key: string]: string | string[] | undefined }
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
 }
 
 export default async function ProductAllPage({ searchParams, }: PageProps) {
   const session = await getServerSession(authOptions);
+  const params = await searchParams;
 
-  const orderBy = getOrderBy(searchParams.sort as string);
+  const orderBy = getOrderBy(params.sort as string);
   const product = await prisma.product.findMany({
     where: {
       name: {
-        contains: searchParams.search as string,
+        contains: params.search as string,
         mode: 'insensitive', // case-insensitive
       },
-      category: searchParams.category as string, // filter by category
-      material: searchParams.material as string, // filter by material
-      color: searchParams.color as string,
+      category: params.category as string, // filter by category
+      material: params.material as string, // filter by material
+      color: params.color as string,
     },
     orderBy,
   });

@@ -36,7 +36,7 @@ export default function Dialog({ onClose, onOk, children, buttonConfirm: buttonC
         closeDialog()
     }
 
-    const dialog: JSX.Element | null = showDialog === 'y' ? (
+    const dialog: React.JSX.Element | null = showDialog === 'y' ? (
         <dialog ref={dialogRef} className={style.dialog} >
             <div className={style.dialog_container} >
                 <button onClick={closeDialog} className={style.close}>

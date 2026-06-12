@@ -6,9 +6,9 @@ import StatusSpan from "@/components/status/StatusSpan";
 import EditOrder from "./EditOrder";
 
 interface PageProps {
-    params: {
+    params: Promise<{
         slug: string;
-    };
+    }>;
 }
 
 function formatDate(dateString: string): string {
@@ -24,12 +24,13 @@ function formatDate(dateString: string): string {
 }
 
 export default async function OrderSlugPage({ params }: PageProps) {
+    const { slug } = await params;
 
     let order;
     try {
         order = await prisma.order.findFirst({
             where: {
-                id: params.slug,
+                id: slug,
             },
             include: {
                 account: true,

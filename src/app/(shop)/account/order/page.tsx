@@ -12,10 +12,11 @@ import CancelOrderButton from './CancelOrderButton';
 import Link from 'next/link';
 
 interface PageProps {
-    searchParams: { [key: string]: string | string[] | undefined }
+    searchParams: Promise<{ [key: string]: string | string[] | undefined }>
 }
 
 export default async function OrderPage({ searchParams, }: PageProps) {
+    const params = await searchParams;
     const session = await getServerSession(authOptions);
     if (!session?.user)
         redirect("/login");
@@ -37,7 +38,7 @@ export default async function OrderPage({ searchParams, }: PageProps) {
     });
 
     const UserOrder = user?.order || [];
-    const status = searchParams.status as OrderStatus;
+    const status = params.status as OrderStatus;
     let listOrder = structuredClone(UserOrder);
     if (status)
         listOrder = listOrder.filter((order) => {

@@ -1,24 +1,15 @@
 import { PrismaClient } from "@prisma/client";
 
-class PrismaSingleton {
-    private static instance: PrismaClient;
+// Reuse a single PrismaClient across hot-reloads in development.
+// Next.js re-evaluates modules on every HMR update, so a plain
+// `new PrismaClient()` would open a new connection pool each time and
+// eventually exhaust the database's connection limit.
+const globalForPrisma = globalThis as unknown as { prisma?: PrismaClient };
 
-    private constructor() {
-        // Initialize the PrismaClient only once
-        PrismaSingleton.instance = new PrismaClient();
-    }
+const prisma = globalForPrisma.prisma ?? new PrismaClient();
 
-    public static getInstance(): PrismaClient {
-        if (!PrismaSingleton.instance) {
-            // Create a new instance if it doesn't exist
-            PrismaSingleton.instance = new PrismaClient();
-        }
-
-        return PrismaSingleton.instance;
-    }
+if (process.env.NODE_ENV !== "production") {
+    globalForPrisma.prisma = prisma;
 }
 
-const prisma = PrismaSingleton.getInstance();
-
 export default prisma;
-
