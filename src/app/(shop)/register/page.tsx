@@ -7,13 +7,6 @@ import { CreateAccountAction } from "@/lib/AccountAction";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { validateEmail } from "@/utils/email_validation";
-import { Playfair_Display } from 'next/font/google'
-
-const font = Playfair_Display({
-    display: 'swap',
-    weight: "600",
-    subsets: ['latin'],
-});
 
 export default function ClientRegisterPage() {
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -68,51 +61,71 @@ export default function ClientRegisterPage() {
 
     return (
         <section className={style.container}>
-            <div className={`${style.side} ${font.className}`}>
-                <h1>Sign up to</h1>
-                <h1><span className={style.highlight}>Reinvent</span> your look</h1>
-                <h1>with <span className={style.highlight}>pre-loved</span> fashion.</h1>
+            <div className={style.side}>
+                <p className={style.eyebrow}>ReFlair · New members</p>
+                <h1 className={style.statement}>
+                    Sign up to <em>reinvent</em> your look with <em>pre-loved</em> fashion.
+                </h1>
+                <p className={style.side_note}>
+                    One account for the bag, saved pieces and order history.
+                </p>
             </div>
             <form onSubmit={handleSubmit}>
-                <h1 className={font.className}>ReFlair</h1>
-                <h4> Unearth the Hidden Flair of Timeless Fashion</h4>
-                <hr className={style.underline} />
-                <input
-                    type="text"
-                    id="name"
-                    placeholder="Enter Name"
-                    required
-                    minLength={8}
-                />
-                <input
-                    type="text"
-                    id="email"
-                    placeholder="Enter Email"
-                    required
-                    minLength={8}
-                />
-                <input
-                    type="password"
-                    id="password"
-                    placeholder="Enter Password"
-                    required
-                    minLength={8}
-                />
-                <input
-                    type="password"
-                    id="confirmPassword"
-                    placeholder="Confirm Password"
-                    required
-                    minLength={8}
-                />
-                <button type="submit">Register</button>
-                <p>If you already have an account you can login here</p>
-                <span onClick={() => router.push("/login")}>Login Here</span>
-                <hr className={style.underline} />
+                <p className={style.eyebrow}>Create an account</p>
+                <h2 className={style.title}>Join the archive</h2>
+
+                <div className={style.fields}>
+                    <div className={style.field}>
+                        <label htmlFor="name">Full name</label>
+                        <input
+                            type="text"
+                            id="name"
+                            placeholder="Your name"
+                            required
+                            minLength={8}
+                        />
+                    </div>
+                    <div className={style.field}>
+                        <label htmlFor="email">Email</label>
+                        <input
+                            type="text"
+                            id="email"
+                            placeholder="you@example.com"
+                            required
+                            minLength={8}
+                        />
+                    </div>
+                    <div className={style.field}>
+                        <label htmlFor="password">Password</label>
+                        <input
+                            type="password"
+                            id="password"
+                            placeholder="••••••••"
+                            required
+                            minLength={8}
+                        />
+                    </div>
+                    <div className={style.field}>
+                        <label htmlFor="confirmPassword">Confirm password</label>
+                        <input
+                            type="password"
+                            id="confirmPassword"
+                            placeholder="••••••••"
+                            required
+                            minLength={8}
+                        />
+                    </div>
+                </div>
+
+                <button type="submit" disabled={isSubmitting}>
+                    {isSubmitting ? "Registering…" : "Register"}
+                </button>
+
+                <p className={style.switch_note}>
+                    Already have an account?{' '}
+                    <span onClick={() => router.push("/login")}>Log in here</span>
+                </p>
             </form>
         </section>
     );
 }
-
-
-

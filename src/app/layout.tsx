@@ -1,41 +1,49 @@
 import type { Metadata } from 'next'
-import { Playfair_Display } from 'next/font/google'
+import { Cormorant_Garamond, Jost } from 'next/font/google'
 import SessionProvider from '@/db/SessionProvider'
-import { getServerSession } from 'next-auth'
 import '@/scss/globals.scss'
-import '@uploadthing/react/styles.css'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
-// ✅ Load font
-const font = Playfair_Display({
+const serif = Cormorant_Garamond({
   display: 'swap',
-  weight: '400',
+  weight: ['300', '400', '500'],
+  style: ['normal', 'italic'],
   subsets: ['latin'],
+  variable: '--font-serif',
+})
+
+const sans = Jost({
+  display: 'swap',
+  weight: ['300', '400'],
+  subsets: ['latin'],
+  variable: '--font-sans',
 })
 
 export const metadata: Metadata = {
-  title: 'ReFlair',
+  title: 'ReFlair — Curated Pre-Loved Fashion',
   description: 'Thrift store: Unearth the Hidden Flair of Timeless Fashion',
 }
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
-  const session = await getServerSession()
-
+  // No getServerSession here: reading cookies in the root layout would force
+  // every route to render dynamically. SessionProvider fetches the session
+  // client-side, so customer pages can stay static/ISR.
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={font.className}>
-        <SessionProvider session={session}>
+    <html lang="en" data-scroll-behavior="smooth" suppressHydrationWarning>
+      <body className={`${serif.variable} ${sans.variable}`}>
+        <SessionProvider>
           {children}
         </SessionProvider>
         <ToastContainer
           position="bottom-center"
           autoClose={2000}
           limit={3}
+          hideProgressBar
         />
         <div
           role="note"
@@ -45,19 +53,21 @@ export default async function RootLayout({
             right: '16px',
             bottom: '16px',
             zIndex: 1000,
-            background: 'rgba(0, 0, 0, 0.8)',
-            color: '#fff',
-            padding: '8px 12px',
-            fontSize: '12px',
+            background: 'rgba(18, 17, 16, 0.92)',
+            color: '#f6f5f1',
+            padding: '9px 14px',
+            fontSize: '10px',
             lineHeight: 1.2,
-            borderRadius: '999px',
-            boxShadow: '0 2px 8px rgba(0,0,0,0.3)',
+            borderRadius: 0,
+            border: '1px solid rgba(246, 245, 241, 0.25)',
             pointerEvents: 'none',
             userSelect: 'none',
-            letterSpacing: '0.3px',
+            letterSpacing: '0.18em',
+            fontFamily: 'var(--font-sans), sans-serif',
+            textTransform: 'uppercase',
           }}
         >
-          DEMO SAMPLE · ITEMS NOT FOR SALE · FOR LEARNING ONLY
+          Demo Sample · Items Not For Sale · For Learning Only
         </div>
       </body>
     </html>

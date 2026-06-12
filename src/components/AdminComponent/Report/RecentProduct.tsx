@@ -15,7 +15,7 @@ export default function RecentProduct({ FiveRecentProduct }: ReportPageProps) {
 
     return (
         <div className={styles.trend}>
-            <h2>Latest Product</h2>
+            <h2>Latest pieces</h2>
             <div className={styles.container_product}>
                 {current.map((cur) => (
                     <div key={cur.id} className={styles.product}>

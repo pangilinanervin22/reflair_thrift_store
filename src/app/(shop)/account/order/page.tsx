@@ -39,58 +39,53 @@ export default async function OrderPage({ searchParams, }: PageProps) {
 
     const UserOrder = user?.order || [];
     const status = params.status as OrderStatus;
-    let listOrder = structuredClone(UserOrder);
+    let listOrder = UserOrder;
     if (status)
-        listOrder = listOrder.filter((order) => {
-            if (status) {
-                return order.order_status === status;
-            }
-
-            return true;
-        });
+        listOrder = listOrder.filter((order) => order.order_status === status);
 
 
 
     return (
         <div className={style.main_container}>
+            <header className={style.head}>
+                <h2>Orders</h2>
+            </header>
             <SortOrderClient status={status} />
             <div className={style.order_container}>
                 {listOrder.length ? listOrder.map((order) => (
                     <div className={style.order} key={order.id}>
                         <div>
-                            <h4>{"Order In: " + formatDateString(order.order_date)}</h4>
+                            <h4>{"Ordered " + formatDateString(order.order_date)}</h4>
                             <p className={getStatusStyle(order.order_status)}>{order.order_status}</p>
                         </div>
                         <div>
                             {order.product.map((product) => (
                                 <div className={style.product} key={product.id}>
-                                    <Image src={product.image} alt={product.name} width={100} height={100} />
+                                    <Image src={product.image} alt={product.name} width={100} height={125} />
                                     <div>
                                         <p>{product.name}</p>
-                                        <p>{product.price}</p>
+                                        <p className={style.product_price}>₱ {product.price}</p>
                                     </div>
                                 </div>))}
                         </div>
                         <div>
-                            <p> Order Total: {order.total_price}</p>
-                            {order.order_status === "received" && <p>Received Date: {formatDateString(order.ship_date || new Date())}</p>}
+                            <p className={style.order_total}>Order total — ₱ {order.total_price}</p>
+                            {order.order_status === "received" && <p>Received {formatDateString(order.ship_date || new Date())}</p>}
                             {order.order_status === "pending" &&
                                 <CancelOrderButton order_id={order.id} change_status="cancelled" />}
                             {order.order_status === "shipped" &&
-                                <p>Shipped Date: {formatDateString(order.ship_date || new Date())}</p>}
+                                <p>Shipped {formatDateString(order.ship_date || new Date())}</p>}
                             {order.order_status === "processing" &&
-                                <p>Intial Date: {formatDateString(order.ship_date || new Date())}</p>}
+                                <p>Initiated {formatDateString(order.ship_date || new Date())}</p>}
                         </div>
                     </div>
                 )) :
                     <div className={style.no_item}>
-                        <Image src={"/assets/images/no_order.png"} alt='wew' width={"1920"} height={"1920"} />
-                        <p>
-                            There are no items in this cart.
-                        </p>
+                        <h2>No orders here.</h2>
+                        <p>Pieces you order will appear in this ledger.</p>
                         <Link href={"/product"}>
                             <button className={style.back_button}>
-                                CONTINUE SHOPPING
+                                Continue shopping
                             </button>
                         </Link>
                     </div>

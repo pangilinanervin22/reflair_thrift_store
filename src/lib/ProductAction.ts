@@ -3,6 +3,7 @@
 import prisma from "@/db/prisma"
 import { uploadthingApi } from "@/db/uploadthingApi";
 import { revalidatePath } from 'next/cache'
+import { revalidateStorefront } from './revalidateStorefront';
 
 export async function ProductCreateAction(data: PostProduct) {
     try {
@@ -24,7 +25,7 @@ export async function ProductCreateAction(data: PostProduct) {
         return { message: "Product creation failed", error: true }
     } finally {
         revalidatePath('/admin/product');
-        revalidatePath('/product');
+        revalidateStorefront();
     }
 }
 
@@ -63,7 +64,7 @@ export async function ProductUpdateAction(id: string, data: PostProduct) {
         return { message: "Product update failed", error: true }
     } finally {
         revalidatePath('/admin/product');
-        revalidatePath('/product');
+        revalidateStorefront();
     }
 }
 
@@ -124,6 +125,6 @@ export async function ProductDeleteAction(id: string) {
         return { message: "Deleting Failed", error: true }
     } finally {
         revalidatePath('/admin/product');
-        revalidatePath('/product');
+        revalidateStorefront();
     }
 }

@@ -1,68 +1,112 @@
 @use "../../../scss/variable" as *;
 
 .main_layout {
-    display: flex;
-    justify-content: flex-start;
-    align-items: flex-start;
-    margin-top: 16px;
-    padding-left: 64px;
+    display: grid;
+    grid-template-columns: 240px 1fr;
     width: 100%;
-    position: relative;
+    min-height: 70vh;
+    padding: clamp(40px, 5vw, 72px) var(--gutter) 0;
+    gap: clamp(32px, 4vw, 72px);
 }
 
 .side_bar {
-    border-bottom: 1px solid #ebebeb;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    gap: 16px;
-    min-width: 240px;
-    width: 15vw;
-    height: 75vh;
-    background-color: #f5f5f5;
     position: sticky;
-    top: 120px;
-    left: 0;
+    top: 140px;
+    height: max-content;
+}
 
-    >* {
-        display: flex;
-        align-items: center;
-        color: black;
-        padding: 10px 20px;
-        width: 100%;
-        cursor: pointer;
+.side_title {
+    @include label(10px, 0.3em);
+    color: $gray;
+    padding-bottom: 20px;
+    border-bottom: 1px solid $hairline;
+    margin-bottom: 8px;
+}
+
+.side_nav {
+    display: flex;
+    flex-direction: column;
+
+    a {
+        @include label(11px, 0.22em);
+        position: relative;
+        color: $gray;
+        padding: 13px 0 13px 0;
+        border-bottom: 1px solid $hairline;
+        transition: color $quick ease, padding-left $quick $ease_out;
 
         &:hover {
-            opacity: 0.5;
-        }
-
-        p {
-            font-size: 16px;
-            font-weight: 500;
-            line-height: 1.2;
-            letter-spacing: 0.2px;
-            text-transform: uppercase;
+            color: $ink;
         }
     }
 
-    svg {
-        width: 35px;
-        height: 35px;
-        fill: #000;
-        margin-right: 16px;
+    .active {
+        color: $ink;
+        padding-left: 16px;
+
+        &::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 8px;
+            height: 1px;
+            background: $ink;
+        }
     }
 }
 
-.active {
-    background: black;
-    color: white;
+.logout {
+    @include label(11px, 0.22em);
+    align-self: flex-start;
+    color: $gray;
+    margin-top: 28px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid transparent;
+    transition: color $quick ease, border-color $quick ease;
 
-    svg {
-        fill: white;
+    &:hover {
+        color: $ink;
+        border-bottom-color: $ink;
     }
 }
 
 .content {
-    width: 80%;
-    margin-left: 32px;
+    width: 100%;
+    min-width: 0;
+}
+
+@media (max-width: 820px) {
+    .main_layout {
+        grid-template-columns: 1fr;
+    }
+
+    .side_bar {
+        position: static;
+    }
+
+    .side_nav {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 0 24px;
+
+        a {
+            border-bottom: 0;
+        }
+
+        .active {
+            padding-left: 0;
+
+            &::before {
+                display: none;
+            }
+        }
+    }
+
+    .logout {
+        margin-top: 12px;
+    }
 }

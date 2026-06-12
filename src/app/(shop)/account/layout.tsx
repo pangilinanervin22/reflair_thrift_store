@@ -1,14 +1,9 @@
 "use client"
 
-import IconProfile_svg from '@/assets/IconProfile_svg';
 import Link from 'next/link';
 import { redirect, usePathname } from 'next/navigation';
 import React from 'react'
 import style from './layout.module.scss';
-import IconOrder_svg from '@/assets/IconOrder_svg';
-import IconLogout_svg from '@/assets/IconLogout_svg';
-import IconHeart_svg from '@/assets/IconHeart_svg';
-import IconCart_svg from '@/assets/IconCart_svg';
 import { signOut, useSession } from 'next-auth/react';
 
 export default function AccountLayout({ children, }: { children: React.ReactNode }) {
@@ -20,28 +15,26 @@ export default function AccountLayout({ children, }: { children: React.ReactNode
 
     return (
         <main className={style.main_layout} >
-            <div className={style.side_bar}>
-                <Link href="/account/" className={pathname.endsWith("/account") ? style.active : ""}>
-                    <IconProfile_svg />
-                    <p>Account</p>
-                </Link>
-                <Link href="/account/order/" className={pathname.startsWith("/account/order") ? style.active : ""}>
-                    <IconOrder_svg />
-                    <p>Order</p>
-                </Link>
-                <Link href="/account/cart/" className={pathname.startsWith("/account/cart") ? style.active : ""}>
-                    <IconCart_svg />
-                    <p>Cart</p>
-                </Link>
-                <Link href="/account/like/" className={pathname.startsWith("/account/like") ? style.active : ""}>
-                    <IconHeart_svg />
-                    <p>Like</p>
-                </Link>
-                <div onClick={() => signOut()} >
-                    <IconLogout_svg />
-                    <p>Logout</p>
-                </div>
-            </div>
+            <aside className={style.side_bar}>
+                <p className={style.side_title}>My account</p>
+                <nav className={style.side_nav}>
+                    <Link href="/account/" className={pathname.endsWith("/account") ? style.active : ""}>
+                        Profile
+                    </Link>
+                    <Link href="/account/order/" className={pathname.startsWith("/account/order") ? style.active : ""}>
+                        Orders
+                    </Link>
+                    <Link href="/account/cart/" className={pathname.startsWith("/account/cart") ? style.active : ""}>
+                        Bag
+                    </Link>
+                    <Link href="/account/like/" className={pathname.startsWith("/account/like") ? style.active : ""}>
+                        Saved
+                    </Link>
+                </nav>
+                <button className={style.logout} onClick={() => signOut()}>
+                    Sign out
+                </button>
+            </aside>
             <section className={style.content}>
                 {children}
             </section>

@@ -1,87 +1,119 @@
+@use "../../../scss/variable" as *;
+
 .container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 100%;
+    min-height: calc(100vh - 110px);
+    background: $paper;
+}
+
+.side {
     display: flex;
+    flex-direction: column;
     justify-content: center;
-    align-items: center;
-    font-family: 'Playfair Display', serif;
-    width: auto;
-    background: white;
-    height: 560px;
-    margin-top: 16px;
+    gap: 26px;
+    padding: clamp(40px, 6vw, 110px);
+    background: $ink;
+    color: $paper;
 
-    form {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-        font-family: Arial, Helvetica, sans-serif;
-        min-width: 620px;
-        width: 40%;
-        padding: 90px;
-
-        h1 {
-            font-size: 42px;
-            margin-bottom: 8px;
-        }
-
-
-        h4 {
-            margin-bottom: 16px;
-        }
-
-        hr.underline {
-            width: 100%;
-            margin: 18px 0;
-            border: none;
-            border-bottom: 3px solid black;
-        }
-
-        p {
-            margin-bottom: 20px;
-            font-size: 18px;
-        }
-
-        * {
-            border: 0;
-        }
-
-        input,
-        button {
-            margin-bottom: 16px;
-            font-size: 16px;
-            padding: 8px;
-            width: 100%;
-            padding-block: 16px;
-            font-family: Georgia, 'Times New Roman', Times, serif;
-            background-color: whitesmoke;
-        }
-
-        input::placeholder {
-            color: rgb(208, 199, 199);
-        }
-
-        span {
-            font-weight: 700;
-            text-decoration: underline;
-            color: black;
-        }
-
-        button {
-            margin-top: 20px;
-            color: white;
-            background: red;
-        }
-
-    }
-
-    .side {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        text-align: left;
-        width: 40%;
+    .eyebrow {
+        color: rgba(246, 245, 241, 0.5);
     }
 }
 
-.highlight {
-    color: maroon;
+.statement {
+    @include serif(clamp(36px, 4.2vw, 64px), 300);
+    color: $paper;
+    text-wrap: balance;
+    max-width: 14ch;
+
+    em {
+        font-style: italic;
+    }
+}
+
+.side_note {
+    @include label(10px, 0.22em);
+    color: rgba(246, 245, 241, 0.55);
+    max-width: 36ch;
+    line-height: 2;
+}
+
+.eyebrow {
+    @include label(10px, 0.3em);
+    color: $gray;
+}
+
+.title {
+    @include serif(clamp(32px, 3.6vw, 48px), 300);
+    margin-top: 18px;
+}
+
+.container form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: clamp(40px, 6vw, 110px);
+    max-width: 620px;
+    width: 100%;
+    margin: 0 auto;
+    animation: rise 0.8s $ease_out both;
+
+    button[type="submit"] {
+        @include btn_solid;
+        width: 100%;
+        margin-top: 40px;
+    }
+}
+
+.fields {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    margin-top: 40px;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    label {
+        @include label(10px, 0.26em);
+        color: $gray;
+    }
+
+    input {
+        @include field_underline;
+    }
+}
+
+.switch_note {
+    margin-top: 28px;
+    font-size: 13px;
+    color: $gray;
+
+    span {
+        @include label(11px, 0.16em);
+        color: $ink;
+        border-bottom: 1px solid $ink;
+        padding-bottom: 2px;
+        cursor: pointer;
+        transition: opacity $quick ease;
+
+        &:hover {
+            opacity: 0.6;
+        }
+    }
+}
+
+@media (max-width: 860px) {
+    .container {
+        grid-template-columns: 1fr;
+    }
+
+    .side {
+        padding-block: clamp(48px, 8vw, 80px);
+    }
 }

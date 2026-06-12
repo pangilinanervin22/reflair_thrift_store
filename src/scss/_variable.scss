@@ -1,17 +1,221 @@
-$primary_color: #9A3032;
-$main_color: #ffffff;
-$primary_color: #ED2329;
-$secondary_color: #e2dfda;
-$black_color: #000000;
+// ─────────────────────────────────────────────
+//  ReFlair · monochrome design tokens
+//  "quiet luxury archive" — ink on warm paper
+// ─────────────────────────────────────────────
+
+$ink: #121110;
+$paper: #f6f5f1;
+$white: #ffffff;
+$hairline: #e4e2db;
+$gray: #76736c;
+$gray_light: #aaa79f;
+$frame: #edebe4; // image frame / skeleton ground
+
+// Legacy variable names (admin styles still import these)
+$main_color: $white;
+$primary_color: $ink;
+$secondary_color: $hairline;
+$black_color: $ink;
 
 $TitleFontSize: 64px;
 $MajorFontSize: 32px;
 $PrimaryFontSize: 16px;
 
+// Motion
+$ease_out: cubic-bezier(0.22, 1, 0.36, 1);
+$slow: 0.9s;
+$quick: 0.35s;
 
 @mixin flex_container($direction: row, $justify: center, $align: center) {
     display: flex;
     flex-direction: $direction;
-    justify-content: $justify ;
-    align-items: $align ;
+    justify-content: $justify;
+    align-items: $align;
+}
+
+// Uppercase, letterspaced micro-label — the luxury signature
+@mixin label($size: 11px, $tracking: 0.22em) {
+    font-family: var(--font-sans);
+    font-size: $size;
+    font-weight: 400;
+    letter-spacing: $tracking;
+    text-transform: uppercase;
+    line-height: 1.4;
+}
+
+@mixin serif($size: 32px, $weight: 400) {
+    font-family: var(--font-serif);
+    font-size: $size;
+    font-weight: $weight;
+    line-height: 1.04;
+    letter-spacing: 0.005em;
+}
+
+// Solid ink button — inverts to ghost on hover
+@mixin btn_solid {
+    @include label(11px, 0.24em);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 17px 34px;
+    background: $ink;
+    color: $paper;
+    border: 1px solid $ink;
+    border-radius: 0;
+    cursor: pointer;
+    transition: background $quick ease, color $quick ease;
+
+    &:hover {
+        background: transparent;
+        color: $ink;
+    }
+
+    &:disabled {
+        opacity: 0.4;
+        pointer-events: none;
+    }
+}
+
+// Hairline ghost button — fills with ink on hover
+@mixin btn_ghost {
+    @include label(11px, 0.24em);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 17px 34px;
+    background: transparent;
+    color: $ink;
+    border: 1px solid $ink;
+    border-radius: 0;
+    cursor: pointer;
+    transition: background $quick ease, color $quick ease;
+
+    &:hover {
+        background: $ink;
+        color: $paper;
+    }
+
+    &:disabled {
+        opacity: 0.4;
+        pointer-events: none;
+    }
+}
+
+// White ghost button for dark grounds
+@mixin btn_ghost_light {
+    @include btn_ghost;
+    color: $paper;
+    border-color: rgba(246, 245, 241, 0.7);
+
+    &:hover {
+        background: $paper;
+        border-color: $paper;
+        color: $ink;
+    }
+}
+
+// Animated grow-from-left underline link
+@mixin underline_link($color: $ink) {
+    @include label(11px, 0.2em);
+    position: relative;
+    display: inline-block;
+    color: $color;
+    cursor: pointer;
+    padding-bottom: 6px;
+
+    &::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        height: 1px;
+        background: currentColor;
+        transform: scaleX(0.35);
+        transform-origin: left;
+        transition: transform 0.5s $ease_out;
+    }
+
+    &:hover::after {
+        transform: scaleX(1);
+    }
+}
+
+// Image inside a quiet frame, slow zoom on hover
+@mixin frame_image {
+    position: relative;
+    overflow: hidden;
+    background: $frame;
+
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        transition: transform 1.4s $ease_out, opacity 0.6s ease;
+    }
+
+    &:hover img {
+        transform: scale(1.045);
+    }
+}
+
+// Minimal underline form field
+@mixin field_underline {
+    width: 100%;
+    background: transparent;
+    border: 0;
+    border-bottom: 1px solid $hairline;
+    border-radius: 0;
+    padding: 12px 0;
+    font-family: var(--font-sans);
+    font-size: 14px;
+    font-weight: 300;
+    letter-spacing: 0.04em;
+    color: $ink;
+    outline: none;
+    transition: border-color $quick ease;
+
+    &::placeholder {
+        color: $gray_light;
+        text-transform: uppercase;
+        font-size: 11px;
+        letter-spacing: 0.2em;
+    }
+
+    &:focus {
+        border-bottom-color: $ink;
+    }
+
+    &:disabled {
+        color: $gray;
+        border-bottom-style: dashed;
+    }
+}
+
+// Shimmering skeleton block
+@mixin skeleton {
+    position: relative;
+    overflow: hidden;
+    background: $frame;
+
+    &::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        transform: translateX(-100%);
+        background: linear-gradient(90deg,
+                rgba(255, 255, 255, 0) 0%,
+                rgba(255, 255, 255, 0.55) 50%,
+                rgba(255, 255, 255, 0) 100%);
+        animation: shimmer 1.6s infinite;
+    }
+}
+
+@keyframes shimmer {
+    100% {
+        transform: translateX(100%);
+    }
 }

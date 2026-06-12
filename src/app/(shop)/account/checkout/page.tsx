@@ -3,18 +3,8 @@ import prisma from '@/db/prisma';
 import CheckOutButton from './CheckOutButton';
 import { redirect } from 'next/navigation';
 import Image from 'next/image';
-import IconLocation_svg from '@/assets/IconLocation_svg';
 import style from './page.module.scss';
-import { Playfair_Display } from 'next/font/google'
 import { authOptions } from '@/db/options';
-import { toast } from 'react-toastify';
-
-const font = Playfair_Display({
-    display: 'swap',
-    weight: "400",
-    subsets: ['latin'],
-    variable: "--title_font",
-});
 
 export default async function CheckoutPage() {
     const session = await getServerSession(authOptions);
@@ -42,67 +32,67 @@ export default async function CheckoutPage() {
 
     return (
         <main className={style.checkout_container}>
-            <section className={style.checkout_title}>
-                <h2 className={font.className}>
-                    Reflair | Checkout
-                </h2>
-            </section>
-            <section className={style.checkout_content}>
-                <div className={style.product_container}>
-                    <div>
+            <header className={style.checkout_title}>
+                <p className={style.eyebrow}>ReFlair · Final step</p>
+                <h2>Checkout</h2>
+            </header>
+
+            <div className={style.checkout_grid}>
+                <section className={style.checkout_content}>
+                    <p className={style.panel_label}>
+                        Your pieces ({account.cart?.product.length})
+                    </p>
+                    <div className={style.product_container}>
                         {account.cart?.product.map((product) => (
                             <div className={style.product} key={product.id}>
                                 <div className={style.product_description}>
-                                    <Image src={product.image} alt={product.name} width={300} height={300} />
+                                    <Image src={product.image} alt={product.name} width={144} height={180} sizes="72px" />
                                     <div>
-                                        {product.name}
-                                        <p>{product.size}</p>
+                                        <p className={style.product_name}>{product.name}</p>
+                                        <p className={style.product_size}>Size {product.size}</p>
                                     </div>
                                 </div>
                                 <div className={style.product_price}>
-                                    ₱{product.price}
+                                    ₱ {product.price}
                                 </div>
                             </div>))
                         }
                     </div>
-                </div>
-                <div className={style.checkout_total}>
-                    <div className={style.total}>
-                        <p>{`Shipping Fee`}</p>
-                        <p>₱{50}</p>
-                    </div>
-                    <div className={style.total}>
-                        <p>{`Subtotal (${account.cart?.product.length} items)`}</p>
-                        <p>₱{total}</p>
-                    </div>
-                    <div className={style.action}>
+                </section>
+
+                <aside className={style.checkout_side}>
+                    <section className={style.checkout_account}>
+                        <p className={style.panel_label}>Delivery address</p>
+                        <div className={style.delivery_description}>
+                            <label htmlFor="name">Name</label>
+                            <p>{account?.name}</p>
+                            <label htmlFor="contact">Contact</label>
+                            <p className={!account?.contact ? style.error : ''}>{account?.contact || 'Contact is required'}</p>
+                            <label htmlFor="address">Address</label>
+                            <p className={(!account?.barangay) ? style.error : ''}> {`(${account.city})`} {account?.barangay || 'Barangay is required'}</p>
+                            <p className={(!account?.address) ? style.error : ''}>{account?.address || 'Address is required'}</p>
+                        </div>
+                    </section>
+
+                    <section className={style.checkout_total}>
                         <div className={style.total}>
-                            <p>{`TOTAL :`}</p>
-                            <p>₱{total ? total + 50 : ""}</p>
+                            <p>Shipping fee</p>
+                            <p>₱ {50}</p>
+                        </div>
+                        <div className={style.total}>
+                            <p>{`Subtotal (${account.cart?.product.length} items)`}</p>
+                            <p>₱ {total}</p>
+                        </div>
+                        <div className={style.grand_total}>
+                            <p>Total</p>
+                            <p>₱ {total ? total + 50 : ""}</p>
                         </div>
                         <CheckOutButton account={account} product={account?.cart?.product.map(item => item.id)} >
-                            <button className={style.checkout_button}>PLACE ORDER NOW</button>
+                            <button className={style.checkout_button}>Place order now</button>
                         </CheckOutButton>
-                    </div>
-                </div>
-            </section>
-            <section className={style.checkout_account}>
-                <div className={style.delivery_description}>
-                    <div className={style.delivery_title}>
-                        <IconLocation_svg />
-                        <h3>Delivery Address</h3>
-                    </div>
-                    <label htmlFor="name">Name</label>
-                    <p>{account?.name}</p>
-                    <label htmlFor="contact">Contact</label>
-                    <p className={!account?.contact ? style.error : ''}>{account?.contact || 'Contact is required'}</p>
-                    <label htmlFor="name">Address</label>
-                    <p className={(!account?.barangay) ? style.error : ''}> {`(${account.city})`} {account?.barangay || 'Barangay is required'}</p>
-                    <p className={(!account?.address) ? style.error : ''}>   {account?.address || 'Address is required'}</p>
-                </div>
-            </section>
+                    </section>
+                </aside>
+            </div>
         </main>
     )
 }
-
-// TODO: FIX DESIGN AND BUG

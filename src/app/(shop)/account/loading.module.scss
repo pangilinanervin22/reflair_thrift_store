@@ -1,0 +1,67 @@
+@use "../../../scss/variable" as *;
+
+.account_loading {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 880px;
+}
+
+.skeleton {
+    @include skeleton;
+}
+
+.head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    padding-bottom: clamp(20px, 2vw, 28px);
+    border-bottom: 1px solid $hairline;
+    margin-bottom: 8px;
+
+    .title {
+        width: 220px;
+        height: 38px;
+    }
+
+    .count {
+        width: 70px;
+        height: 12px;
+    }
+}
+
+.row {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    padding: 22px 0;
+    border-bottom: 1px solid $hairline;
+
+    .thumb {
+        width: 88px;
+        aspect-ratio: 4 / 5;
+        flex-shrink: 0;
+    }
+
+    .lines {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        flex: 1;
+
+        > :first-child {
+            width: 45%;
+            height: 13px;
+        }
+
+        > :last-child {
+            width: 25%;
+            height: 10px;
+        }
+    }
+
+    .price {
+        width: 64px;
+        height: 20px;
+    }
+}

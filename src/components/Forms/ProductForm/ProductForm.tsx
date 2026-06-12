@@ -3,6 +3,7 @@
 import { FormEvent, useState } from "react";
 import Image from "next/image";
 import style from "./ProductForm.module.scss";
+import '@uploadthing/react/styles.css';
 import Link from "next/link";
 import { ProductUpdateAction } from "@/lib/ProductAction";
 import type { Product } from "@prisma/client";
@@ -71,7 +72,7 @@ export default function ProductForm({ product }: PageProps) {
     return (
         <section className={style.main}>
             <div className={style.container_upload}>
-                <Image src={url} alt="image upload" width={1920} height={1080} />
+                <Image src={url} alt="image upload" width={840} height={1120} sizes="(max-width: 860px) 92vw, 420px" />
                 <UploadButton
                     endpoint="imageUploader"
                     onClientUploadComplete={(res: any) => {

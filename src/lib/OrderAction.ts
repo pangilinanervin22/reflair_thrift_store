@@ -4,6 +4,7 @@ import prisma from "@/db/prisma";
 import { Account, Order, OrderStatus, Prisma } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { revalidateStorefront } from "./revalidateStorefront";
 
 
 export async function OrderCreateAction(account: Account, array_product_id: string[],) {
@@ -100,8 +101,10 @@ export async function OrderCreateAction(account: Account, array_product_id: stri
     } catch (error) {
         return { message: "Order error occurred", error: error }
     } finally {
-        revalidatePath('/cart');
+        revalidatePath('/account/cart');
         revalidatePath('/admin/order');
+        // Purchased pieces leave the storefront listings — refresh the static pages
+        revalidateStorefront();
     }
 }
 
@@ -147,6 +150,9 @@ export async function OrderDeleteAction(order_id: string) {
         return { message: "Order error occurred", error: error }
     } finally {
         revalidatePath('/admin/order');
+        // Deleting an order disconnects its products — they return to the
+        // storefront listings, so the static pages must regenerate.
+        revalidateStorefront();
     }
 }
 

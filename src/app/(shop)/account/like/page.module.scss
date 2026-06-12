@@ -1,142 +1,136 @@
+@use "../../../../scss/variable" as *;
+
 .main_container {
   display: flex;
-  align-items: center;
-  justify-content: center;
   flex-direction: column;
   width: 100%;
-  gap: 16px;
+}
 
-  >:first-child {
-    text-align: center;
-    font-family: "Poppins", sans-serif;
-    font-size: 20px;
-    font-weight: 900;
-    line-height: normal;
-    letter-spacing: 2.6px;
-    text-align: left;
+.head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding-bottom: clamp(20px, 2vw, 28px);
+  border-bottom: 1px solid $hairline;
+  margin-bottom: clamp(28px, 3vw, 44px);
+
+  h2 {
+    @include serif(clamp(30px, 3.4vw, 44px), 400);
   }
 
+  >p {
+    @include label(10px, 0.22em);
+    color: $gray;
+  }
 }
 
 .product_container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 16px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  column-gap: clamp(20px, 2.4vw, 40px);
+  row-gap: clamp(40px, 4vw, 64px);
   width: 100%;
-  padding: 16px;
 }
 
 .product_card {
   display: flex;
   flex-direction: column;
-  width: 200px;
-  background: transparent;
-  color: transparent;
-  border: #e2dfda 2px solid;
-  height: fit-content;
 
-  &:hover {
-    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
+  .frame {
+    @include frame_image;
+    display: block;
+    aspect-ratio: 3 / 4;
   }
 
   .description {
-    border: #e2dfda 0.5px solid;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding-top: 14px;
+    margin-bottom: 14px;
 
     h4 {
-      color: black;
-      font-size: 15px;
-      text-align: left;
-      font-family: "Poppins", sans-serif;
-      padding: 8px;
+      @include label(12px, 0.14em);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
 
     p {
-      color: black;
-      font-size: 13px;
-      text-align: left;
-      margin-left: 8px;
-      font-weight: 400;
-      letter-spacing: 1px;
-      line-height: normal;
+      @include label(10px, 0.18em);
+      color: $gray_light;
     }
 
-    >:last-child {
-      margin-bottom: 8px;
+    .price {
+      @include serif(18px, 500);
+      color: $ink;
+      margin-top: 2px;
     }
   }
-
-  img {
-    width: 100%;
-    height: 200px;
-    justify-content: center;
-  }
-
-
-
 }
 
 .actions_container {
   display: flex;
-  flex-direction: column;
-}
+  margin-top: auto;
 
-.cart,
-.remove {
-  width: 100%;
-  font-weight: bold;
-  padding: 8px;
-  cursor: pointer;
+  >div {
+    width: 50%;
+  }
 
-  &:hover {
-    cursor: pointer;
+  button {
+    width: 100%;
+    padding: 13px 0;
   }
 }
 
 .cart {
-  background-color: white;
-  border: #ccc1c1 1px solid;
-  color: black;
+  @include btn_solid;
+  padding-inline: 0;
 }
 
 .remove {
-  background-color: red;
-  color: white;
+  @include btn_ghost;
+  padding-inline: 0;
+  border-left: 0;
 }
 
-
 .no_item {
-  font-size: 20px;
-  color: gray;
-  text-align: center;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   flex-direction: column;
+  gap: 14px;
   width: 100%;
-  height: 75vh;
+  padding: clamp(40px, 6vw, 80px) 0;
+
+  h2 {
+    @include serif(clamp(30px, 3.6vw, 48px), 300);
+    font-style: italic;
+  }
 
   p {
-    font-size: 24px;
+    color: $gray;
   }
+}
 
-  img {
-    width: 160px;
-    height: 160px;
+.no_item_eyebrow {
+  @include label(10px, 0.3em);
+  color: $gray !important;
+}
+
+.back_button {
+  @include btn_ghost;
+  margin-top: 16px;
+}
+
+@media (max-width: 1100px) {
+  .product_container {
+    grid-template-columns: repeat(2, 1fr);
   }
+}
 
-  button {
-    margin-top: 16px;
-    padding: 8px 32px;
-    color: violet;
-    border-radius: 8px;
-    border: 1px solid violet;
-    font-weight: 700;
-
-
-    &:hover {
-      background-color: violet;
-      color: white;
-    }
+@media (max-width: 480px) {
+  .product_container {
+    grid-template-columns: 1fr;
   }
 }

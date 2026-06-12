@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import style from "./ProductForm.module.scss";
+import '@uploadthing/react/styles.css';
 import Link from "next/link";
 import { toast } from "react-toastify";
 import { UploadButton } from "@/db/uploadthing";
@@ -58,7 +59,7 @@ export default function ProductCreateForm() {
     return (
         <section className={style.main}>
             <div className={style.container_upload}>
-                <Image src={url} alt="image upload" width={1920} height={1080} />
+                <Image src={url} alt="image upload" width={840} height={1120} sizes="(max-width: 860px) 92vw, 420px" />
                 <UploadButton
                     endpoint="imageUploader"
                     onClientUploadComplete={(res: any) => {
@@ -71,7 +72,7 @@ export default function ProductCreateForm() {
                 />
             </div>
             <div className={style.container_form}>
-                <h2>Edit Product</h2>
+                <h2>New product</h2>
                 <br />
                 <form onSubmit={handleSubmit}>
                     <div className={style.container_input}>

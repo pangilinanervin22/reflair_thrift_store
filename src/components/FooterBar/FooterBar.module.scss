@@ -1,113 +1,116 @@
+@use "../../scss/variable" as *;
+
 .footer {
   width: 100%;
-  background-color: black;
-  margin-block-start: 2rem;
+  background: $ink;
+  color: $paper;
+  margin-block-start: clamp(64px, 8vw, 120px);
+  overflow: hidden;
+
+  a {
+    color: rgba(246, 245, 241, 0.72);
+    transition: color $quick ease;
+
+    &:hover {
+      color: $paper;
+    }
+  }
 }
 
-.footer_flex_row1 {
+.top {
+  display: grid;
+  grid-template-columns: minmax(280px, 1.2fr) 2fr;
+  gap: clamp(40px, 6vw, 120px);
+  padding: clamp(48px, 6vw, 96px) var(--gutter) clamp(40px, 5vw, 72px);
+  border-bottom: 1px solid rgba(246, 245, 241, 0.14);
+}
+
+.eyebrow {
+  @include label(10px, 0.3em);
+  color: rgba(246, 245, 241, 0.5);
+  margin-bottom: 22px;
+}
+
+.tagline {
+  @include serif(clamp(26px, 2.6vw, 38px), 300);
+  color: $paper;
+  max-width: 17ch;
+
+  em {
+    font-style: italic;
+  }
+}
+
+.columns {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(120px, 1fr));
+  gap: clamp(24px, 3vw, 48px);
+}
+
+.column {
   display: flex;
+  flex-direction: column;
+  gap: 14px;
+
+  h3 {
+    @include label(10px, 0.3em);
+    color: rgba(246, 245, 241, 0.45);
+    margin-bottom: 8px;
+  }
+
+  a {
+    @include label(12px, 0.14em);
+  }
+}
+
+.wordmark {
+  @include serif(clamp(96px, 17vw, 280px), 400);
+  text-align: center;
+  color: rgba(246, 245, 241, 0.1);
+  line-height: 0.78;
+  margin-bottom: -0.13em;
+  user-select: none;
+  pointer-events: none;
+  white-space: nowrap;
+
+  em {
+    font-style: italic;
+  }
+}
+
+.legal {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
   align-items: center;
-}
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 20px var(--gutter) 24px;
+  border-top: 1px solid rgba(246, 245, 241, 0.14);
 
-.left_column {
-  margin-left: 3rem;
-  width: 60%;
-
-  h1 {
-    color: white;
-    font-size: 50px;
-    font-weight: 400;
-    font-weight: 400;
-    line-height: normal;
-  }
-
-  h4 {
-    color: white;
-    font-size: 15px;
+  p {
+    @include label(9px, 0.2em);
+    color: rgba(246, 245, 241, 0.4);
   }
 }
 
-.right_column {
-  margin-top: 2rem;
-  justify-content: left;
-
-  h1 {
-    color: white;
-    font-size: 30px;
-    text-align: center;
-  }
-
-  li {
-    float: right;
-    padding: 15px 25px;
-  }
+.legal_links {
+  display: flex;
+  gap: clamp(16px, 3vw, 40px);
 
   a {
-    text-decoration: none;
-    color: white;
-  }
-
-  img {
-    height: 50px;
-    width: 50px;
-  }
-
-  &:hover {
-    cursor: pointer;
+    @include label(9px, 0.2em);
   }
 }
 
-.footer_flex_row2 {
-  display: flex;
-  flex-direction: row;
-}
-
-.second_column_left {
-  display: flex;
-  flex-direction: column;
-  margin-left: 3rem;
-
-  a {
-    color: white;
-    padding: 6px;
-    font-size: 20px;
-    text-decoration: underline;
+@media (max-width: 860px) {
+  .top {
+    grid-template-columns: 1fr;
   }
 }
 
-.second_column_right {
-  display: flex;
-  flex-direction: column;
-
-  margin-left: 3rem;
-
-  a {
-    color: white;
-    padding: 6px;
-    font-size: 20px;
-    text-decoration: underline;
-  }
-}
-
-.footer_row3 {
-  display: flex;
-  flex-direction: column;
-  padding-block: 10px;
-  margin: 3rem 3rem;
-}
-
-.row3_top {
-  h4 {
-    color: white;
-    font-size: 10px;
-    padding: 10px;
-  }
-}
-
-.row3_bottom {
-  a {
-    color: white;
-    font-size: 15px;
-    padding: 15px;
+@media (max-width: 560px) {
+  .columns {
+    grid-template-columns: 1fr 1fr;
   }
 }

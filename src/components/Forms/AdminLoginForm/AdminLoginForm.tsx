@@ -6,13 +6,6 @@ import style from './page.module.scss';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
 import { isEmailExist } from '@/lib/AccountAction';
-import { Playfair_Display } from 'next/font/google';
-
-const font = Playfair_Display({
-    display: 'swap',
-    weight: "400",
-    subsets: ['latin'],
-});
 
 export default function AdminLoginForm({ registering }: { registering: Function }) {
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -65,15 +58,17 @@ export default function AdminLoginForm({ registering }: { registering: Function 
         <main className={style.main}>
             <section className={style.container}>
                 <div className={style.title}>
-                    <h1 className={font.className}>ReFlair</h1>
-                    <p>Employee Access</p>
+                    <h1>Re<em>Flair</em></h1>
+                    <p>Atelier · Employee access</p>
                 </div>
                 <form onSubmit={handleSubmit}>
                     <label htmlFor="email">Email</label>
-                    <input id="email" type="text" placeholder="Enter Email" required />
-                    <label htmlFor="email">Password</label>
-                    <input id="password" type="password" placeholder="Enter Password" required />
-                    <button type="submit">Log In</button>
+                    <input id="email" type="text" placeholder="you@reflair.com" required />
+                    <label htmlFor="password">Password</label>
+                    <input id="password" type="password" placeholder="••••••••" required />
+                    <button type="submit" disabled={isSubmitting}>
+                        {isSubmitting ? "Logging in…" : "Log in"}
+                    </button>
                 </form>
             </section>
         </main>

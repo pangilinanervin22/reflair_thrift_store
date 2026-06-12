@@ -1,181 +1,225 @@
+@use "../../../../scss/variable" as *;
+
 .main_container {
     display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
+    flex-direction: column;
     width: 100%;
-    padding: 20px;
+    max-width: 880px;
+}
 
+.head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    padding-bottom: clamp(20px, 2vw, 28px);
 
-    >:first-child {
-        width: 100%;
+    h2 {
+        @include serif(clamp(30px, 3.4vw, 44px), 400);
     }
+}
 
-    .order_container {
+.order_container {
+    width: 100%;
+    padding-top: clamp(24px, 3vw, 36px);
+
+    .order {
+        display: flex;
+        flex-direction: column;
         width: 100%;
-        padding: 24px;
-        height: 70vh;
-        overflow-y: auto;
+        padding: clamp(20px, 2.4vw, 32px);
+        border: 1px solid $hairline;
+        background: $white;
+        margin-bottom: 20px;
 
-        .order {
+        >:first-child {
             display: flex;
-            flex-wrap: wrap;
             justify-content: space-between;
             align-items: center;
-            width: 100%;
-            padding: 16px;
-            border: 2px solid #E0E0E0;
-            border-radius: 4px;
-            margin-bottom: 16px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid $hairline;
 
-            >:first-child {
-                width: 100%;
-                display: flex;
-                justify-content: space-between;
-            }
-
-            >:last-child {
-                width: 100%;
-                display: flex;
-                flex-direction: column;
-                border-top: 1px solid #E0E0E0;
-                padding-top: 16px;
-                align-items: flex-end;
-                gap: 8px;
-
-                button {
-                    background: red;
-                    width: 150px;
-                    padding: 8px 16px;
-                    color: white;
-                }
+            h4 {
+                @include label(10px, 0.2em);
+                color: $gray;
             }
         }
 
+        >:last-child {
+            display: flex;
+            flex-direction: column;
+            border-top: 1px solid $hairline;
+            padding-top: 18px;
+            align-items: flex-end;
+            gap: 10px;
+
+            p {
+                @include label(10px, 0.18em);
+                color: $gray;
+            }
+
+            .order_total {
+                @include serif(20px, 500);
+                color: $ink;
+                letter-spacing: 0;
+                text-transform: none;
+            }
+
+            button {
+                @include btn_ghost;
+                padding: 12px 28px;
+            }
+        }
     }
 }
 
 .product {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    padding: 16px;
-    border-radius: 4px;
+    gap: 18px;
+    padding: 14px 0;
 
     img {
-        width: 75px;
-        height: 75px;
+        width: 72px;
+        height: 90px;
         object-fit: cover;
-        border-radius: 4px;
+        background: $frame;
+        flex-shrink: 0;
     }
 
     >:last-child {
-        margin-left: 16px;
-        width: 100%;
         display: flex;
         flex-direction: column;
-        gap: 8px;
+        gap: 5px;
+        min-width: 0;
+
+        p:first-child {
+            @include label(11px, 0.14em);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .product_price {
+            @include serif(16px, 500);
+            color: $gray;
+        }
     }
 }
+
+// ── Status filter tabs ────────────────────────
 
 .status_container {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 16px;
+    align-items: stretch;
     width: 100%;
+    border-top: 1px solid $hairline;
+    border-bottom: 1px solid $hairline;
+    overflow-x: auto;
 
     .status {
-        display: flex;
-        justify-content: center;
-        font-size: 14px;
-        font-weight: 500;
-        text-transform: uppercase;
+        @include label(10px, 0.2em);
+        flex: 1;
+        color: $gray;
         background: none;
-        border-bottom: 2px solid #E0E0E0;
-        width: 20%;
-        padding-bottom: 8px;
-        text-align: right;
+        padding: 14px 8px;
+        white-space: nowrap;
+        border-bottom: 1px solid transparent;
+        margin-bottom: -1px;
+        transition: color $quick ease, border-color $quick ease;
+
+        &:hover {
+            color: $ink;
+        }
     }
 
     .active {
-        border-bottom: 2px solid black;
+        color: $ink;
+        border-bottom: 1px solid $ink;
     }
 }
 
-.pending,
-.shipped,
-.cancelled,
-.received,
-.cancelled,
-.processing {
-    display: flex;
+// ── Monochrome status badges ──────────────────
+
+%badge {
+    @include label(9px, 0.22em);
+    display: inline-flex;
     align-items: center;
-    justify-content: center;
-    font-size: 14px;
-    font-weight: 500;
-    text-transform: uppercase;
-    padding: 8px;
-    width: 120px;
-    text-align: right;
-    border-radius: 24px;
+    gap: 8px;
+    padding: 7px 14px;
+    border: 1px solid $ink;
+
+    &::before {
+        content: "";
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        background: currentColor;
+    }
 }
 
 .pending {
-    color: #FF9800;
-    background: #FFF3E0
+    @extend %badge;
+    color: $ink;
+    background: transparent;
+
+    &::before {
+        background: transparent;
+        border: 1px solid currentColor;
+    }
 }
 
 .processing {
-    color: #FFC107;
-    background: #FFF8E1;
+    @extend %badge;
+    color: $ink;
+    background: transparent;
 }
 
 .shipped {
-    color: #2196F3;
-    background: #E3F2FD;
-}
-
-.cancelled {
-    color: #F44336;
-    background: #FFE5E5;
+    @extend %badge;
+    color: $white;
+    background: $gray;
+    border-color: $gray;
 }
 
 .received {
-    color: #4CAF50;
-    background: #E8F5E9;
+    @extend %badge;
+    color: $paper;
+    background: $ink;
 }
 
+.cancelled {
+    @extend %badge;
+    color: $gray_light;
+    border-color: $hairline;
+    text-decoration: line-through;
+
+    &::before {
+        background: $gray_light;
+    }
+}
+
+// ── Empty state ───────────────────────────────
+
 .no_item {
-    font-size: 20px;
-    color: gray;
-    text-align: center;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
     flex-direction: column;
+    gap: 14px;
     width: 100%;
-    height: 100%;
+    padding: clamp(40px, 6vw, 80px) 0;
+
+    h2 {
+        @include serif(clamp(30px, 3.6vw, 48px), 300);
+        font-style: italic;
+    }
 
     p {
-        font-size: 24px;
+        color: $gray;
     }
 
-    img {
-        width: 160px;
-        height: 160px;
-    }
-
-    button {
+    .back_button {
+        @include btn_ghost;
         margin-top: 16px;
-        padding: 8px 32px;
-        color: violet;
-        border-radius: 8px;
-        border: 1px solid violet;
-        font-weight: 700;
-
-        &:hover {
-            background-color: violet;
-            color: white;
-        }
     }
 }

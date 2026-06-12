@@ -1,22 +1,23 @@
 "use client";
 
-import { FormEvent, useState } from 'react';
-import { signIn } from 'next-auth/react';
+import { FormEvent, useEffect, useState } from 'react';
+import { signIn, useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 import style from './page.module.scss';
 import Link from 'next/link';
 import { toast } from 'react-toastify';
 import { isEmailExist } from '@/lib/AccountAction';
 import Image from 'next/image';
-import { Playfair_Display } from 'next/font/google';
-
-const font = Playfair_Display({
-    display: 'swap',
-    weight: '600',
-    subsets: ['latin'],
-});
 
 export default function LoginForm() {
     const [submitting, setSubmitting] = useState(false);
+    const { status } = useSession();
+    const router = useRouter();
+
+    // Already signed in — go straight to the account area
+    useEffect(() => {
+        if (status === 'authenticated') router.replace('/account');
+    }, [status, router]);
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -65,18 +66,40 @@ export default function LoginForm() {
     return (
         <section className={style.container}>
             <div className={style.side}>
-                <Image src={'/assets/images/loginbgimage.jpg'} alt='wew' width={1080} height={1080} />
+                <Image
+                    src={'/assets/images/loginbgimage.jpg'}
+                    alt='Archive editorial'
+                    width={1080}
+                    height={1080}
+                    sizes="(max-width: 860px) 0px, 50vw"
+                    priority
+                />
+                <p className={style.side_caption}>
+                    Worn well. <em>Loved again.</em>
+                </p>
             </div>
             <form onSubmit={handleSubmit}>
-                <h1 className={font.className}>Welcome to ReFlair</h1>
-                <h4> Unearth the Hidden Flair of Timeless Fashion</h4>
-                <hr className={style.underline} />
-                <input id='email' name='email' type='email' placeholder='Enter Email' autoComplete='email' required />
-                <input id='password' name='password' type='password' placeholder='Enter Password' autoComplete='current-password' required />
-                <button type='submit' disabled={submitting}>{submitting ? 'Logging in…' : 'Log In'}</button>
-                <p>Don&#39;t have an Account?</p>
-                <Link href={'/register'}><span>Register Here</span></Link>
-                <hr className={style.underline} />
+                <p className={style.eyebrow}>ReFlair · Members</p>
+                <h1 className={style.title}>Welcome back</h1>
+                <p className={style.subtitle}>Unearth the hidden flair of timeless fashion.</p>
+
+                <div className={style.fields}>
+                    <div className={style.field}>
+                        <label htmlFor='email'>Email</label>
+                        <input id='email' name='email' type='email' placeholder='you@example.com' autoComplete='email' required />
+                    </div>
+                    <div className={style.field}>
+                        <label htmlFor='password'>Password</label>
+                        <input id='password' name='password' type='password' placeholder='••••••••' autoComplete='current-password' required />
+                    </div>
+                </div>
+
+                <button type='submit' disabled={submitting}>{submitting ? 'Logging in…' : 'Log in'}</button>
+
+                <p className={style.switch_note}>
+                    {"Don't have an account?"}{' '}
+                    <Link href={'/register'}><span>Register here</span></Link>
+                </p>
             </form>
         </section>
     );

@@ -36,13 +36,12 @@ export default async function LikePage() {
     if (!product || !product.length)
         return (
             <div className={style.no_item}>
-                <Image src={"/assets/images/like_img.webp"} alt='wew' width={"1920"} height={"1920"} />
-                <p>
-                    You currently have no liked items.
-                </p>
+                <p className={style.no_item_eyebrow}>Saved pieces</p>
+                <h2>Nothing saved, yet.</h2>
+                <p>Keep the pieces you love close — before someone else does.</p>
                 <Link href={"/product"}>
                     <button className={style.back_button}>
-                        CONTINUE SHOPPING
+                        Continue shopping
                     </button>
                 </Link>
             </div>
@@ -51,31 +50,36 @@ export default async function LikePage() {
 
     return (
         <section className={style.main_container}>
-            <h1>Total Liked: {product.length}</h1>
+            <header className={style.head}>
+                <h2>Saved pieces</h2>
+                <p>{product.length} {product.length === 1 ? "piece" : "pieces"}</p>
+            </header>
             <div className={style.product_container}>
                 {product.map((item) => (
-                    <div className={style.product_card} key={item.id}>
-                        <Image
-                            src={item.image}
-                            width={400}
-                            height={400}
-                            quality={100}
-                            alt="liked pic"
-                        />
+                    <article className={style.product_card} key={item.id}>
+                        <Link href={`/product/${item.id}`} className={style.frame}>
+                            <Image
+                                src={item.image}
+                                width={400}
+                                height={500}
+                                sizes="(max-width: 480px) 100vw, (max-width: 1100px) 50vw, 33vw"
+                                alt={item.name}
+                            />
+                        </Link>
                         <div className={style.description}>
                             <h4>{item.name}</h4>
-                            <p>Size: {item.size}</p>
-                            <p>₱ {item.price}</p>
+                            <p>Size {item.size}</p>
+                            <p className={style.price}>₱ {item.price}</p>
                         </div>
                         <div className={style.actions_container}>
                             <AddCartButton email={account.email} item_id={item.id}>
-                                <button className={style.cart}>ADD TO CART</button>
+                                <button className={style.cart}>Add to bag</button>
                             </AddCartButton>
                             <RemoveLikeButton email={account.email} item_id={item.id} >
-                                <button className={style.remove}>REMOVE</button>
+                                <button className={style.remove}>Remove</button>
                             </RemoveLikeButton>
                         </div>
-                    </div>
+                    </article>
                 ))}
             </div>
         </section>

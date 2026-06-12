@@ -1,4 +1,3 @@
-
 import React from 'react';
 import style from './ProductLoading.module.scss';
 
@@ -21,10 +20,10 @@ function ProductCard() {
             <div className={style.product_loading_content}>
                 <div className={style.product_loading_text_name}></div>
                 <div className={style.product_loading_text_price}></div>
-                <div className={style.product_loading_button}>
-                    <button></button>
-                    <button></button>
-                </div>
+            </div>
+            <div className={style.product_loading_button}>
+                <button></button>
+                <button></button>
             </div>
         </div>
     );

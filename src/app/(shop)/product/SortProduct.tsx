@@ -5,50 +5,65 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import style from './SortPorduct.module.scss'
 
 export default function SortPage() {
-    const [search, setSearch] = React.useState('');
-    const [sort, setSort] = React.useState('');
-    const [debounceTimer, setDebounceTimer] = React.useState<NodeJS.Timeout | null>(null);
-
     const params = useSearchParams();
     const router = useRouter();
 
+    const [search, setSearch] = React.useState(params.get('search') ?? '');
+    const [sort, setSort] = React.useState(params.get('sort') ?? '');
+    const debounceTimer = React.useRef<NodeJS.Timeout | null>(null);
+
     const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        const sort = e.target.value;
-        setSort(sort);
+        setSort(e.target.value);
     };
 
     const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const search = e.target.value;
-        if (debounceTimer) {
-            clearTimeout(debounceTimer);
+        if (debounceTimer.current) {
+            clearTimeout(debounceTimer.current);
         }
 
-        setDebounceTimer(setTimeout(() => {
+        debounceTimer.current = setTimeout(() => {
             setSearch(search);
-        }, 500));
+        }, 500);
     }
 
 
     React.useEffect(() => {
-        const params = new URLSearchParams();
-        if (search) params.append('search', search);
-        if (sort) params.append('sort', sort);
-        const url = `?${params.toString()}`;
-        router.push("product" + url);
-    }, [search, sort, router]);
+        // Preserve unrelated filters (category, material, color) in the URL
+        const next = new URLSearchParams(params.toString());
+        if (search) next.set('search', search); else next.delete('search');
+        if (sort) next.set('sort', sort); else next.delete('sort');
+
+        const nextQuery = next.toString();
+        // Nothing changed — skip the navigation so mounting doesn't trigger
+        // a second, redundant server render of the page.
+        if (nextQuery === params.toString()) return;
+
+        router.replace(nextQuery ? `/product?${nextQuery}` : '/product');
+    }, [search, sort, router, params]);
 
     return (
         <div className={style.sort_product}>
-            <div>
-                <label>Search: </label>
-                <input type="text" onChange={handleSearchChange} />
+            <div className={style.search_field}>
+                <label htmlFor="archive-search">Search</label>
+                <input
+                    id="archive-search"
+                    type="text"
+                    placeholder="Search the archive…"
+                    defaultValue={search}
+                    onChange={handleSearchChange}
+                />
             </div>
-            <select onChange={handleSortChange}>
-                <option value="price_asc">Price (Low to High)</option>
-                <option value="price_desc">Price (High to Low)</option>
-                <option value="name_asc">Name (A to Z)</option>
-                <option value="name_desc">Name (Z to A)</option>
-            </select>
+            <div className={style.sort_field}>
+                <label htmlFor="archive-sort">Sort</label>
+                <select id="archive-sort" defaultValue={sort} onChange={handleSortChange}>
+                    <option value="">Featured</option>
+                    <option value="price_asc">Price (Low to High)</option>
+                    <option value="price_desc">Price (High to Low)</option>
+                    <option value="name_asc">Name (A to Z)</option>
+                    <option value="name_desc">Name (Z to A)</option>
+                </select>
+            </div>
         </div>
     )
 }

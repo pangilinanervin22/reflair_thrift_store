@@ -1,56 +1,229 @@
-:root {
-  --max-width: 1100px;
-  --border-radius: 12px;
-  --font-mono: ui-monospace, Menlo, Monaco, 'Cascadia Mono', 'Segoe UI Mono',
-    'Roboto Mono', 'Oxygen Mono', 'Ubuntu Monospace', 'Source Code Pro',
-    'Fira Mono', 'Droid Sans Mono', 'Courier New', monospace;
-}
+@use "./variable" as *;
 
+// ─────────────────────────────────────────────
+//  ReFlair · global canvas
+// ─────────────────────────────────────────────
+
+:root {
+  --ink: #{$ink};
+  --paper: #{$paper};
+  --hairline: #{$hairline};
+  --gray: #{$gray};
+  --frame: #{$frame};
+  --max-width: 1440px;
+  --gutter: clamp(20px, 4vw, 64px);
+  --border-radius: 0px;
+  --font-mono: ui-monospace, Menlo, Monaco, "Cascadia Mono", "Segoe UI Mono",
+    "Roboto Mono", "Oxygen Mono", "Ubuntu Monospace", "Source Code Pro",
+    "Fira Mono", "Droid Sans Mono", "Courier New", monospace;
+}
 
 * {
   text-decoration: none;
   box-sizing: border-box;
   border: 0;
   margin: 0;
-  transition: 0.3s;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 html,
 body {
-  width: 100vw;
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 
+body {
+  background: $paper;
+  color: $ink;
+  font-family: var(--font-sans), sans-serif;
+  font-weight: 300;
+  font-size: 15px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: clip;
+}
+
+// ── Typography ──────────────────────────────
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-serif), serif;
+  font-weight: 400;
+  line-height: 1.05;
+  letter-spacing: 0.005em;
+}
+
 h1 {
-  font-size: 64px;
-  font-weight: 700;
+  font-size: clamp(40px, 6vw, 72px);
 }
 
 h2 {
-  font-size: 32px;
-  font-weight: 700;
+  font-size: clamp(28px, 3.6vw, 44px);
 }
 
 h3 {
-  font-size: 24px;
-  font-weight: 700;
+  font-size: 22px;
 }
 
 h4 {
-  font-size: 18px;
-  font-weight: 500;
-
+  font-size: 15px;
+  font-weight: 400;
 }
 
 h5 {
-  font-size: 16px;
-  font-weight: 500;
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0.08em;
 }
 
 p {
-  font-size: 16px;
-  font-weight: 400;
+  font-size: 15px;
+  font-weight: 300;
+}
+
+a {
+  color: inherit;
+}
+
+button {
+  font-family: var(--font-sans), sans-serif;
+  background: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+input,
+select,
+textarea {
+  font-family: var(--font-sans), sans-serif;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+img {
+  max-width: 100%;
+}
+
+// ── Details ─────────────────────────────────
+
+::selection {
+  background: $ink;
+  color: $paper;
+}
+
+:focus-visible {
+  outline: 1px solid $ink;
+  outline-offset: 3px;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: $paper;
+}
+
+::-webkit-scrollbar-thumb {
+  background: $hairline;
+  border: 3px solid $paper;
+
+  &:hover {
+    background: $ink;
+  }
+}
+
+// ── Shared motion ───────────────────────────
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+// ── react-toastify, dressed in house colours ─
+
+.Toastify__toast {
+  border-radius: 0 !important;
+  background: $ink !important;
+  color: $paper !important;
+  font-family: var(--font-sans), sans-serif !important;
+  font-size: 12px !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+  box-shadow: none !important;
+  border: 1px solid $ink !important;
+}
+
+.Toastify__toast-icon svg {
+  fill: $paper !important;
+}
+
+.Toastify__progress-bar {
+  background: rgba(246, 245, 241, 0.4) !important;
+}
+
+.Toastify__progress-bar--bg {
+  background: transparent !important;
+}
+
+.Toastify__close-button {
+  color: $paper !important;
+  opacity: 0.6 !important;
+}
+
+.Toastify__spinner {
+  border-color: rgba(246, 245, 241, 0.3) !important;
+  border-right-color: $paper !important;
 }

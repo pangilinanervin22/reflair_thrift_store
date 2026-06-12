@@ -1,23 +1,35 @@
+@use "../../../scss/variable" as *;
+
 .flex_section {
   display: flex;
   flex-direction: column;
-  padding: 4rem;
+  width: 100%;
+  max-width: 880px;
+  margin: 0 auto;
+  padding: clamp(48px, 7vw, 96px) var(--gutter);
 
-  p {
-    font-size: 50px;
-    text-align: center;
+  // Page title
+  >p {
+    @include serif(clamp(26px, 3.4vw, 42px), 400);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    text-align: left;
+    padding-bottom: clamp(24px, 3vw, 40px);
+    border-bottom: 1px solid $ink;
+    margin-bottom: clamp(28px, 4vw, 48px);
   }
 }
+
 .flex_info {
   display: flex;
   flex-direction: column;
-  padding: 2rem;
+  gap: 18px;
 }
 
 .info {
-  padding: 0rem 4rem;
-  font-size: 15px;
-  font-style: inherit;
-  line-height: 3;
-  color: rgb(106, 104, 104);
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 2;
+  color: $gray;
+  letter-spacing: 0.01em;
 }

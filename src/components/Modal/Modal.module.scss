@@ -3,55 +3,75 @@
 // main modal container
 .modal {
     @include flex_container();
-    background: rgba($color: #000000, $alpha: 0.3);
-    position: absolute;
+    background: rgba(18, 17, 16, 0.55);
+    backdrop-filter: blur(3px);
+    position: fixed;
     width: 100vw;
-    height: 100%;
+    height: 100vh;
     top: 0;
+    left: 0;
+    z-index: 200;
 
     .modal_content {
         width: max-content;
         height: max-content;
         position: relative;
-        background: white;
-        color: $black_color;
+        background: $paper;
+        border: 1px solid $ink;
+        color: $ink;
+        animation: rise 0.4s $ease_out both;
     }
 
     .modal_close {
-        // font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        font-size: 24px;
+        @include label(11px, 0.1em);
         position: absolute;
         right: 0;
+        top: 0;
+        padding: 12px 16px;
+        color: $gray;
+        cursor: pointer;
+        transition: color $quick ease;
+
+        &:hover {
+            color: $ink;
+        }
     }
 }
 
 
 // delete modal
 .delete_modal_container {
-    background: "black";
     @include flex_container(column);
-    padding: 32px;
-    border-radius: 16px;
+    padding: clamp(28px, 3vw, 40px);
+    gap: 8px;
 
+    h2,
+    h4 {
+        @include serif(24px, 400);
+    }
+
+    p {
+        color: $gray;
+        font-size: 13.5px;
+    }
 
     >:last-child {
-        margin-top: 16px;
+        margin-top: 20px;
+        display: flex;
+        gap: 12px;
 
         button {
-            padding: 8px 32px;
-            margin-inline: 16px;
-            border-radius: 8px;
-            font-size: 24px;
+            padding: 13px 30px;
         }
 
         >:first-child {
-            background: black;
-            color: white;
+            @include btn_ghost;
+            padding: 13px 30px;
         }
 
         >:last-child {
-            background: $primary_color;
-            color: white;
+            @include btn_solid;
+            padding: 13px 30px;
         }
     }
 }

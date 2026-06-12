@@ -9,10 +9,11 @@ import AddLikeButton from "../account/like/AddLikeButton";
 
 interface ProductProps {
   product: Product;
-  session: any;
+  /** Eager-load above-the-fold cards (first grid row) for LCP */
+  eager?: boolean;
 }
 
-const Product: React.FC<ProductProps> = ({ product, session }) => {
+const Product: React.FC<ProductProps> = ({ product, eager }) => {
   const router = useRouter();
 
   const onImageClick = (id: string) => {
@@ -22,28 +23,32 @@ const Product: React.FC<ProductProps> = ({ product, session }) => {
   };
 
   return (
-    <div className={style.product_card} key={product.id}>
-      <Image
-        src={product.image}
-        alt="Picture of the product"
-        width={1920}
-        height={1080}
-        onClick={onImageClick(product.id)}
-      />
+    <article className={style.product_card} key={product.id}>
+      <div className={style.frame} onClick={onImageClick(product.id)}>
+        <Image
+          src={product.image}
+          alt={product.name}
+          width={760}
+          height={950}
+          sizes="(max-width: 480px) 100vw, (max-width: 820px) 50vw, (max-width: 1100px) 33vw, 25vw"
+          loading={eager ? "eager" : undefined}
+        />
+        <span className={style.view_tag}>View piece</span>
+      </div>
       <div className={style.product_description}>
         <h3>{product.name}</h3>
-        <p>Size: {product.size}</p>
-        <h4>{`₱ ${product.price}`}</h4>
+        <p>Size {product.size}</p>
+        <h4>₱ {product.price}</h4>
       </div>
       <div className={style.product_action}>
-        <AddCartButton email={session?.user.email} item_id={product.id} >
-          <button className={style.product_cart}>ADD TO CART</button>
+        <AddCartButton item_id={product.id} >
+          <button className={style.product_cart}>Add to bag</button>
         </AddCartButton>
-        <AddLikeButton email={session?.user.email} item_id={product.id}  >
-          <button className={style.product_like}>LIKE</button>
+        <AddLikeButton item_id={product.id}  >
+          <button className={style.product_like}>Save</button>
         </AddLikeButton>
       </div>
-    </div>
+    </article>
   );
 };
 

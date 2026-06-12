@@ -3,7 +3,6 @@
 import prisma from "@/db/prisma";
 import Image from "next/image";
 import style from "./page.module.scss";
-import wait from "@/utils/wait";
 import Link from "next/link";
 
 interface Props {
@@ -15,22 +14,36 @@ export default async function SuggestionProduct({ category, exclude }: Props) {
     let products = await prisma.product.findMany({
         where: {
             category: category,
+            id: { not: exclude },
         },
-        take: 9,
+        select: {
+            id: true,
+            name: true,
+            price: true,
+            size: true,
+            image: true,
+        },
+        take: 4,
     });
-
-    products = products.filter((product) => product.id !== exclude);
 
     return (
         <section className={style.suggestions_container}>
             {products.map((product) => (
                 <Link href={`/product/${product.id}`} key={product.id}>
-                    <div className={style.suggestion_product} key={product.id}>
-                        <Image src={product.image} alt="Picture of the product" width={720} height={720} />
+                    <div className={style.suggestion_product}>
+                        <div className={style.suggestion_frame}>
+                            <Image
+                                src={product.image}
+                                alt={product.name}
+                                width={720}
+                                height={900}
+                                sizes="(max-width: 480px) 100vw, (max-width: 960px) 50vw, 25vw"
+                            />
+                        </div>
                         <div className={style.description}>
                             <p>{product.name}</p>
-                            <p>{product.size}</p>
-                            <p>₱{product.price}</p>
+                            <p>Size {product.size}</p>
+                            <p>₱ {product.price}</p>
                         </div>
                     </div>
                 </Link>

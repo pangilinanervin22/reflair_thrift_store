@@ -6,9 +6,10 @@ export default function loading() {
 
     return (
         <section className={style.product_section}>
-            <br />
-            <h3>{"Shoes Collection"}</h3>
-            <br />
+            <header className={style.page_head}>
+                <p className={style.eyebrow}>The Archive</p>
+                <h2>Shoes collection</h2>
+            </header>
             <div className={style.product_container}>
                 {Array.from({ length: count }).map((_, i) => (
                     <div className={style.product_card} key={i}>

@@ -1,6 +1,7 @@
 'use client'
 
 import { OrderCreateAction } from '@/lib/OrderAction';
+import { notifyCartChanged } from '@/utils/cartEvents';
 import { Account } from '@prisma/client';
 import { useRouter } from 'next/navigation';
 import React from 'react'
@@ -21,6 +22,7 @@ export default function CheckOutButton({ account, product, children }: Props) {
 
         if (order.ok) {
             toast.update(loading, { render: order.message, type: "success", isLoading: false, autoClose: 2000 });
+            notifyCartChanged();
             router.push("/account/order");
         } else if (order.error) {
             toast.update(loading, { render: order.message, type: "error", isLoading: false, autoClose: 2000 });

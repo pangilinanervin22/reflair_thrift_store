@@ -3,119 +3,182 @@
 .product_wrapper {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  width: 100%;
+  padding-top: clamp(28px, 3vw, 44px);
+}
+
+.breadcrumb {
+  display: flex;
   align-items: center;
-  padding-block: 32px;
+  gap: 14px;
+  padding: 0 var(--gutter);
+  margin-bottom: clamp(24px, 3vw, 40px);
+
+  a,
+  span {
+    @include label(10px, 0.2em);
+    color: $gray;
+  }
+
+  a {
+    transition: color $quick ease;
+
+    &:hover {
+      color: $ink;
+    }
+  }
+
+  .breadcrumb_current {
+    color: $ink;
+    max-width: 32ch;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+.eyebrow {
+  @include label(10px, 0.28em);
+  color: $gray;
 }
 
 .product_container {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  padding: 0.5rem;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  gap: clamp(36px, 5vw, 96px);
+  padding: 0 var(--gutter);
+  align-items: start;
 }
 
 .image_wrapper {
-  img {
-    width: 100%;
-    height: 50%;
-    background: transparent;
-    border: $secondary_color 2px solid;
-    color: transparent;
+  @include frame_image;
+  aspect-ratio: 4 / 5;
+  animation: fade 0.9s ease both;
+
+  .one_tag {
+    @include label(9px, 0.24em);
+    position: absolute;
+    left: 16px;
+    top: 16px;
+    background: rgba(246, 245, 241, 0.92);
+    color: $ink;
+    padding: 8px 14px;
+    z-index: 2;
   }
 }
 
 .product_details {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
-  z-index: 100;
-  color: black;
-  margin-left: 16px;
+  gap: 20px;
+  position: sticky;
+  top: 140px;
+  animation: rise 0.8s 0.15s $ease_out both;
+}
+
+.name {
+  @include serif(clamp(32px, 3.4vw, 52px), 400);
+  text-wrap: balance;
+}
+
+.price {
+  @include serif(24px, 500);
 }
 
 .action_container {
   display: flex;
-  flex-direction: row;
-  gap: 1 rem;
-}
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 8px;
 
-.cart_button,
-.like_button {
-  width: 100%;
-  padding: 0.7rem;
-  font-weight: bold;
-  cursor: pointer;
+  >div {
+    width: 100%;
+  }
 
-  &:hover {
-    box-shadow: 0 0 1px 2px black;
-    transform: scale(1.01);
+  button {
+    width: 100%;
   }
 }
 
 .cart_button {
-  background-color: $primary_color;
-  color: $main_color;
-  border: $primary_color 1px solid;
+  @include btn_solid;
 }
 
 .like_button {
-  background-color: $main_color;
-  border: $black_color 1px solid;
-}
+  @include btn_ghost;
 
-@media screen and (min-width: 1024px) {
-  .product_container {
-    flex-direction: row;
-    height: 25rem;
-  }
-
-  .image_wrapper {
-    img {
-      height: 100%;
-    }
-  }
-
-  .actions_container {
-    flex-direction: row;
-  }
-
-  .cart_button,
-  .like_button {
-    width: 13rem;
+  &::before {
+    content: "♡";
+    font-size: 13px;
+    letter-spacing: 0;
   }
 }
+
+.specs {
+  margin-top: 16px;
+  border-top: 1px solid $hairline;
+
+  >div {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 14px 0;
+    border-bottom: 1px solid $hairline;
+  }
+
+  dt {
+    @include label(10px, 0.24em);
+    color: $gray;
+  }
+
+  dd {
+    font-size: 14px;
+    font-weight: 300;
+    letter-spacing: 0.04em;
+    text-transform: capitalize;
+  }
+}
+
+.note {
+  color: $gray;
+  font-size: 13.5px;
+  line-height: 1.9;
+  max-width: 44ch;
+  font-style: italic;
+  font-family: var(--font-serif), serif;
+  font-size: 16px;
+}
+
+// ── Suggestions ───────────────────────────────
 
 .suggestion {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin-top: 32px;
-  max-width: 1080px;
+  margin-top: clamp(72px, 9vw, 130px);
+}
 
-  >:first-child {
-    font-size: 18px;
-    font-weight: bold;
-    margin-bottom: 16px;
-    text-align: left;
-    width: 90%;
+.suggestion_head {
+  display: flex;
+  align-items: baseline;
+  gap: clamp(20px, 3vw, 48px);
+  padding: 0 var(--gutter);
+  padding-bottom: clamp(24px, 3vw, 36px);
+
+  h3 {
+    @include serif(clamp(24px, 2.6vw, 34px), 400);
   }
 }
 
 .suggestions_container {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  gap: 16px;
-  flex-wrap: wrap;
-  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  column-gap: clamp(20px, 2.4vw, 40px);
+  row-gap: clamp(40px, 4vw, 64px);
+  padding: 0 var(--gutter);
 
   a {
-    text-decoration: none;
-    color: black;
-    width: 20%;
+    color: $ink;
+    min-width: 0;
   }
 }
 
@@ -124,136 +187,119 @@
   flex-direction: column;
   cursor: pointer;
 
-
-  &:hover {
-    box-shadow: 0 0 1px 1px gray;
-  }
-
-  img {
-    width: 100%;
-    height: 200px;
-    color: transparent;
-    border: $secondary_color 2px solid;
-  }
-
-  p {
-    width: 100%;
-    text-align: left;
+  .suggestion_frame {
+    @include frame_image;
+    aspect-ratio: 3 / 4;
   }
 
   .description {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    width: 100%;
     gap: 4px;
-    margin-top: 8px;
+    padding-top: 14px;
 
     >:first-child {
-      font-size: 18px;
-      font-weight: 700;
-      text-transform: uppercase;
+      @include label(12px, 0.14em);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    >:nth-child(2) {
+      @include label(10px, 0.18em);
+      color: $gray_light;
     }
 
     >:last-child {
-      font-size: 14px;
-      font-weight: 400;
+      @include serif(17px, 500);
+      margin-top: 2px;
     }
   }
 }
 
+// ── Loading state ─────────────────────────────
 
 .loading_image {
-  height: 100%;
-  width: 400px;
-  background-color: #f2f2f2;
+  @include skeleton;
+  aspect-ratio: 4 / 5;
+  width: 100%;
 }
 
 .loading_content {
-  margin-top: 16px;
-  width: 80%;
-  height: 36px;
-  background-color: #e0e0e0;
-  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
 
   h2 {
-    margin-top: 8px;
-    width: 60%;
-    height: 36px;
-    background-color: #e0e0e0;
-    border-radius: 4px;
+    @include skeleton;
+    width: 80%;
+    height: 40px;
   }
 
   h3 {
-    margin-top: 8px;
-    width: 60%;
-    height: 36px;
-    background-color: #e0e0e0;
-    border-radius: 4px;
-
+    @include skeleton;
+    width: 30%;
+    height: 22px;
   }
-}
-
-.loading_text_name {
-  margin-top: 8px;
-  width: 60%;
-  height: 36px;
-  background-color: #e0e0e0;
-  border-radius: 4px;
 }
 
 .loading_text_price {
-  margin-top: 8px;
+  @include skeleton;
   width: 40%;
   height: 16px;
-  background-color: #e0e0e0;
-  border-radius: 4px;
 }
 
-.product_loading_button {
-  display: flex;
-  flex-direction: column;
+.loading_button {
+  @include skeleton;
   width: 100%;
-  margin-top: 36px;
-
-  button {
-    width: 100%;
-    height: 40px;
-    background-color: #e0e0e0;
-    border-radius: 4px;
-  }
-}
-
-.loading_suggestion {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin-top: 32px;
-  max-width: 1080px;
-
-  div {
-    font-size: 18px;
-    font-weight: bold;
-    margin-bottom: 16px;
-    text-align: left;
-    width: 90%;
-  }
+  height: 50px;
+  margin-top: 6px;
 }
 
 .loading_suggestions_container {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  gap: 16px;
-  flex-wrap: wrap;
-  width: 80%;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  column-gap: clamp(20px, 2.4vw, 40px);
+  padding: 0 var(--gutter);
+}
 
-  .card_loading {
-    width: 20%;
-    height: 300px;
-    background-color: #f2f2f2;
-    border-radius: 4px;
-    border: 2px solid #e0e0e0;
+.card_loading {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  .loading_image {
+    aspect-ratio: 3 / 4;
+  }
+
+  .loading_text {
+    @include skeleton;
+    width: 70%;
+    height: 13px;
+  }
+}
+
+// ── Responsive ────────────────────────────────
+
+@media (max-width: 960px) {
+  .product_container {
+    grid-template-columns: 1fr;
+  }
+
+  .product_details {
+    position: static;
+  }
+
+  .suggestions_container,
+  .loading_suggestions_container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+
+  .suggestions_container,
+  .loading_suggestions_container {
+    grid-template-columns: 1fr;
   }
 }

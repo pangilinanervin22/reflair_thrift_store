@@ -4,13 +4,12 @@ import style from "./page.module.scss";
 
 export default function loading() {
     return (
-
         <section className={style.product_section}>
-            <br />
-            <h3>{"All Products"}</h3>
-            <br />
-            <ProductLoading />x
+            <header className={style.page_head}>
+                <p className={style.eyebrow}>The Archive</p>
+                <h2>All pieces</h2>
+            </header>
+            <ProductLoading />
         </section>
-
     )
 }

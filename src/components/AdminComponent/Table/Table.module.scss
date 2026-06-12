@@ -1,8 +1,20 @@
 @use '../../../scss/variable' as *;
 
 .container_table {
-    padding: 16px;
-    background: #eeeeee;
+    width: 100%;
+    max-width: 1280px;
+    padding: clamp(20px, 2.4vw, 28px);
+    background: $white;
+    border: 1px solid $hairline;
+
+    h1 {
+        @include serif(24px, 300);
+        font-style: italic;
+        color: $gray;
+        text-align: center;
+        width: 100%;
+        padding: 48px 0;
+    }
 
     table {
         display: flex;
@@ -10,12 +22,12 @@
         text-align: center;
         border-collapse: collapse;
         table-layout: fixed;
-        text-align: center;
+        width: 100%;
 
         thead {
             width: 100%;
-            background: red;
-            color: white;
+            background: $ink;
+            color: $paper;
 
             tr {
                 display: flex;
@@ -26,128 +38,144 @@
 
             th {
                 @include flex_container();
-                font-weight: 600;
-                font-size: 22px;
-                padding: 4px;
+                @include label(10px, 0.22em);
+                gap: 6px;
+                padding: 14px 4px;
                 cursor: pointer;
+                user-select: none;
             }
         }
 
         tbody {
             width: 100%;
-            margin-top: 8px;
 
             tr {
                 display: flex;
                 width: 100%;
                 justify-content: space-evenly;
-                background: white;
-                box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-                margin-block: 8px;
-                padding-block: 8px;
-            }
+                align-items: center;
+                background: $white;
+                border-bottom: 1px solid $hairline;
+                padding-block: 10px;
+                transition: background $quick ease;
 
-            tr:last-child {
-                border-bottom: 5px solid #F3EEE8;
+                &:hover {
+                    background: $paper;
+                }
             }
 
             td {
                 padding-inline: 16px;
                 @include flex_container();
+                font-size: 13px !important;
+                font-weight: 300;
+                letter-spacing: 0.04em;
 
                 >img {
                     object-fit: cover;
+                    background: $frame;
                 }
             }
         }
     }
 }
 
-.button_update {
-    background: #6fa6ea;
-    color: #F3EEE8;
-
-}
-
-.button_delete {
-    background: #ff5757;
-    color: #F3EEE8;
-}
-
 .button_update,
 .button_delete {
-    border-radius: 5px;
-    padding: 5px 20px;
+    @include label(9px, 0.2em);
     width: 100%;
-    font-size: 16px;
-    font-weight: 500;
+    padding: 9px 0;
     display: flex;
     justify-content: center;
+    cursor: pointer;
+    transition: background $quick ease, color $quick ease;
+}
 
-    &:active {
-        box-shadow: 0 0 10px black;
-    }
+.button_update {
+    background: transparent;
+    color: $ink;
+    border: 1px solid $ink;
 
     &:hover {
-        cursor: pointer;
-        scale: 1.05;
-        box-shadow: 0 0 5px black;
+        background: $ink;
+        color: $paper;
+    }
+}
+
+.button_delete {
+    background: $ink;
+    color: $paper;
+    border: 1px solid $ink;
+
+    &:hover {
+        background: transparent;
+        color: $ink;
     }
 }
 
 .tool_table {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    margin-bottom: 8px;
+    align-items: flex-end;
+    gap: 24px;
+    margin-bottom: 24px;
 
     .search {
         display: flex;
         align-items: center;
         width: 70%;
-        height: 40px;
-        max-width: 560px;
+        max-width: 480px;
+        border-bottom: 1px solid $hairline;
+        transition: border-color $quick ease;
+
+        &:focus-within {
+            border-bottom-color: $ink;
+        }
 
         >:first-child {
             width: 100%;
-            height: 100%;
-            padding: 10px;
-            border-radius: 10px;
+            padding: 10px 0;
+            background: transparent;
+            border: 0;
+            outline: none;
+            font-size: 13px;
+            font-weight: 300;
+            letter-spacing: 0.06em;
+            color: $ink;
+
+            &::placeholder {
+                @include label(10px, 0.2em);
+                color: $gray_light;
+            }
         }
 
         >:last-child {
-            width: 30px;
-            position: relative;
-            right: 50px;
-            fill: black;
-            opacity: 0.8;
+            width: 18px;
+            height: 18px;
+            flex-shrink: 0;
+            fill: $gray;
+            opacity: 0.9;
         }
     }
 
     .add_button {
-        display: flex;
-        align-items: center;
-        width: 200px;
-        height: 40px;
-        background: white;
-        border-radius: 10px;
-        margin-block: 8px;
-        cursor: pointer;
-
-        >:last-child {
-            background: none;
-            margin-left: 10px;
-            font-size: 18px;
-            font-family: 'Roboto', sans-serif;
-        }
+        @include btn_solid;
+        padding: 0 26px;
+        height: 42px;
+        gap: 8px;
+        flex-shrink: 0;
 
         >:first-child {
-            height: 24px;
-            margin-left: 30px;
+            height: 14px;
+            width: 14px;
+            fill: currentColor;
         }
 
-        &:active {
-            background: #F3EEE8;
+        >:last-child {
+            @include label(10px, 0.22em);
+            background: none;
+            color: inherit;
+            cursor: pointer;
         }
     }
 }
@@ -157,65 +185,38 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
-
-    >:first-child {
-        display: flex;
-        align-items: center;
-        width: 40%;
-        height: 40px;
-
-        >:first-child {
-            width: 100%;
-            height: 100%;
-            padding: 10px;
-            border-radius: 10px;
-        }
-
-        >:last-child {
-            width: 30px;
-            height: 30px;
-            position: relative;
-            right: 50px;
-            fill: rgb(109, 98, 94);
-        }
-    }
 }
-
 
 .paginate_table {
     @include flex_container(row, flex-end);
-    height: 10px;
-    margin-top: 15px;
+    gap: 4px;
+    margin-top: 18px;
 
+    p {
+        @include label(10px, 0.16em);
+        color: $gray;
+        margin-right: 12px;
+    }
 
     div>* {
-        margin-inline: 10px;
-        fill: black;
-        height: 20px;
+        margin-inline: 8px;
+        fill: $ink;
+        height: 16px;
+        cursor: pointer;
+        transition: opacity $quick ease;
 
         &:hover {
-            cursor: pointer;
-            scale: 1.05;
-        }
-
-        &:active {
-            scale: 1.1;
+            opacity: 0.6;
         }
     }
 
     .disable {
-        fill: black;
-        opacity: 0.5;
-
-        &:hover {
-            cursor: none;
-        }
+        opacity: 0.25;
+        pointer-events: none;
     }
-
 }
 
 .arrow_keys>* {
-    margin-left: 10px;
-    height: 25px;
-    fill: white;
+    height: 14px;
+    fill: $paper;
 }

@@ -1,7 +1,6 @@
 import React from 'react'
+import LoadingLabel from '@/components/LoadingLabel'
 
-export default function OrderLoading() {
-    return (
-        <h1>...loading</h1>
-    )
+export default function Loading() {
+    return <LoadingLabel />
 }

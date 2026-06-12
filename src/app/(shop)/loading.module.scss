@@ -1,0 +1,70 @@
+@use "../../scss/variable" as *;
+
+.brand_loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 26px;
+    width: 100%;
+    min-height: 60vh;
+}
+
+.eyebrow {
+    @include label(10px, 0.34em);
+    color: $gray;
+    animation: loading_breathe 2.2s ease-in-out infinite;
+}
+
+.wordmark {
+    @include serif(clamp(44px, 6vw, 72px), 400);
+    animation: loading_breathe 2.2s ease-in-out infinite;
+    animation-delay: 0.15s;
+
+    em {
+        font-style: italic;
+    }
+}
+
+.rule {
+    position: relative;
+    width: min(220px, 50vw);
+    height: 1px;
+    background: $hairline;
+    overflow: hidden;
+
+    &::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: $ink;
+        transform: translateX(-100%);
+        animation: loading_sweep 1.4s $ease_out infinite;
+    }
+}
+
+@keyframes loading_breathe {
+
+    0%,
+    100% {
+        opacity: 0.35;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+@keyframes loading_sweep {
+    0% {
+        transform: translateX(-100%);
+    }
+
+    55% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(100%);
+    }
+}

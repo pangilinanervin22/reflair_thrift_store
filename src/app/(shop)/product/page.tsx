@@ -1,11 +1,8 @@
 import prisma from "@/db/prisma";
 import style from "./page.module.scss";
 import { Product } from "./Product";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/db/options";
 import SortPage from "./SortProduct";
 import { Prisma } from "@prisma/client";
-import Image from "next/image";
 import Link from "next/link";
 
 interface PageProps {
@@ -13,7 +10,6 @@ interface PageProps {
 }
 
 export default async function ProductAllPage({ searchParams, }: PageProps) {
-  const session = await getServerSession(authOptions);
   const params = await searchParams;
 
   const orderBy = getOrderBy(params.sort as string);
@@ -30,27 +26,29 @@ export default async function ProductAllPage({ searchParams, }: PageProps) {
     orderBy,
   });
 
-  let ListOfProduct = structuredClone(product);
+  const ListOfProduct = product;
 
   return (
     <section className={style.product_section}>
-      <h3>All Product</h3>
+      <header className={style.page_head}>
+        <p className={style.eyebrow}>The Archive</p>
+        <h2>All pieces</h2>
+        <p className={style.count}>
+          {ListOfProduct.length} {ListOfProduct.length === 1 ? "piece" : "pieces"}
+        </p>
+      </header>
       <SortPage />
       <div className={style.product_container}>
-        {ListOfProduct.length ? ListOfProduct.map((product) => (
-          <Product key={product.id} product={product} session={session} />
+        {ListOfProduct.length ? ListOfProduct.map((product, i) => (
+          <Product key={product.id} product={product} eager={i < 4} />
         )) :
           <div className={style.no_item}>
-            <Image src={"/assets/images/no_order.png"} alt='wew' width={"1920"} height={"1920"} />
-            <h2>
-              No Product Found
-            </h2>
-            <p>
-              Try checking your spelling or use more general terms
-            </p>
+            <p className={style.eyebrow}>Nothing found</p>
+            <h2>The archive holds no such piece.</h2>
+            <p>Try checking your spelling, or use more general terms.</p>
             <Link href={"/product"}>
               <button className={style.back_button}>
-                CONTINUE SHOPPING
+                Continue shopping
               </button>
             </Link>
           </div>}

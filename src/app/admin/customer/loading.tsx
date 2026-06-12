@@ -1,7 +1,6 @@
 import React from 'react'
+import LoadingLabel from '@/components/LoadingLabel'
 
-export default function CustomerLoading() {
-    return (
-        <h1>Account Loading...</h1>
-    )
+export default function Loading() {
+    return <LoadingLabel />
 }

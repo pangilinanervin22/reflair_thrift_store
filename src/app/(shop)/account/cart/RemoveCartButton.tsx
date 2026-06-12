@@ -1,6 +1,7 @@
 "use client"
 
 import { CartRemoveAction } from '@/lib/CartAction'
+import { notifyCartChanged } from '@/utils/cartEvents';
 import { useRouter } from 'next/navigation';
 import React from 'react'
 import { toast } from 'react-toastify';
@@ -22,8 +23,10 @@ export default function RemoveCartButton({ email, item_id, classStyle, children 
         }
 
         const res = await CartRemoveAction(email, item_id);
-        if (res?.ok)
+        if (res?.ok) {
             toast.success(res.message, { toastId: item_id + "cartRemoveSuccess" });
+            notifyCartChanged();
+        }
         else
             toast.error(res.message, { toastId: item_id + "cartRemoveError" });
     }

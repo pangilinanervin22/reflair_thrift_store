@@ -41,13 +41,12 @@ export default async function CartPage() {
     if (product?.length === 0 || !product)
         return (
             <div className={style.no_item}>
-                <Image src={"/assets/images/shopping.png"} alt='wew' width={"1920"} height={"1920"} />
-                <p>
-                    There are no items in this cart.
-                </p>
+                <p className={style.no_item_eyebrow}>Shopping bag</p>
+                <h2>Your bag is empty.</h2>
+                <p>One-of-a-kind pieces wait for no one.</p>
                 <Link href={"/product"}>
                     <button className={style.back_button}>
-                        CONTINUE SHOPPING
+                        Continue shopping
                     </button>
                 </Link>
             </div>
@@ -55,25 +54,32 @@ export default async function CartPage() {
 
     return (
         <div className={style.main_container}>
-            <p className={style.with_item}>Product in cart: {product.length}</p>
+            <header className={style.head}>
+                <h2>Shopping bag</h2>
+                <p className={style.with_item}>
+                    {product.length} {product.length === 1 ? "piece" : "pieces"}
+                </p>
+            </header>
             <div className={style.product_container}>
                 {product.map((item) => (
                     <div className={style.product_card} key={item.id}>
                         <div className={style.description}>
-                            <Image
-                                src={item.image}
-                                width={400}
-                                height={400}
-                                quality={100}
-                                alt="product cart pic"
-                            />
+                            <Link href={`/product/${item.id}`} className={style.thumb}>
+                                <Image
+                                    src={item.image}
+                                    width={176}
+                                    height={220}
+                                    sizes="88px"
+                                    alt={item.name}
+                                />
+                            </Link>
                             <div className={style.text}>
                                 <h3>{item.name}</h3>
-                                <p>{`Size: ${item.size}`}</p>
+                                <p>Size {item.size}</p>
                             </div>
                         </div>
                         <div className={style.action}>
-                            <p>₱{item.price} </p>
+                            <p>₱ {item.price}</p>
                             <div>
                                 <AddLikeButton email={account.email} item_id={item.id} >
                                     <IconHeartAdd_svg />
@@ -81,7 +87,6 @@ export default async function CartPage() {
                                 <RemoveCartButton email={account.email} item_id={item.id} >
                                     <IconTrash_svg />
                                 </RemoveCartButton>
-
                             </div>
                         </div>
                     </div>
@@ -89,13 +94,13 @@ export default async function CartPage() {
                 }
             </div>
             <div className={style.checkout}>
+                <div className={style.subtotal}>
+                    <h4>Subtotal</h4>
+                    <p>₱ {total_price}</p>
+                </div>
                 <Link href={"/account/checkout"}>
                     <button>Checkout</button>
                 </Link>
-                <div>
-                    <p>{`₱ ${total_price}` || "₱ xxxx"}</p>
-                    <h4>Subtotal:</h4>
-                </div>
             </div>
         </div>
     );

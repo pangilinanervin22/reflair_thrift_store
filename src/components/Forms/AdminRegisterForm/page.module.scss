@@ -1,22 +1,27 @@
+@use "../../../scss/variable" as *;
+
 .container {
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    font-family: 'Playfair Display', serif;
-    width: 560px;
-    background: rgb(251, 243, 243);
-    margin-block: 16px;
-    padding: 32px;
+    width: min(480px, 92vw);
+    background: $white;
+    border: 1px solid $ink;
+    margin: 10vh auto;
+    padding: clamp(32px, 4vw, 48px);
+    animation: rise 0.7s $ease_out both;
 
     h1 {
-        font-size: 42px;
-        margin-bottom: 20px;
+        @include serif(40px, 400);
+        margin-bottom: 8px;
     }
 
-    p {
-        margin-bottom: 20px;
-        font-size: 18px;
+    >p {
+        @include label(10px, 0.2em);
+        color: $gray;
+        margin-bottom: 28px;
+        text-align: center;
     }
 
     form {
@@ -24,46 +29,40 @@
         justify-content: center;
         align-items: center;
         flex-direction: column;
-        font-family: Arial, Helvetica, sans-serif;
-        width: 80%;
-        border-top: 2px solid black;
-        border-bottom: 2px solid black;
-        padding: 32px;
+        width: 100%;
+        border-top: 1px solid $hairline;
+        padding-top: 28px;
 
-        * {
-            border: 0;
-        }
-
-        input,
-        button {
-            margin-bottom: 20px;
-            font-size: 16px;
-            padding: 8px;
-            width: 100%;
-            padding-block: 16px;
-            font-family: Georgia, 'Times New Roman', Times, serif;
-
-        }
-
-        input::placeholder {
-            color: rgb(208, 199, 199);
+        input {
+            @include field_underline;
+            margin-bottom: 22px;
         }
 
         p {
+            font-size: 13px;
+            color: $gray;
             text-align: center;
-            font-size: 14px;
+            margin-top: 22px;
         }
 
         span {
-            font-weight: 700;
-            text-decoration: underline;
+            @include label(10px, 0.18em);
+            color: $ink;
+            border-bottom: 1px solid $ink;
+            padding-bottom: 2px;
+            margin-top: 8px;
+            cursor: pointer;
+            transition: opacity $quick ease;
+
+            &:hover {
+                opacity: 0.6;
+            }
         }
 
         button {
-            margin-top: 20px;
-            color: white;
-            background: red;
+            @include btn_solid;
+            width: 100%;
+            margin-top: 10px;
         }
-
     }
 }

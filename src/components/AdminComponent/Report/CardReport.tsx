@@ -16,7 +16,7 @@ export default async function CardReport() {
         }
     });
     const total_product = productsWithoutOrders.length || 0;
-    const total_account = prisma.account.count() || 2;
+    const total_account = await prisma.account.count() || 0;
     const totalSales = await prisma.order.aggregate({
         _sum: {
             total_price: true
@@ -41,16 +41,16 @@ export default async function CardReport() {
         <div className={styles.display_container}>
             <div className={styles.display_item}>
                 <h3>
-                    Total Sales of {NOW_MONTH}
+                    Sales — {NOW_MONTH}
                 </h3>
                 <div>
                     <IconMoney_svg />
-                    <h2>{report.sales}</h2>
+                    <h2>₱ {report.sales ?? 0}</h2>
                 </div>
             </div>
             <div className={styles.display_item}>
                 <h3>
-                    Available Product
+                    Pieces in the archive
                 </h3>
                 <div>
                     <IconCart_svg />
@@ -59,7 +59,7 @@ export default async function CardReport() {
             </div>
             <div className={styles.display_item}>
                 <h3>
-                    Account
+                    Accounts
                 </h3>
                 <div>
                     <IconProfile_svg />

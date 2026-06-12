@@ -2,6 +2,8 @@
 
 import prisma from "@/db/prisma";
 import Image from "next/image";
+import Link from "next/link";
+import style from "./ThreeProductImage.module.scss";
 
 export default async function ThreeProductImage() {
     const allProducts = await prisma.product.findMany({
@@ -13,27 +15,46 @@ export default async function ThreeProductImage() {
     // Select the first 3 IDs
     const randomProductIds = shuffleArray(allProducts).map(product => product.id);
 
-    // Fetch the products with the random IDs
+    // Fetch only the fields the cards render
     const products = await prisma.product.findMany({
         where: {
             id: {
                 in: randomProductIds
             }
+        },
+        select: {
+            id: true,
+            name: true,
+            price: true,
+            image: true,
         }
     });
 
     return (
-        <>
-            {products.map((item) => (
-                <Image
-                    key={item.id}
-                    src={item.image}
-                    alt="Sec2-Jacket3"
-                    width={1920}
-                    height={1080}
-                />
+        <div className={style.row}>
+            {products.map((item, i) => (
+                <Link href={`/product/${item.id}`} key={item.id} className={style.card}>
+                    <figure>
+                        <div className={style.frame}>
+                            <Image
+                                src={item.image}
+                                alt={item.name}
+                                width={760}
+                                height={950}
+                                sizes="(max-width: 720px) 100vw, 33vw"
+                            />
+                        </div>
+                        <figcaption>
+                            <span className={style.index}>
+                                Nº {String(i + 1).padStart(2, "0")}
+                            </span>
+                            <span className={style.name}>{item.name}</span>
+                            <span className={style.price}>₱ {item.price}</span>
+                        </figcaption>
+                    </figure>
+                </Link>
             ))}
-        </>
+        </div>
     )
 }
 

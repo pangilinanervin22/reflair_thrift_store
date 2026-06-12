@@ -1,0 +1,75 @@
+@use "../../scss/variable" as *;
+
+.row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(24px, 3vw, 48px);
+  padding: 0 var(--gutter);
+}
+
+.card {
+  color: $ink;
+
+  figure {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  figcaption {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  // Middle look sits lower — editorial offset
+  &:nth-child(2) {
+    margin-top: clamp(32px, 5vw, 88px);
+  }
+}
+
+.frame {
+  @include frame_image;
+  aspect-ratio: 3 / 4;
+}
+
+.frame_skeleton {
+  @include skeleton;
+}
+
+.line_skeleton {
+  @include skeleton;
+  height: 13px;
+  width: 55%;
+
+  &.short {
+    width: 30%;
+    height: 10px;
+    margin-bottom: 6px;
+  }
+}
+
+.index {
+  @include label(10px, 0.28em);
+  color: $gray_light;
+  margin-bottom: 4px;
+}
+
+.name {
+  @include serif(20px, 400);
+}
+
+.price {
+  @include label(11px, 0.16em);
+  color: $gray;
+}
+
+@media (max-width: 720px) {
+  .row {
+    grid-template-columns: 1fr;
+  }
+
+  .card:nth-child(2) {
+    margin-top: 0;
+  }
+}

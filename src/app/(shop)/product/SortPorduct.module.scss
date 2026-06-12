@@ -1,27 +1,64 @@
+@use "../../../scss/variable" as *;
+
 .sort_product {
-    width: 83%;
     display: flex;
+    align-items: flex-end;
     justify-content: space-between;
-    padding-bottom: 16px;
+    gap: 32px;
+    padding: 0 var(--gutter);
+    border-top: 1px solid $hairline;
+    border-bottom: 1px solid $hairline;
+}
+
+.search_field,
+.sort_field {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding: 14px 0;
+
+    label {
+        @include label(10px, 0.26em);
+        color: $gray;
+    }
+}
+
+.search_field {
+    flex: 1;
+    max-width: 440px;
 
     input {
-        height: 100%;
-        padding: 8px;
-        border: none;
+        @include field_underline;
+        border-bottom: 0;
+        padding: 4px 0;
+
+        &:focus {
+            border-bottom: 0;
+        }
+    }
+}
+
+.sort_field {
+    select {
+        @include label(11px, 0.16em);
+        background: transparent;
+        border: 0;
         outline: none;
-        font-size: 1.2rem;
-        font-weight: bold;
-        border: 1px solid black;
-        border-radius: 4px;
+        color: $ink;
+        cursor: pointer;
+        padding: 4px 0;
+    }
+}
+
+@media (max-width: 560px) {
+    .sort_product {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0;
     }
 
-    select {
-        height: 100%;
-        padding: 0.5rem;
-        border: none;
-        outline: none;
-        font-size: 16px;
-        border: 2px solid gray;
-        border-radius: 4px;
+    .search_field {
+        border-bottom: 1px solid $hairline;
+        max-width: none;
     }
 }

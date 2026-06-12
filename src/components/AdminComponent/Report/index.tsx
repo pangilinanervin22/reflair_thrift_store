@@ -22,21 +22,25 @@ const CardReport = dynamic(() => import('./CardReport'), {
 export default function ReportPage({ ProductArray, OrderData }: ReportPageProps) {
     return (
         <section className={styles.report}>
+            <header className={styles.report_head}>
+                <p>ReFlair Atelier · Overview</p>
+                <h2>Store performance</h2>
+            </header>
             <CardReport />
             <div className={styles.chart_container}>
 
                 <div className={styles.bar}>
-                    <h3>Sales Chart:</h3>
+                    <h3>Sales by month</h3>
                     <SalesChart dataProps={OrderData} />
                 </div>
                 <div className={styles.pie}>
-                    <h3>Trend Chart</h3>
+                    <h3>Sales by category</h3>
                     <GraphExample product={ProductArray} />
                 </div>
             </div>
             <div className={styles.other_container}>
                 <div className={styles.order}>
-                    <h3>Recent Orders</h3>
+                    <h3>Recent orders</h3>
                     <RecentTableOrder />
                 </div>
                 <RecentProduct FiveRecentProduct={ProductArray} />

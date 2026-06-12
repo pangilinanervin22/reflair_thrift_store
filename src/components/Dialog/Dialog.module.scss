@@ -1,3 +1,5 @@
+@use "../../scss/variable" as *;
+
 .dialog {
     z-index: 100;
     position: fixed;
@@ -12,72 +14,80 @@
     background: none;
 
     &::backdrop {
-        background: rgba(0, 0, 0, 0.5);
+        background: rgba(18, 17, 16, 0.55);
+        backdrop-filter: blur(3px);
     }
 
     .dialog_container {
-        padding: 16px 32px;
-        background: white;
+        padding: clamp(28px, 3vw, 40px);
+        background: $paper;
+        border: 1px solid $ink;
         display: flex;
         align-items: flex-end;
         position: relative;
-        border-radius: 16px;
+        min-width: min(440px, 90vw);
+        animation: rise 0.4s $ease_out both;
 
         .close {
+            @include label(11px, 0.1em);
             position: absolute;
             top: 0;
             right: 0;
-            padding: 8px;
+            padding: 12px 16px;
             cursor: pointer;
+            color: $gray;
+            transition: color $quick ease;
 
             &:hover {
-                background: red;
-                color: white;
-                scale: 1.1;
+                color: $ink;
             }
         }
 
         .dialog_content {
             width: 100%;
-            border-radius: 8px;
             display: flex;
             flex-direction: column;
             align-items: flex-end;
-            gap: 16px;
+            gap: 24px;
 
             .dialog_children {
                 width: 100%;
                 display: flex;
                 flex-direction: column;
                 gap: 8px;
-                margin-block: 16px;
-                align-items: center;
-                justify-content: center;
+                margin-top: 8px;
+                align-items: flex-start;
+
+                h2,
+                h4 {
+                    @include serif(24px, 400);
+                }
+
+                p {
+                    color: $gray;
+                    font-size: 13.5px;
+                    line-height: 1.7;
+                }
             }
 
             .action {
                 display: flex;
-                gap: 16px;
+                gap: 12px;
                 width: 100%;
-                justify-content: center;
+                justify-content: flex-end;
 
                 button {
-                    color: white;
-                    padding: 8px 16px;
-                    border-radius: 3px;
-
-                    &:hover {
-                        scale: 1.01;
-                        border: 1px solid black;
-                    }
+                    padding: 13px 30px;
                 }
 
                 >:first-child {
-                    background: black;
+                    @include btn_ghost;
+                    padding: 13px 30px;
                 }
 
                 >:last-child {
-                    background: red;
+                    @include btn_solid;
+                    padding: 13px 30px;
                 }
             }
         }

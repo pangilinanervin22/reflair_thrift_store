@@ -1,175 +1,241 @@
+import { Suspense } from "react";
 import Image from "next/image";
 import style from "./page.module.scss";
 import Link from "next/link";
 import ThreeProductImage from "@/components/ServerComponents/ThreeProductImage";
+import CampaignSkeleton from "@/components/ServerComponents/CampaignSkeleton";
+
+// Fully static: cached indefinitely, regenerated ONLY when a mutation calls
+// revalidateStorefront() — zero compute while the catalogue is unchanged.
+export const revalidate = false;
+
+const collections = [
+    {
+        index: "01",
+        name: "Women",
+        href: "/product/women",
+        note: "Slip dresses, tailoring, archive denim",
+        image: "/assets/images/home-sec5-1.png",
+    },
+    {
+        index: "02",
+        name: "Men",
+        href: "/product/men",
+        note: "Workwear, knits, vintage outerwear",
+        image: "/assets/images/home-sec5-2.png",
+    },
+    {
+        index: "03",
+        name: "Shoes",
+        href: "/product/shoes",
+        note: "Herbert Levine to Halston, ’50s–’70s",
+        image: "/assets/images/home-sec4.png",
+    },
+];
+
+const journal = [
+    {
+        title: "About fashion",
+        copy: "Real-life gestures chimed with the season’s biggest look: pared-back, everyday clothes, executed in best-in-class fabrics.",
+        image: "/assets/images/home-sec5-1.png",
+        tall: true,
+    },
+    {
+        title: "Men’s fashion",
+        copy: "If you're looking for unique items of clothing, buying new isn't always the way forward — vintage menswear is.",
+        image: "/assets/images/home-sec5-2.png",
+        tall: false,
+    },
+    {
+        title: "Forgotten",
+        copy: "Slip dresses, bomber jackets, scrunchies and plaid flannel — the ’90s are working their way back into vogue.",
+        image: "/assets/images/home-sec5-3.png",
+        tall: true,
+    },
+    {
+        title: "Rare finds",
+        copy: "The earliest side of the shoe range features designers including Herbert Levine and Halston, from the early ’50s to the ’70s.",
+        image: "/assets/images/home-sec5-4.png",
+        tall: false,
+    },
+    {
+        title: "Vintage fashion",
+        copy: "Pared-back, everyday clothes — each piece carefully curated, worn well and ready to be loved again.",
+        image: "/assets/images/home-sec5-5.png",
+        tall: true,
+    },
+    {
+        title: "ReFlair Thrift",
+        copy: "It’s not just an old trailer — it’s a renovated 1970s Empire turned cozy retro boutique. Every piece curated by ReFlair.",
+        image: "/assets/images/home-sec5-7.png",
+        tall: false,
+    },
+];
 
 export default function ShopMainPage() {
     return (
         <>
-            <section className={style.first_flex}>
-                <div className={style.container_first_image}>
-                    <Image
-                        src={"/assets/images/intro_1.jpg"}
-                        width={1920}
-                        height={1080}
-                        quality={100}
-                        alt="main page pictures"
-                    />
+            {/* ── Hero ─────────────────────────────── */}
+            <section className={style.hero}>
+                <div className={style.hero_images}>
+                    <div className={style.hero_image}>
+                        <Image
+                            src="/assets/images/intro_1.jpg"
+                            fill
+                            sizes="50vw"
+                            priority
+                            alt="Archive editorial — look one"
+                        />
+                    </div>
+                    <div className={style.hero_image}>
+                        <Image
+                            src="/assets/images/intro_2.jpg"
+                            fill
+                            sizes="50vw"
+                            priority
+                            alt="Archive editorial — look two"
+                        />
+                    </div>
                 </div>
-                <div className={style.container_first_image}>
-                    <Image
-                        src={"/assets/images/intro_2.jpg"}
-                        width={1920}
-                        height={1080}
-                        quality={100}
-                        alt="main page pictures"
-                    />
-                </div>
-                <div className={style.first_description}>
-                    <h1>Thrift in fashion</h1>
-                    <Link href="/product">
-                        <button>SHOP NOW</button>
+
+                <div className={style.hero_overlay}>
+                    <p className={style.hero_eyebrow}>Curated second-hand · Est. 2022</p>
+                    <h1 className={style.hero_title}>
+                        Unearth the hidden<br />
+                        <em>flair</em> of timeless fashion
+                    </h1>
+                    <Link href="/product" className={style.hero_cta}>
+                        Shop the collection
                     </Link>
                 </div>
+
+                <span className={style.hero_scroll} aria-hidden="true">Scroll</span>
             </section>
 
-            <section className={style.second_flex}>
-                <div className={style.container_second_description}>
-                    <h1> <Link href="">Discover the campaign</Link></h1>
+            {/* ── Marquee ──────────────────────────── */}
+            <div className={style.marquee} aria-hidden="true">
+                <div className={style.marquee_track}>
+                    {[0, 1].map((i) => (
+                        <span key={i}>
+                            One-of-a-kind pieces&ensp;·&ensp;Curated weekly&ensp;·&ensp;Women — Men — Shoes&ensp;·&ensp;Sustainable luxury&ensp;·&ensp;Worn well, loved again&ensp;·&ensp;
+                        </span>
+                    ))}
                 </div>
-                <div className={style.container_second_image}>
+            </div>
+
+            {/* ── The Edit ─────────────────────────── */}
+            <section className={style.edit}>
+                <header className={style.section_head}>
+                    <p className={style.section_label}>01 — The Edit</p>
+                    <h2>This week’s campaign</h2>
+                    <Link href="/product" className={style.section_link}>
+                        Discover the campaign
+                    </Link>
+                </header>
+                <Suspense fallback={<CampaignSkeleton />}>
                     <ThreeProductImage />
-                </div>
+                </Suspense>
             </section>
 
-            {/* <h3>ShopMainPage</h3> */}
-            <section className={style.third_flex}>
-                <div className={style.container_third_image}>
+            {/* ── Manifesto ────────────────────────── */}
+            <section className={style.manifesto}>
+                <div className={style.manifesto_text}>
+                    <p className={style.section_label}>02 — Manifesto</p>
+                    <h2 className={style.manifesto_title}>
+                        Awakening of lost fashion, <em>for the future.</em>
+                    </h2>
+                    <p className={style.manifesto_copy}>
+                        ReFlair presents collections of the past to showcase in current
+                        fashion. Every garment is sourced once, restored with care, and
+                        offered exactly one time — pared-back, everyday clothes in
+                        best-in-class fabrics.
+                    </p>
+                    <Link href="/product" className={style.section_link}>
+                        Discover more
+                    </Link>
+                </div>
+                <div className={style.manifesto_image}>
                     <Image
                         src="/assets/images/home_sec_girl.png"
-                        alt="girl clothes"
-                        width={1920}
-                        height={1080}
+                        alt="Editorial portrait in archive clothing"
+                        width={960}
+                        height={1280}
+                        sizes="(max-width: 960px) 100vw, 45vw"
                     />
-                </div>
-                <div className={style.container_third_description}>
-                    <div className="">
-                        <h1>Awakening of last</h1>
-                        <h1>fashion for the </h1>
-                        <h1>future</h1>
-                    </div>
-                    <p>
-                        ReFlair presents collection of the past to showcase in current
-                        fashion.
-                    </p>
-                    <div>
-                        <Link href="/product">Discover more</Link>
-                        <hr />
-                    </div>
                 </div>
             </section>
 
-            <section className={style.fourth_flex}>
-                <div className={style.container_fourth_image}>
+            {/* ── Collections index ────────────────── */}
+            <section className={style.collections}>
+                <header className={style.section_head}>
+                    <p className={style.section_label}>03 — Collections</p>
+                    <h2>Browse the archive</h2>
+                </header>
+                <div className={style.collection_rows}>
+                    {collections.map((c) => (
+                        <Link href={c.href} key={c.index} className={style.collection_row}>
+                            <span className={style.collection_index}>{c.index}</span>
+                            <span className={style.collection_name}>{c.name}</span>
+                            <span className={style.collection_note}>{c.note}</span>
+                            <span className={style.collection_arrow} aria-hidden="true">⟶</span>
+                            <span className={style.collection_image}>
+                                <Image src={c.image} alt="" width={480} height={600} sizes="220px" />
+                            </span>
+                        </Link>
+                    ))}
+                </div>
+            </section>
+
+            {/* ── Shoe archive banner ──────────────── */}
+            <section className={style.banner}>
+                <div className={style.banner_image}>
                     <Image
                         src="/assets/images/home-sec4.png"
-                        alt="girl clothes"
-                        width={1920}
-                        height={1080}
+                        alt="The shoe archive"
+                        width={1280}
+                        height={860}
+                        sizes="(max-width: 960px) 100vw, 50vw"
                     />
                 </div>
-                <div className={style.container_fourth_description}>
-                    <h1>Shoes collection</h1>
-                    <Link href="/product/shoes">
-                        <button>SHOP NOW</button>
+                <div className={style.banner_text}>
+                    <p className={style.section_label_light}>The Shoe Archive</p>
+                    <h2>Footwear from the early ’50s to the ’70s</h2>
+                    <Link href="/product/shoes" className={style.banner_cta}>
+                        Shop shoes
                     </Link>
                 </div>
             </section>
 
-            <section className={style.fifth_flex}>
-                <div className={style.fifth_flex_row}>
-                    <div className={style.sec5_column1}>
-                        <div className={style.title1}>
-                            <Image
-                                src="/assets/images/home-sec5-1.png"
-                                alt="Sec5-img1"
-                                width={1920}
-                                height={1080}
-                            />
-                            <h1 >About fashion</h1>
-                            <h2>Those real-life gestures chimed with the season’s biggest look: pared-back, everyday clothes, executed in best-in-class fabrics.</h2>
-                        </div>
-
-                        <div className={style.title5}>
-                            <Image
-                                src="/assets/images/home-sec5-5.png"
-                                alt="girl clothes"
-                                width={1920}
-                                height={1080}
-                            />
-                            <h1>Vintage Fashion</h1>
-                            <h2>Those real-life gestures chimed with the season’s biggest look: pared-back, everyday clothes, executed in best-in-class fabrics.  </h2>
-                        </div>
-                    </div>
-
-                    <div className={style.sec5_column2}>
-                        <div className={style.title2}>
-                            <Image
-                                src="/assets/images/home-sec5-2.png"
-                                alt="sec5-img2"
-                                width={1920}
-                                height={1080}
-                            />
-                            <h1>Men fashion</h1>
-                            <h2>{"If you're looking for unique items of clothing, sometimes buying new isn't always the way forward and vintage menswear shops are the way forward."}</h2>
-                        </div>
-
-                        <div className={style.title4}>
-                            <Image
-                                src="/assets/images/home-sec5-4.png"
-                                alt="sec5-img4"
-                                width={1920}
-                                height={1080}
-                            />
-                            <h1>Rare Finds</h1>
-                            <h2>{"The shoe range’s earliest side features a selection of footwear from designers including Herbert Levine and Halston, ranging from the early ’50s to the ’70s."}</h2>
-                        </div>
-
-                        <div className={style.title6}>
-                            <Image
-                                src="/assets/images/home-sec5-6.png"
-                                alt="sec5-img6"
-                                width={1920}
-                                height={1080}
-                            />
-                            <h1>Fashion Show</h1>
-                            <h2>During the fashion show, recycled and second hand clothing items from ReFlair Thrift will be modeled.</h2>
-                        </div>
-                    </div>
-
-                    <div className={style.sec5_column3}>
-                        <div className={style.title3}>
-                            <Image
-                                src="/assets/images/home-sec5-3.png"
-                                alt="sec5-img3"
-                                width={1920}
-                                height={1080}
-                            />
-                            <h1>Forgotten</h1>
-                            <h2>{"Slip dresses, bomber jackets, scrunchies and plaid flannel shirts were all the rage during the '90s — and many of these fashion trends are working their way back into vogue. "}</h2>
-                        </div>
-
-                        <div className={style.title7}>
-                            <Image
-                                src="/assets/images/home-sec5-7.png"
-                                alt="sec5-img3"
-                                width={1920}
-                                height={1080}
-                            />
-                            <h1>ReFlair Thrift</h1>
-                            <h2>{"It’s not just an old trailer, though — it’s a 1970s Empire that Wilson renovated into a cozy retro boutique. And they’re not just any vintage goods: each piece is carefully curated by ReFlair. "}</h2>
-                        </div>
-                    </div>
+            {/* ── Journal ──────────────────────────── */}
+            <section className={style.journal}>
+                <header className={style.section_head}>
+                    <p className={style.section_label}>04 — Journal</p>
+                    <h2>Notes from the store</h2>
+                </header>
+                <div className={style.journal_grid}>
+                    {journal.map((entry, i) => (
+                        <figure
+                            key={entry.title}
+                            className={`${style.journal_card} ${entry.tall ? style.tall : ""}`}
+                        >
+                            <div className={style.journal_image}>
+                                <Image
+                                    src={entry.image}
+                                    alt={entry.title}
+                                    width={760}
+                                    height={900}
+                                    sizes="(max-width: 600px) 100vw, (max-width: 960px) 50vw, 33vw"
+                                />
+                            </div>
+                            <figcaption>
+                                <span className={style.journal_index}>
+                                    {String(i + 1).padStart(2, "0")}
+                                </span>
+                                <h3>{entry.title}</h3>
+                                <p>{entry.copy}</p>
+                            </figcaption>
+                        </figure>
+                    ))}
                 </div>
             </section>
         </>

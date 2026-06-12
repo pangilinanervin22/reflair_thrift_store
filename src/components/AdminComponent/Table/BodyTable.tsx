@@ -31,8 +31,8 @@ export default function BodyTable({
                     {tableProps.structure.map((curBase: Column) => renderCellHeader(curBase, sortColumn))}
                     {isEditable &&
                         <>
-                            <th style={{ width: "110px", fontSize: "20px" }}>UPDATE</th>
-                            <th style={{ width: "110px", fontSize: "20px" }}>DELETE</th>
+                            <th style={{ width: "110px" }}>Update</th>
+                            <th style={{ width: "110px" }}>Delete</th>
                         </>
                     }
                 </tr>
@@ -47,16 +47,16 @@ export default function BodyTable({
                         ))}
                         {isEditable &&
                             <>
-                                <td key={"edit"} style={{ width: "110px", fontSize: "20px" }}  >
+                                <td key={"edit"} style={{ width: "110px" }}  >
                                     <button className={styles.button_update} onClick={() => updateColumn(currentData)}>
-                                        EDIT
+                                        Edit
                                     </button>
                                 </td>
-                                <td key={"delete"} style={{ width: "110px", fontSize: "20px" }}  >
+                                <td key={"delete"} style={{ width: "110px" }}  >
                                     <button className={styles.button_delete} onClick={() => {
                                         deleteColumn(currentData);
                                     }}>
-                                        DELETE
+                                        Delete
                                     </button>
                                 </td>
                             </>

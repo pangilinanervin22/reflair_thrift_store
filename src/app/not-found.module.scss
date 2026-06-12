@@ -1,0 +1,43 @@
+@use "../scss/variable" as *;
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    min-height: 100vh;
+    width: 100%;
+    gap: 22px;
+    padding: 0 var(--gutter);
+    background: $paper;
+}
+
+.eyebrow {
+    @include label(10px, 0.34em);
+    color: $gray;
+    animation: rise 0.8s $ease_out both;
+}
+
+.code {
+    @include serif(clamp(110px, 22vw, 280px), 300);
+    line-height: 0.9;
+    animation: rise 0.9s 0.1s $ease_out both;
+
+    em {
+        font-style: italic;
+    }
+}
+
+.note {
+    @include serif(clamp(20px, 2.4vw, 30px), 300);
+    font-style: italic;
+    color: $gray;
+    animation: rise 0.9s 0.2s $ease_out both;
+}
+
+.home {
+    @include btn_ghost;
+    margin-top: 24px;
+    animation: rise 0.9s 0.3s $ease_out both;
+}

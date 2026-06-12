@@ -1,8 +1,12 @@
+@use "../../../scss/variable" as *;
+
 .main {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    min-height: 100vh;
+    width: 100%;
+    background: $paper;
 }
 
 .container {
@@ -10,90 +14,60 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    width: 560px;
-    background: white;
-    border: 1px solid white;
-    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.1);
+    width: min(480px, 92vw);
+    background: $white;
+    border: 1px solid $ink;
+    animation: rise 0.7s $ease_out both;
 
     .title {
         display: flex;
         justify-content: center;
         align-items: center;
         flex-direction: column;
-        background: whitesmoke;
+        gap: 10px;
+        background: $ink;
+        color: $paper;
         width: 100%;
+        padding: 40px 32px;
 
         h1 {
-            font-size: 68px;
-            font-weight: 400;
-            text-align: center;
-            padding-block: 16px;
-            text-shadow: 0px 8px 4px rgba(0, 0, 0, 0.25);
-            font-weight: 400;
-            line-height: normal;
+            @include serif(44px, 400);
+            color: $paper;
+
+            em {
+                font-style: italic;
+            }
         }
 
         p {
-            margin-bottom: 32px;
-            font-size: 18px;
+            @include label(10px, 0.3em);
+            color: rgba(246, 245, 241, 0.6);
         }
     }
-
 
     form {
         display: flex;
         justify-content: center;
-        align-items: center;
+        align-items: flex-start;
         flex-direction: column;
-        font-family: Arial, Helvetica, sans-serif;
-        width: 80%;
-        padding: 32px;
-
-        * {
-            border: 0;
-        }
+        width: 100%;
+        padding: clamp(28px, 4vw, 44px);
 
         label {
-            font-size: 18px;
-            margin-bottom: 8px;
-            text-align: left;
-            width: 100%;
-        }
-
-        input,
-        button {
-            margin-bottom: 20px;
-            font-size: 16px;
-            padding: 8px;
-            width: 100%;
-            padding-block: 16px;
-            font-family: Georgia, 'Times New Roman', Times, serif;
+            @include label(10px, 0.26em);
+            color: $gray;
+            margin-bottom: 4px;
         }
 
         input {
-            border: 1px solid white;
-            background-color: whitesmoke;
-        }
-
-        input::placeholder {
-            color: rgb(208, 199, 199);
-        }
-
-        span {
-            padding: 5px;
-            font-weight: 700;
-            text-decoration: underline;
-
-            &:hover {
-                cursor: pointer;
-            }
+            @include field_underline;
+            margin-bottom: 26px;
         }
 
         button {
-            margin-top: 20px;
-            color: white;
-            background: red;
+            @include btn_solid;
+            width: 100%;
+            margin-top: 10px;
         }
-
     }
 }

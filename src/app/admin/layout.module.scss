@@ -2,7 +2,6 @@
     display: flex;
     align-items: center;
     flex-direction: column;
-    width: 100vw;
-    padding-bottom: 32px;
-    margin-top: 12px;
+    width: 100%;
+    padding: clamp(24px, 3vw, 40px) clamp(20px, 3vw, 48px) 64px;
 }

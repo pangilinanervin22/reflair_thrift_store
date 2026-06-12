@@ -10,7 +10,7 @@ const defaultData = [
     { name: 'Women', value: 300 },
 ];
 
-const COLORS = ['#9AA0A6', '#3C4043', '#333333', '#111111',];
+const COLORS = ['#121110', '#76736c', '#c6c3ba',];
 
 const RADIAN = Math.PI / 180;
 
@@ -63,9 +63,9 @@ const GraphExample = ({ product }: Props) => {
         const y = cy + radius * Math.sin(-midAngle * RADIAN);
 
         return (
-            <text x={x} y={y} fill="black" fontSize="14px"
+            <text x={x} y={y} fill="#121110" fontSize="11px" letterSpacing="0.1em"
                 textAnchor={x > cx ? 'start' : 'end'} dominantBaseline="central">
-                {`${data[index].name} ${(percent * 100).toFixed(0)}%`}
+                {`${data[index].name.toUpperCase()} ${(percent * 100).toFixed(0)}%`}
             </text>
         );
     };
@@ -79,8 +79,11 @@ const GraphExample = ({ product }: Props) => {
                     cy="50%"
                     labelLine={false}
                     label={renderCustomizedLabel}
-                    outerRadius={80}
-                    fill="#8884d8"
+                    innerRadius={52}
+                    outerRadius={88}
+                    paddingAngle={2}
+                    fill="#121110"
+                    stroke="#f6f5f1"
                     dataKey="value"
                 >
                     {data.map((entry, index) => (

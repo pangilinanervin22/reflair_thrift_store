@@ -1,18 +1,22 @@
+@use "../../../../scss/variable" as *;
+
 .order_container {
     display: flex;
     flex-direction: column;
-    padding: 16px;
-    gap: 16px;
+    gap: clamp(16px, 2vw, 24px);
+    width: 100%;
+    max-width: 1280px;
 }
 
 .order_title {
     display: flex;
     flex-direction: row;
     align-items: flex-start;
-    gap: 16px;
+    gap: clamp(24px, 3vw, 48px);
     width: 100%;
-    border: 1px solid #ccc;
-    padding: 16px;
+    border: 1px solid $hairline;
+    background: $white;
+    padding: clamp(20px, 2.4vw, 32px);
 
     >:first-child {
         width: 50%;
@@ -23,16 +27,22 @@
         display: flex;
         flex-direction: column;
         align-items: flex-start;
-        gap: 16px;
+        gap: 14px;
 
         .title {
             display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 6px;
 
             >:first-child {
-                font-size: 20px;
-                font-weight: 700;
-                margin-right: 16px;
+                @include serif(26px, 400);
             }
+        }
+
+        h4 {
+            @include label(10px, 0.18em);
+            color: $gray;
         }
     }
 
@@ -46,140 +56,161 @@
 }
 
 .order_content {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    gap: 32px;
-    width: 1080px;
+    display: grid;
+    grid-template-columns: 1fr 1.3fr;
+    align-items: start;
+    gap: clamp(16px, 2vw, 24px);
+    width: 100%;
 
     >div {
-        border: 1px solid #ccc;
-        padding: 32px;
+        border: 1px solid $hairline;
+        background: $white;
+        padding: clamp(20px, 2.4vw, 32px);
     }
 }
 
 .details {
-    width: 50%;
     display: flex;
     flex-wrap: wrap;
 
     >:first-child {
+        @include label(10px, 0.26em);
+        color: $gray;
         width: 100%;
-        height: auto;
-        margin-bottom: 16px;
-        font-size: 18px;
+        margin-bottom: 20px;
+        padding-bottom: 14px;
+        border-bottom: 1px solid $hairline;
     }
 
     .details_content {
         width: 100%;
-        height: auto;
-        margin-bottom: 16px;
-        font-size: 18px;
         display: flex;
         flex-direction: row;
         justify-content: space-between;
+        align-items: baseline;
+        gap: 16px;
+        padding: 10px 0;
+        border-bottom: 1px solid $hairline;
+
+        &:last-child {
+            border-bottom: 0;
+        }
 
         >:first-child {
+            @include label(9px, 0.22em);
+            color: $gray_light;
             width: 30%;
-            font-size: 16px;
-            font-weight: 500;
         }
 
         >:last-child {
             width: 70%;
-            font-size: 16px;
-            font-weight: 500;
-            color: gray;
+            font-size: 13.5px;
+            font-weight: 300;
+            letter-spacing: 0.03em;
+            color: $ink;
+            text-align: right;
+            overflow-wrap: anywhere;
         }
     }
 }
 
-
 .products {
-    width: 60%;
-    padding: 16px;
+    width: 100%;
 
     >:first-child {
+        @include label(10px, 0.26em);
+        color: $gray;
         width: 100%;
-        height: auto;
-        margin-bottom: 16px;
-        font-size: 18px;
+        margin-bottom: 20px;
+        padding-bottom: 14px;
+        border-bottom: 1px solid $hairline;
     }
 
     .product {
         width: 100%;
-        height: auto;
-        margin-bottom: 16px;
-        font-size: 18px;
         display: flex;
         flex-direction: row;
+        align-items: center;
+        gap: 16px;
+        padding: 12px 0;
+        border-bottom: 1px solid $hairline;
+
+        img {
+            width: 56px;
+            height: 70px;
+            object-fit: cover;
+            background: $frame;
+            flex-shrink: 0;
+        }
 
         .product_details {
-            margin-left: 16px;
-            border-radius: 8px;
             width: 100%;
             display: flex;
             justify-content: space-between;
+            align-items: center;
+            gap: 16px;
 
             .product_name {
-                height: auto;
-                border-radius: 8px;
                 display: flex;
                 flex-direction: column;
-                gap: 8px;
+                gap: 5px;
+                min-width: 0;
 
                 >:first-child {
-                    font-size: 18px;
-                    font-weight: 500;
+                    @include label(11px, 0.12em);
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
                 }
 
                 >:last-child {
-                    font-size: 14px;
-                    font-weight: 500;
+                    @include label(9px, 0.18em);
+                    color: $gray_light;
                 }
+            }
+
+            >h4:last-child {
+                @include serif(17px, 500);
+                flex-shrink: 0;
             }
         }
     }
 
     .subtotal {
         width: 100%;
-        height: auto;
-        margin-bottom: 16px;
         display: flex;
         flex-direction: row;
         justify-content: space-between;
-
-        >* {
-            font-size: 16px;
-            font-weight: 500;
-        }
+        align-items: baseline;
+        padding: 10px 0;
 
         >:first-child {
-            font-size: 14px;
-            color: gray;
+            @include label(9px, 0.22em);
+            color: $gray;
         }
 
+        >:last-child {
+            font-size: 14px;
+            font-weight: 300;
+        }
     }
 
     .product_total {
         width: 100%;
-        height: auto;
-        margin-bottom: 16px;
         display: flex;
         flex-direction: row;
         justify-content: space-between;
-        border-top: #666 1px solid;
+        align-items: baseline;
+        border-top: 1px solid $ink;
         padding-top: 16px;
+        margin-top: 6px;
 
-        >* {
-            font-size: 20px;
-            font-weight: 500;
+        >:first-child {
+            @include label(11px, 0.26em);
         }
 
         >:last-child {
-            font-size: 24px;
-            font-weight: 600;
-            color: red;
+            @include serif(26px, 500);
         }
     }
 }
@@ -187,38 +218,19 @@
 .edit_order {
     display: flex;
     flex-direction: column;
+    gap: 14px;
 
     label {
-        font-size: 20px;
-        font-weight: 500;
+        @include label(10px, 0.24em);
+        color: $gray;
+        display: block;
+        margin-bottom: 2px;
     }
 
-    select {
-        width: 100%;
-        border-radius: 8px;
-        border: 1px solid #ccc;
-        padding: 8px;
-
-        &:focus {
-            outline: none;
-        }
-
-        option {
-            background: #f8f9fa; // change the background color
-            color: #333; // change the text color
-        }
-    }
-
+    select,
     input {
-        width: 100%;
-        border-radius: 8px;
-        border: 1px solid #ccc;
-        padding: 8px;
-        margin-bottom: 8px;
-
-        &:focus {
-            outline: none;
-        }
+        @include field_underline;
+        cursor: pointer;
     }
 
     .edit_confirm {
@@ -226,23 +238,33 @@
         display: flex;
         flex-direction: row;
         justify-content: flex-end;
+        margin-top: 8px;
 
         button {
-            padding: 8px 16px;
-            border-radius: 8px;
-            background-color: #6189ce;
-            color: #fff;
-            font-size: 16px;
-            font-weight: 500;
-
-            &:hover {
-                cursor: pointer;
-                opacity: 0.8;
-            }
+            @include btn_solid;
+            padding: 13px 30px;
         }
     }
 }
 
 .error {
-    background: red;
+    color: $ink;
+    font-style: italic;
+    font-family: var(--font-serif), serif;
+}
+
+@media (max-width: 960px) {
+
+    .order_content {
+        grid-template-columns: 1fr;
+    }
+
+    .order_title {
+        flex-direction: column;
+
+        >:first-child,
+        >:last-child {
+            width: 100%;
+        }
+    }
 }
