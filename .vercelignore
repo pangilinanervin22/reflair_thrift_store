@@ -1,0 +1,10 @@
+# Never upload local env files; production config lives in Vercel Environment Variables.
+.env
+.env.*
+
+# Not needed at runtime
+CLAUDE.md
+README.md
+tsconfig.tsbuildinfo
+.github
+scripts
