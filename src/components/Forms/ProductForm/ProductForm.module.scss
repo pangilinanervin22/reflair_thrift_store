@@ -85,10 +85,6 @@
             gap: 12px;
             margin-top: 16px;
 
-            a {
-                display: contents;
-            }
-
             .cancel {
                 @include btn_ghost;
                 min-width: 160px;

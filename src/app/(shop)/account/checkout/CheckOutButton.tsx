@@ -2,38 +2,46 @@
 
 import { OrderCreateAction } from '@/lib/OrderAction';
 import { notifyCartChanged } from '@/utils/cartEvents';
-import { Account } from '@prisma/client';
 import { useRouter } from 'next/navigation';
-import React from 'react'
+import React, { useTransition } from 'react'
 import { toast } from 'react-toastify';
 
 interface Props {
-    account: Account;
-    product: string[] | undefined;
+    /** True while delivery details are incomplete — the page explains what is missing. */
+    disabled?: boolean;
+    className?: string;
     children?: React.ReactNode;
 }
 
-export default function CheckOutButton({ account, product, children }: Props) {
+// The action takes no arguments: the bag in the database is the source of truth.
+export default function CheckOutButton({ disabled, className, children }: Props) {
     const router = useRouter();
-    const checkout = async () => {
-        const loading = toast.loading("Order is being processed");
+    const [isPending, startTransition] = useTransition();
 
-        const order = await OrderCreateAction(account, product || []);
+    const checkout = () => {
+        if (isPending || disabled) return;
+        const loading = toast.loading("Placing your order…");
+        startTransition(async () => {
+            try {
+                const res = await OrderCreateAction();
+                if (res.ok) {
+                    toast.update(loading, { render: res.message, type: "success", isLoading: false, autoClose: 2000 });
+                    notifyCartChanged();
+                    router.push("/account/order?placed=" + (res.data?.orderId ?? ""));
+                } else {
+                    toast.update(loading, { render: res.message, type: "error", isLoading: false, autoClose: 5000 });
+                    if (res.code === "UNAUTHENTICATED") router.push("/login?callbackUrl=%2Faccount%2Fcheckout");
+                    else router.refresh(); // e.g. sold pieces were removed from the bag
+                }
+            } catch {
+                toast.update(loading, { render: "Your order could not be placed. Please try again.", type: "error", isLoading: false, autoClose: 3000 });
+            }
+        });
+    };
 
-        if (order.ok) {
-            toast.update(loading, { render: order.message, type: "success", isLoading: false, autoClose: 2000 });
-            notifyCartChanged();
-            router.push("/account/order");
-        } else if (order.error) {
-            toast.update(loading, { render: order.message, type: "error", isLoading: false, autoClose: 2000 });
-            return;
-        }
-    }
     return (
-        <>
-            <div onClick={() => checkout()}>
-                {children}
-            </div>
-        </>
+        <button type="button" className={className} onClick={checkout} disabled={disabled || isPending} aria-busy={isPending}>
+            {children ?? "Place order now"}
+        </button>
     )
 }

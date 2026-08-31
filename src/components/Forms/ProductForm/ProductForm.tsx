@@ -7,10 +7,11 @@ import '@uploadthing/react/styles.css';
 import Link from "next/link";
 import { ProductUpdateAction } from "@/lib/ProductAction";
 import type { Product } from "@prisma/client";
-import { ProductRequestBody } from "@/app/api/product/route";
 import { UploadButton } from "@/db/uploadthing";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
+import { PRODUCT_CATEGORIES } from "@/lib/constants";
+import { ProductInputSchema } from "@/lib/schemas/product";
 
 
 interface PageProps {
@@ -23,50 +24,41 @@ export default function ProductForm({ product }: PageProps) {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const router = useRouter();
 
-    const handleSubmit = async (e: FormEvent) => {
+    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        if (isSubmitting) return;
 
-        if (isSubmitting)
-            return; // If already submitting, prevent additional submissions
-
-        setIsSubmitting(true);
-        const loading = toast.loading("Product is pending");
-
-        const { name, price, size, material, color, category } = e.target as typeof e.target & {
-            name: { value: string };
-            price: { value: number };
-            size: { value: string };
-            material: { value: string };
-            color: { value: string };
-            category: { value: string };
-        };
-
-        if (!name || !price || !url || !size || !material || !color || !category) {
-            alert("Please fill in all fields!");
+        const form = new FormData(e.currentTarget);
+        // Same schema the server enforces — instant feedback without a round-trip
+        const parsed = ProductInputSchema.safeParse({
+            name: form.get("name"),
+            price: form.get("price"),
+            image: url,
+            size: form.get("size"),
+            material: form.get("material"),
+            color: form.get("color"),
+            category: form.get("category"),
+        });
+        if (!parsed.success) {
+            toast.error(parsed.error.issues[0]?.message ?? "Please check the form", { toastId: "productForm" });
             return;
         }
 
-        const productValue: ProductRequestBody = {
-            name: name.value,
-            price: Number(price.value),
-            image: url,
-            category: category.value,
-            color: color.value,
-            material: material.value,
-            size: size.value,
+        setIsSubmitting(true);
+        const loading = toast.loading("Saving product…");
+        try {
+            const res = await ProductUpdateAction(product.id, parsed.data);
+            if (res.ok) {
+                toast.update(loading, { render: res.message, type: "success", autoClose: 2000, isLoading: false });
+                router.push("/admin/product");
+            } else {
+                toast.update(loading, { render: res.message, type: "error", autoClose: 3000, isLoading: false });
+            }
+        } catch {
+            toast.update(loading, { render: "Something went wrong. Please try again.", type: "error", autoClose: 2500, isLoading: false });
+        } finally {
+            setIsSubmitting(false);
         }
-
-        // action here
-        const res = await ProductUpdateAction(product.id, productValue);
-        if (res?.ok) {
-            toast.update(loading, { render: res.message, type: "success", autoClose: 2000, isLoading: false });
-            router.push("/admin/product");
-        }
-        else if (res?.error) {
-            toast.update(loading, { render: res.message, type: "error", autoClose: 2000, isLoading: false });
-        }
-
-        setIsSubmitting(false);; // Reset isSubmitting flag after submission
     }
 
     return (
@@ -75,12 +67,13 @@ export default function ProductForm({ product }: PageProps) {
                 <Image src={url} alt="image upload" width={840} height={1120} sizes="(max-width: 860px) 92vw, 420px" />
                 <UploadButton
                     endpoint="imageUploader"
-                    onClientUploadComplete={(res: any) => {
-                        setUrl(String(res[0].url))
-                        alert("Upload Completed");
+                    onClientUploadComplete={(res) => {
+                        const file = res[0];
+                        if (file) setUrl(file.ufsUrl);
+                        toast.success("Image uploaded");
                     }}
                     onUploadError={(error: Error) => {
-                        alert(`ERROR! ${error.message}`);
+                        toast.error("Upload failed: " + error.message);
                     }}
                 />
             </div>
@@ -93,10 +86,11 @@ export default function ProductForm({ product }: PageProps) {
                         <input
                             type="text"
                             id="name"
+                            name="name"
                             placeholder="Enter name"
                             defaultValue={name}
-                            min={5}
-                            max={64}
+                            minLength={3}
+                            maxLength={64}
                             required
                         />
                     </div>
@@ -105,10 +99,12 @@ export default function ProductForm({ product }: PageProps) {
                         <input
                             type="number"
                             id="price"
+                            name="price"
                             placeholder="₱ 00.00"
                             defaultValue={price}
-                            min={10}
-                            max={10000}
+                            min={1}
+                            max={100000}
+                            step="0.01"
                             required
                         />
                     </div>
@@ -117,8 +113,10 @@ export default function ProductForm({ product }: PageProps) {
                         <input
                             type="text"
                             id="size"
+                            name="size"
                             placeholder="small, medium, large"
                             defaultValue={size}
+                            maxLength={20}
                             required
                         />
                     </div>
@@ -127,8 +125,10 @@ export default function ProductForm({ product }: PageProps) {
                         <input
                             type="text"
                             id="material"
+                            name="material"
                             placeholder="cotton, polyester, leather"
                             defaultValue={material}
+                            maxLength={30}
                             required
                         />
                     </div>
@@ -137,31 +137,27 @@ export default function ProductForm({ product }: PageProps) {
                         <input
                             type="text"
                             id="color"
+                            name="color"
                             placeholder="red, blue, green"
                             defaultValue={color}
+                            maxLength={30}
                             required
                         />
                     </div>
                     <div className={style.container_input}>
                         <label htmlFor="category">Select a category:</label>
-                        <select id="category"
-                            defaultValue={category}
-                            required
-                        >
-                            <option value={"men"}>men</option>
-                            <option value={"women"}>women</option>
-                            <option value={"shoes"}>shoes</option>
+                        <select id="category" name="category" defaultValue={category} required>
+                            {PRODUCT_CATEGORIES.map((item) => (
+                                <option key={item} value={item}>{item}</option>
+                            ))}
                         </select>
                     </div>
                     <div className={style.action_button}>
-                        <Link href="/admin/product"><button className={style.cancel}>Cancel</button></Link>
-                        <button className={style.submit} type="submit">Update</button>
+                        <Link href="/admin/product" className={style.cancel}>Cancel</Link>
+                        <button className={style.submit} type="submit" disabled={isSubmitting}>{isSubmitting ? "Saving…" : "Update"}</button>
                     </div>
                 </form>
             </div>
         </section >
     );
 }
-
-
-

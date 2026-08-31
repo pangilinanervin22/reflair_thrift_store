@@ -5,50 +5,39 @@ import { signIn } from "next-auth/react";
 import style from './page.module.scss';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
-import { isEmailExist } from '@/lib/AccountAction';
 
-export default function AdminLoginForm({ registering }: { registering: Function }) {
+export default function AdminLoginForm() {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const router = useRouter();
 
-    const handleSubmit = async (e: FormEvent) => {
+    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-
         if (isSubmitting) return;
 
         setIsSubmitting(true);
-        const loading = toast.loading("Login is pending");
+        const loading = toast.loading("Signing you in…");
 
         try {
-            // get form data
-            const formData = e.target;
-            const email = (formData as any).email.value;
-            const password = (formData as any).password.value;
+            const form = new FormData(e.currentTarget);
+            const email = String(form.get("email") ?? "").trim();
+            const password = String(form.get("password") ?? "");
 
-            // validation here
             if (!email || !password) {
-                toast.update(loading, { render: "Please fill in all fields", type: "error", autoClose: 2000, isLoading: false })
-                return;
-            } else if (!(await isEmailExist(email))) {
-                toast.update(loading, { render: "Email not exist", type: "error", autoClose: 2000, isLoading: false });
+                toast.update(loading, { render: "Please fill in all fields", type: "error", autoClose: 2000, isLoading: false });
                 return;
             }
 
-            // action here
-            const res = await signIn("credentials", {
-                email,
-                password,
-                redirect: false,
-            })
+            const res = await signIn("credentials", { email, password, redirect: false });
 
             if (res?.ok) {
-                toast.update(loading, { render: "Login Success", type: "success", autoClose: 2000, isLoading: false });
-                router.refresh();
-            } else if (res?.error) {
-                toast.update(loading, { render: "Invalid credentials", type: "error", autoClose: 2000, isLoading: false });
+                toast.update(loading, { render: "Signed in", type: "success", autoClose: 1500, isLoading: false });
+                router.refresh(); // admin/layout re-renders with the session
+            } else {
+                // One generic message — never reveal whether the email exists
+                toast.update(loading, { render: "Invalid email or password", type: "error", autoClose: 2500, isLoading: false });
             }
-        } catch (error) {
-            toast.update(loading, { render: "Error occurred", type: "error", autoClose: 2000, isLoading: false });
+        } catch {
+            toast.update(loading, { render: "Something went wrong. Please try again.", type: "error", autoClose: 2500, isLoading: false });
         } finally {
             setIsSubmitting(false);
         }
@@ -63,9 +52,9 @@ export default function AdminLoginForm({ registering }: { registering: Function 
                 </div>
                 <form onSubmit={handleSubmit}>
                     <label htmlFor="email">Email</label>
-                    <input id="email" type="text" placeholder="you@reflair.com" required />
+                    <input id="email" name="email" type="email" placeholder="you@reflair.com" autoComplete="email" required />
                     <label htmlFor="password">Password</label>
-                    <input id="password" type="password" placeholder="••••••••" required />
+                    <input id="password" name="password" type="password" placeholder="••••••••" autoComplete="current-password" required />
                     <button type="submit" disabled={isSubmitting}>
                         {isSubmitting ? "Logging in…" : "Log in"}
                     </button>
@@ -74,6 +63,3 @@ export default function AdminLoginForm({ registering }: { registering: Function 
         </main>
     );
 }
-
-
-

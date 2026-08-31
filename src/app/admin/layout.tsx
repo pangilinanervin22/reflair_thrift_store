@@ -1,30 +1,34 @@
-
-import ModalContainer from "@/components/Modal/ModalContainer"
+import type { Metadata } from "next";
 import NavigationBar from "@/components/AdminComponent/NavigationBar/NavigationBar"
-import { getServerSession } from "next-auth";
-import AdminAuth from "@/components/AdminComponent/AdminAuth";
+import AdminLoginForm from "@/components/Forms/AdminLoginForm/AdminLoginForm";
 import style from "./layout.module.scss";
-import { authOptions } from "@/db/options";
 import Unauthorized from "@/components/AdminComponent/Unauthorized";
+import { getSessionUser } from "@/lib/auth";
+
+// Private area — never indexed
+export const metadata: Metadata = {
+    title: "Atelier",
+    robots: { index: false, follow: false },
+};
 
 export default async function AdminPageLayout({
     children,
 }: {
     children: React.ReactNode
 }) {
+    // Rendering gate only — every admin server action re-checks the role itself
+    // (requireAdmin). The role comes from the database, not the JWT.
+    const user = await getSessionUser();
 
-    const session = await getServerSession(authOptions);
-
-    if (!session) return (<AdminAuth />)
-    if (session?.user.role !== "admin") return (<Unauthorized />)
+    if (!user) return (<AdminLoginForm />)
+    if (user.role !== "admin") return (<Unauthorized />)
 
     return (
         <>
-            <NavigationBar name={session.user?.name || ""} />
+            <NavigationBar name={user.name} />
             <main className={style.admin_layout}>
                 {children}
             </main>
-            <ModalContainer />
         </>
     )
 }

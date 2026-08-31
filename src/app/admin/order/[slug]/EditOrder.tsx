@@ -1,50 +1,56 @@
 "use client"
 
-import { OrderUpdateAction, OrderUpdateStatusAction } from '@/lib/OrderAction';
+import { OrderUpdateAction } from '@/lib/OrderAction';
 import { Order, OrderStatus } from '@prisma/client'
-import React, { FormEvent, useState } from 'react'
+import { FormEvent, useState } from 'react'
 import { toast } from 'react-toastify';
 import style from './page.module.scss'
 import { useRouter } from 'next/navigation';
+import { ORDER_TRANSITIONS } from '@/lib/orderStatus';
+import { CANCEL_REASONS, OrderAdminUpdateSchema } from '@/lib/schemas/order';
 
 export default function EditOrder({ propsOrder }: { propsOrder: Order }) {
     const router = useRouter();
     const [status, setStatus] = useState<OrderStatus>(propsOrder.order_status);
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
+    // The current status plus whatever the transition table allows from it
+    const options: OrderStatus[] = [propsOrder.order_status, ...ORDER_TRANSITIONS[propsOrder.order_status]];
+    const terminal = ORDER_TRANSITIONS[propsOrder.order_status].length === 0;
+    const cancelling = status === "cancelled" && propsOrder.order_status !== "cancelled";
 
-    const handleStatusChange = async (event: FormEvent) => {
+    const handleStatusChange = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        const formData = new FormData(event.target as HTMLFormElement);
-        const statusData = formData.get("order_status") as OrderStatus;
-        const date = formData.get("order_date") as string;
+        if (isSubmitting) return;
 
-        const toastId = toast.loading("Updating an order...");
+        const formData = new FormData(event.currentTarget);
+        // Same schema the server enforces — instant feedback without a round-trip
+        const parsed = OrderAdminUpdateSchema.safeParse({
+            status: formData.get("order_status"),
+            ship_date: String(formData.get("ship_date") ?? "") || undefined,
+            cancel_reason: cancelling ? String(formData.get("cancel_reason") ?? "") || undefined : undefined,
+        });
+        if (!parsed.success) {
+            toast.error(parsed.error.issues[0]?.message ?? "Please check the form");
+            return;
+        }
+
+        setIsSubmitting(true);
+        const toastId = toast.loading("Updating the order…");
         try {
-
-            if (!statusData || !date) {
-                toast.update(toastId, { type: "error", render: "Please fill in all fields", autoClose: 2000, isLoading: false });
-                return;
-            }
-
-            if (new Date(date) < new Date(propsOrder.order_date)) {
-                toast.update(toastId, { type: "error", render: "Order date cannot be before the current date", autoClose: 2000, isLoading: false });
-                return;
-            }
-
-            const res = await OrderUpdateAction(propsOrder.id, { status: statusData, date });
-
-            if (res.error) {
-                toast.update(toastId, { type: "error", render: res.message, autoClose: 2000, isLoading: false });
-                return;
-            } else {
-                toast.update(toastId, { type: "success", render: "Successfully updated order", autoClose: 2000, isLoading: false });
+            const res = await OrderUpdateAction(propsOrder.id, parsed.data);
+            if (res.ok) {
+                toast.update(toastId, { type: "success", render: res.message, autoClose: 2000, isLoading: false });
                 router.push("/admin/order");
+                router.refresh();
+            } else {
+                toast.update(toastId, { type: "error", render: res.message, autoClose: 3000, isLoading: false });
             }
-
-
         } catch (error) {
             console.error(error);
             toast.update(toastId, { type: "error", render: "An error occurred while updating the order", autoClose: 2000, isLoading: false });
+        } finally {
+            setIsSubmitting(false);
         }
     };
 
@@ -54,42 +60,44 @@ export default function EditOrder({ propsOrder }: { propsOrder: Order }) {
                 <label htmlFor='order_status'>
                     Status
                 </label>
-                <select name='order_status' id='order_status' onChange={(e) => setStatus(e.target.value as OrderStatus)}
-                    defaultValue={propsOrder.order_status}>
-                    <option value="pending">pending</option>
-                    <option value="processing">processing</option>
-                    <option value="shipped">shipped</option>
-                    <option value="cancelled">cancelled</option>
-                    <option value="received" className={style.error}>received</option>
+                <select
+                    name='order_status'
+                    id='order_status'
+                    value={status}
+                    onChange={(e) => setStatus(e.target.value as OrderStatus)}
+                    disabled={terminal}
+                >
+                    {options.map((option) => (
+                        <option key={option} value={option}>{option}</option>
+                    ))}
                 </select>
             </div>
             <div>
-                <label htmlFor="order_date">Shipped Date</label>
-                <input type="date" name="order_date" id="order_date" required
+                <label htmlFor="ship_date">Ship date{status === "shipped" ? "" : " (optional)"}</label>
+                <input
+                    type="date"
+                    name="ship_date"
+                    id="ship_date"
+                    required={status === "shipped"}
                     defaultValue={propsOrder.ship_date ? propsOrder.ship_date.toISOString().split('T')[0] : ''}
                 />
             </div>
-            {cancelledReasonComponent(status)}
+            {cancelling && (
+                <div>
+                    <label htmlFor='cancel_reason'>Cancellation reason</label>
+                    <select name='cancel_reason' id='cancel_reason' defaultValue={CANCEL_REASONS[0]}>
+                        {CANCEL_REASONS.map((reason) => (
+                            <option key={reason} value={reason}>{reason}</option>
+                        ))}
+                    </select>
+                    <p className={style.error}>Cancelling returns the order&apos;s pieces to the archive.</p>
+                </div>
+            )}
             <div className={style.edit_confirm}>
-                <button type='submit'>Update Order</button>
+                <button type='submit' disabled={isSubmitting || terminal}>
+                    {terminal ? "Order " + propsOrder.order_status : "Update order"}
+                </button>
             </div>
         </form>
     )
 }
-
-function cancelledReasonComponent(status: OrderStatus) {
-    if (status === "cancelled") {
-        return (
-            <div>
-                <label htmlFor='cancel'>
-                    Cancelled Reason
-                </label>
-                <select name='cancel' id='cencel'>
-                    <option value="Address not verfied">Address not verfied</option>
-                    <option value="Product not available">Product not available</option>
-                </select>
-            </div>
-        )
-    }
-    return null;
-} 

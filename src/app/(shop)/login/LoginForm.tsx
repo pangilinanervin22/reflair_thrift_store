@@ -6,17 +6,23 @@ import { useRouter } from 'next/navigation';
 import style from './page.module.scss';
 import Link from 'next/link';
 import { toast } from 'react-toastify';
-import { isEmailExist } from '@/lib/AccountAction';
 import Image from 'next/image';
+
+// Where to go after signing in. Read from window (not useSearchParams) so this
+// page stays fully static; only same-origin paths are honoured.
+function readCallbackUrl(): string {
+    const raw = new URLSearchParams(window.location.search).get('callbackUrl');
+    return raw && raw.startsWith('/') && !raw.startsWith('//') ? raw : '/account';
+}
 
 export default function LoginForm() {
     const [submitting, setSubmitting] = useState(false);
     const { status } = useSession();
     const router = useRouter();
 
-    // Already signed in — go straight to the account area
+    // Already signed in — continue to where the user was heading
     useEffect(() => {
-        if (status === 'authenticated') router.replace('/account');
+        if (status === 'authenticated') router.replace(readCallbackUrl());
     }, [status, router]);
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -24,40 +30,30 @@ export default function LoginForm() {
         if (submitting) return;
 
         setSubmitting(true);
-        const loading = toast.loading('Login is pending');
+        const loading = toast.loading('Signing you in…');
 
         try {
-            const formEl = e.currentTarget;
-            const formData = new FormData(formEl);
+            const formData = new FormData(e.currentTarget);
             const email = String(formData.get('email') || '').trim();
-            const password = String(formData.get('password') || '').trim();
+            const password = String(formData.get('password') || '');
 
             if (!email || !password) {
                 toast.update(loading, { render: 'Please fill in all fields', type: 'error', autoClose: 2000, isLoading: false });
                 return;
             }
 
-            if (!(await isEmailExist(email))) {
-                toast.update(loading, { render: 'Email not exist', type: 'error', autoClose: 2000, isLoading: false });
-                return;
-            }
+            const res = await signIn('credentials', { email, password, redirect: false });
 
-            // Perform sign-in with a server redirect so cookies are set before hitting /account
-            const res = await signIn('credentials', {
-                email,
-                password,
-                redirect: true,
-                callbackUrl: '/account',
-            });
-
-            // If redirect is prevented by the environment, handle error feedback
-            if (res && (res as any).error) {
-                toast.update(loading, { render: 'Invalid credentials', type: 'error', autoClose: 2000, isLoading: false });
-                return;
+            if (res?.ok) {
+                toast.update(loading, { render: 'Welcome back', type: 'success', autoClose: 1500, isLoading: false });
+                router.push(readCallbackUrl());
+                router.refresh();
+            } else {
+                // One generic message — never reveal whether the email exists
+                toast.update(loading, { render: 'Invalid email or password', type: 'error', autoClose: 2500, isLoading: false });
             }
-            // On success, NextAuth will redirect to /account
-        } catch (error) {
-            toast.update(loading, { render: 'Error occurred', type: 'error', autoClose: 2000, isLoading: false });
+        } catch {
+            toast.update(loading, { render: 'Something went wrong. Please try again.', type: 'error', autoClose: 2500, isLoading: false });
         } finally {
             setSubmitting(false);
         }
@@ -67,11 +63,11 @@ export default function LoginForm() {
         <section className={style.container}>
             <div className={style.side}>
                 <Image
-                    src={'/assets/images/loginbgimage.jpg'}
+                    src={'/assets/images/loginbgimage.webp'}
                     alt='Archive editorial'
                     width={1080}
                     height={1080}
-                    sizes="(max-width: 860px) 0px, 50vw"
+                    sizes="(max-width: 860px) 1px, 50vw"
                     priority
                 />
                 <p className={style.side_caption}>

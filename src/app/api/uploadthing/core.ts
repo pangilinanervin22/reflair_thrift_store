@@ -1,19 +1,22 @@
 import { createUploadthing, type FileRouter } from "uploadthing/next";
+import { UploadThingError } from "uploadthing/server";
+import { requireAdmin } from "@/lib/auth";
 
 const f = createUploadthing();
 
-const auth = (req: Request) => ({ id: "fakeId" }); // Fake auth function
-
-// FileRouter for your app, can contain multiple FileRoutes
 export const ourFileRouter = {
+    // Product images — admin only. The UploadButton only appears in the admin
+    // product forms, but this middleware is what actually enforces it.
     imageUploader: f({
         image: { maxFileSize: "4MB", maxFileCount: 1 },
     })
-        .middleware((req) => {
-            return { userId: "2" };
+        .middleware(async () => {
+            const auth = await requireAdmin();
+            if (!auth.ok) throw new UploadThingError({ code: "FORBIDDEN", message: "Unauthorized" });
+            return { uploadedBy: auth.user.id };
         })
-        .onUploadComplete(({ metadata, file }) => {
-            return { url: file.url };
+        .onUploadComplete(({ file }) => {
+            return { url: file.ufsUrl };
         }),
 } satisfies FileRouter;
 

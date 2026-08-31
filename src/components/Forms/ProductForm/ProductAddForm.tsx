@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import Image from "next/image";
 import style from "./ProductForm.module.scss";
 import '@uploadthing/react/styles.css';
@@ -9,51 +9,49 @@ import { toast } from "react-toastify";
 import { UploadButton } from "@/db/uploadthing";
 import { ProductCreateAction } from "@/lib/ProductAction";
 import { useRouter } from "next/navigation";
-
+import { PLACEHOLDER_PRODUCT_IMAGE, PRODUCT_CATEGORIES } from "@/lib/constants";
+import { ProductInputSchema } from "@/lib/schemas/product";
 
 export default function ProductCreateForm() {
-    const [url, setUrl] = useState("https://utfs.io/f/dca9a6a3-7204-407a-b16d-6b224dd8b188-4pl4mu.png");
+    const [url, setUrl] = useState(PLACEHOLDER_PRODUCT_IMAGE);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const router = useRouter();
 
-    const handleSubmit = async (e: any) => {
+    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        if (isSubmitting) return;
 
-        if (isSubmitting) return; // If already submitting, prevent additional submissions
+        const form = new FormData(e.currentTarget);
+        // Same schema the server enforces — instant feedback without a round-trip
+        const parsed = ProductInputSchema.safeParse({
+            name: form.get("name"),
+            price: form.get("price"),
+            image: url,
+            size: form.get("size"),
+            material: form.get("material"),
+            color: form.get("color"),
+            category: form.get("category"),
+        });
+        if (!parsed.success) {
+            toast.error(parsed.error.issues[0]?.message ?? "Please check the form", { toastId: "productForm" });
+            return;
+        }
 
         setIsSubmitting(true);
-        const loading = toast.loading("Product is pending");
-
-        const { name, price, size, material, color, category } = e.target as typeof e.target & {
-            name: { value: string };
-            price: { value: number };
-            size: { value: string };
-            material: { value: string };
-            color: { value: string };
-            category: { value: string };
-        };
-
-        const product: PostProduct = {
-            name: name.value,
-            price: Number(price.value),
-            image: url,
-            category: category.value,
-            color: color.value,
-            material: material.value,
-            size: size.value,
+        const loading = toast.loading("Creating product…");
+        try {
+            const res = await ProductCreateAction(parsed.data);
+            if (res.ok) {
+                toast.update(loading, { render: res.message, type: "success", autoClose: 2000, isLoading: false });
+                router.push("/admin/product");
+            } else {
+                toast.update(loading, { render: res.message, type: "error", autoClose: 3000, isLoading: false });
+            }
+        } catch {
+            toast.update(loading, { render: "Something went wrong. Please try again.", type: "error", autoClose: 2500, isLoading: false });
+        } finally {
+            setIsSubmitting(false);
         }
-
-        //action here
-        const res = await ProductCreateAction(product);
-        if (res?.ok) {
-            toast.update(loading, { render: res.message, type: "success", autoClose: 2000, isLoading: false });
-            router.push("/admin/product");
-        }
-        else if (res?.error) {
-            toast.update(loading, { render: res.message, type: "error", autoClose: 2000, isLoading: false });
-        }
-
-        setIsSubmitting(false);
     };
 
     return (
@@ -62,12 +60,13 @@ export default function ProductCreateForm() {
                 <Image src={url} alt="image upload" width={840} height={1120} sizes="(max-width: 860px) 92vw, 420px" />
                 <UploadButton
                     endpoint="imageUploader"
-                    onClientUploadComplete={(res: any) => {
-                        setUrl(String(res[0].url))
+                    onClientUploadComplete={(res) => {
+                        const file = res[0];
+                        if (file) setUrl(file.ufsUrl);
                         toast.success("Image uploaded");
                     }}
                     onUploadError={(error: Error) => {
-                        toast.error(`ERROR! ${error.message}`);
+                        toast.error("Upload failed: " + error.message);
                     }}
                 />
             </div>
@@ -80,9 +79,10 @@ export default function ProductCreateForm() {
                         <input
                             type="text"
                             id="name"
+                            name="name"
                             placeholder="Enter name"
-                            min={5}
-                            max={64}
+                            minLength={3}
+                            maxLength={64}
                             required
                         />
                     </div>
@@ -91,9 +91,11 @@ export default function ProductCreateForm() {
                         <input
                             type="number"
                             id="price"
+                            name="price"
                             placeholder="₱ 00.00"
-                            min={10}
-                            max={10000}
+                            min={1}
+                            max={100000}
+                            step="0.01"
                             required
                         />
                     </div>
@@ -102,7 +104,9 @@ export default function ProductCreateForm() {
                         <input
                             type="text"
                             id="size"
+                            name="size"
                             placeholder="small, medium, large"
+                            maxLength={20}
                             required
                         />
                     </div>
@@ -111,7 +115,9 @@ export default function ProductCreateForm() {
                         <input
                             type="text"
                             id="material"
+                            name="material"
                             placeholder="cotton, polyester, leather"
+                            maxLength={30}
                             required
                         />
                     </div>
@@ -120,23 +126,23 @@ export default function ProductCreateForm() {
                         <input
                             type="text"
                             id="color"
+                            name="color"
                             placeholder="red, blue, green"
+                            maxLength={30}
                             required
                         />
                     </div>
                     <div className={style.container_input}>
                         <label htmlFor="category">Select a category:</label>
-                        <select id="category"
-                            required
-                        >
-                            <option value={"men"}>men</option>
-                            <option value={"women"}>women</option>
-                            <option value={"shoes"}>shoes</option>
+                        <select id="category" name="category" required>
+                            {PRODUCT_CATEGORIES.map((category) => (
+                                <option key={category} value={category}>{category}</option>
+                            ))}
                         </select>
                     </div>
                     <div className={style.action_button}>
-                        <Link href="/admin/product"><button className={style.cancel}>Cancel</button></Link>
-                        <button className={style.submit} type="submit">Register</button>
+                        <Link href="/admin/product" className={style.cancel}>Cancel</Link>
+                        <button className={style.submit} type="submit" disabled={isSubmitting}>{isSubmitting ? "Saving…" : "Register"}</button>
                     </div>
                 </form>
             </div>

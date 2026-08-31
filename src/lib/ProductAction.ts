@@ -4,127 +4,102 @@ import prisma from "@/db/prisma"
 import { uploadthingApi } from "@/db/uploadthingApi";
 import { revalidatePath } from 'next/cache'
 import { revalidateStorefront } from './revalidateStorefront';
+import { requireAdmin } from "./auth";
+import { fail, ok, type ActionResult } from "./actionResult";
+import { ObjectIdSchema, firstIssue } from "./schemas/common";
+import { ProductInputSchema, type ProductInput } from "./schemas/product";
+import { extractUploadThingKey } from "./uploadthingUrl";
+import { PLACEHOLDER_PRODUCT_IMAGE } from "./constants";
 
-export async function ProductCreateAction(data: PostProduct) {
+// All three are admin-only; input is validated and fields are picked
+// explicitly (no spreading client objects into Prisma).
+
+function revalidateProducts() {
+    revalidatePath('/admin/product');
+    revalidateStorefront();
+}
+
+export async function ProductCreateAction(input: ProductInput): Promise<ActionResult<{ id: string }>> {
+    const auth = await requireAdmin();
+    if (!auth.ok) return auth.failure;
+    const parsed = ProductInputSchema.safeParse(input);
+    if (!parsed.success) return fail(firstIssue(parsed.error), "VALIDATION");
+    const { name, price, image, size, category, color, material } = parsed.data;
+
     try {
-        const res = await prisma.product.create({
-            data:
-            {
-                ...data,
-                id: data.id,
-                tags: [data.material, data.color, data.size],
-                status: "available"
-            }
+        const product = await prisma.product.create({
+            data: { name, price, image, size, category, color, material },
+            select: { id: true },
         });
-
-        if (res)
-            return { message: "Product created", ok: true }
-
-
+        return ok("Product created", { id: product.id });
     } catch (error) {
-        return { message: "Product creation failed", error: true }
+        console.error("ProductCreateAction failed", error);
+        return fail("The product could not be created");
     } finally {
-        revalidatePath('/admin/product');
-        revalidateStorefront();
+        revalidateProducts();
     }
 }
 
-export async function ProductUpdateAction(id: string, data: PostProduct) {
+export async function ProductUpdateAction(id: string, input: ProductInput): Promise<ActionResult> {
+    const auth = await requireAdmin();
+    if (!auth.ok) return auth.failure;
+    if (!ObjectIdSchema.safeParse(id).success) return fail("Invalid product", "VALIDATION");
+    const parsed = ProductInputSchema.safeParse(input);
+    if (!parsed.success) return fail(firstIssue(parsed.error), "VALIDATION");
+    const { name, price, image, size, category, color, material } = parsed.data;
+
     try {
-        const productValidate = await prisma.product.findUnique({
-            where: {
-                id: id,
-                order: null,
-            }
+        // Sold pieces are frozen: their price is part of an order's history.
+        const existing = await prisma.product.findFirst({ where: { id, order: null }, select: { id: true } });
+        if (!existing) return fail("Sold pieces can't be edited", "CONFLICT");
+
+        await prisma.product.update({
+            where: { id },
+            data: { name, price, image, size, category, color, material },
         });
-
-        if (!productValidate)
-            return { message: "Product is currently on order", error: true }
-
-        const res = await prisma.product.update({
-            where: {
-                id: id,
-                order: null,
-            }, data: {
-                name: data.name,
-                price: data.price,
-                image: data.image,
-                size: data.size,
-                color: data.color,
-                category: data.category,
-                material: data.material,
-                tags: [data.material, data.color, data.size],
-            }
-        });
-
-        if (res)
-            return { message: "Product updated", ok: true }
-
+        return ok("Product updated");
     } catch (error) {
-        return { message: "Product update failed", error: true }
+        console.error("ProductUpdateAction failed", error);
+        return fail("The product could not be updated");
     } finally {
-        revalidatePath('/admin/product');
-        revalidateStorefront();
+        revalidateProducts();
     }
 }
 
-export async function ProductDeleteAction(id: string) {
+export async function ProductDeleteAction(id: string): Promise<ActionResult> {
+    const auth = await requireAdmin();
+    if (!auth.ok) return auth.failure;
+    if (!ObjectIdSchema.safeParse(id).success) return fail("Invalid product", "VALIDATION");
+
     try {
-        const product = await prisma.product.findUnique({
-            where: {
-                id: id,
-                order: null,
-            },
-            include: {
-                Cart: true,
-                Like: true
-            }
+        const product = await prisma.product.findFirst({
+            where: { id, order: null },
+            select: { id: true, image: true },
         });
+        if (!product) return fail("Product not found, or it belongs to an order", "NOT_FOUND");
 
-        if (!product)
-            return { message: "Product not found", error: true }
+        // Clear both sides of the bag/saved links, then delete — atomically.
+        await prisma.$transaction([
+            prisma.product.update({ where: { id }, data: { Cart: { set: [] }, Like: { set: [] } } }),
+            prisma.product.delete({ where: { id } }),
+        ]);
 
-        // Disconnect product from all carts
-        if (product?.Cart) {
-            await Promise.all(product.Cart.map((cart) => {
-                return prisma.cart.update({
-                    where: { id: cart.id },
-                    data: {
-                        product: {
-                            disconnect: {
-                                id: id
-                            }
-                        }
-                    }
-                })
-            }))
+        // Best effort: remove the file from UploadThing after the DB delete. An
+        // orphaned file must never fail the action. The shared placeholder stays.
+        const key = extractUploadThingKey(product.image);
+        if (key && key !== extractUploadThingKey(PLACEHOLDER_PRODUCT_IMAGE)) {
+            try {
+                await uploadthingApi.deleteFiles([key]);
+            } catch (error) {
+                console.error("UploadThing deleteFiles failed for", key, error);
+            }
         }
 
-        if (product?.Like) {
-            await Promise.all(product.Like.map((like) => {
-                return prisma.like.update({
-                    where: { id: like.id },
-                    data: {
-                        product: {
-                            disconnect: {
-                                id: id
-                            }
-                        }
-                    }
-                })
-            }))
-        }
-
-        if (product?.image !== "https://utfs.io/f/dca9a6a3-7204-407a-b16d-6b224dd8b188-4pl4mu.png")
-            await uploadthingApi.deleteFiles([product?.image.replace("https://utfs.io/f/", "")]);
-
-        await prisma.product.delete({ where: { id: id } });
-        return { message: "Product deleted", ok: true }
-
+        return ok("Product deleted");
     } catch (error) {
-        return { message: "Deleting Failed", error: true }
+        console.error("ProductDeleteAction failed", error);
+        return fail("The product could not be deleted");
     } finally {
-        revalidatePath('/admin/product');
-        revalidateStorefront();
+        revalidateProducts();
     }
 }

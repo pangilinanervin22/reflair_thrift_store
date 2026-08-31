@@ -1,38 +1,49 @@
 "use client"
 
-import { CartRemoveAction } from '@/lib/CartAction'
-import { OrderUpdateStatusAction } from '@/lib/OrderAction';
-import { OrderStatus } from '@prisma/client';
+import { OrderCancelAction } from '@/lib/OrderAction';
 import { useRouter } from 'next/navigation';
-import React from 'react'
+import { useEffect, useState, useTransition } from 'react'
 import { toast } from 'react-toastify';
 
 interface Props {
     order_id: string;
-    change_status: OrderStatus;
     classStyle?: string;
-    children?: React.ReactNode;
 }
 
-export default function CancelOrderButton({ order_id, change_status, classStyle, children }: Props) {
+// Two-step confirm: the first click arms the button ("Confirm cancellation?"),
+// a second click within 5 s cancels. Ownership and status are checked server-side.
+export default function CancelOrderButton({ order_id, classStyle }: Props) {
     const router = useRouter();
-    async function handleClick() {
-        if (order_id === null) {
-            toast.error("Order not found");
-            router.refresh();
+    const [armed, setArmed] = useState(false);
+    const [isPending, startTransition] = useTransition();
+
+    useEffect(() => {
+        if (!armed) return;
+        const timer = setTimeout(() => setArmed(false), 5000);
+        return () => clearTimeout(timer);
+    }, [armed]);
+
+    const handleClick = () => {
+        if (isPending) return;
+        if (!armed) {
+            setArmed(true);
             return;
         }
-
-        const res = await OrderUpdateStatusAction(order_id, change_status);
-        if (res?.ok)
-            toast.success(res.message);
-        else
-            toast.error(res.message);
-    }
+        startTransition(async () => {
+            const res = await OrderCancelAction(order_id);
+            if (res.ok) {
+                toast.success(res.message);
+                router.refresh();
+            } else {
+                toast.error(res.message);
+            }
+            setArmed(false);
+        });
+    };
 
     return (
-        <div className={classStyle || ""} onClick={() => handleClick()}>
-            {children || <button>Cancel Order</button>}
-        </div>
+        <button type="button" className={classStyle} onClick={handleClick} disabled={isPending} aria-busy={isPending}>
+            {isPending ? "Cancelling…" : armed ? "Confirm cancellation?" : "Cancel order"}
+        </button>
     )
 }

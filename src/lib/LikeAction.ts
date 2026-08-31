@@ -2,110 +2,62 @@
 
 import prisma from "@/db/prisma";
 import { revalidatePath } from "next/cache";
+import { requireUser } from "./auth";
+import { fail, ok, type ActionResult } from "./actionResult";
+import { ObjectIdSchema } from "./schemas/common";
 
+// Identity always comes from the session (requireUser) — never from the client.
 
-export async function LikeAddAction(email: string, product_id: string) {
+export async function LikeAddAction(product_id: string): Promise<ActionResult> {
+    const auth = await requireUser();
+    if (!auth.ok) return auth.failure;
+    if (!ObjectIdSchema.safeParse(product_id).success) return fail("Invalid product", "VALIDATION");
+
     try {
-        //  validate product and account
-        const [account, product] = await Promise.all([
-            prisma.account.findUnique({
-                where: {
-                    email: email
-                },
-                include: {
-                    like: true
-                }
-            }),
-            prisma.product.findUnique({
-                where: {
-                    id: product_id,
-                    order: null,
-                }
-            })
+        const [like, product] = await Promise.all([
+            prisma.like.findUnique({ where: { account_id: auth.user.id }, select: { id: true, product_id: true } }),
+            // Availability is the relation, not the scalar order_id (see CLAUDE.md)
+            prisma.product.findFirst({ where: { id: product_id, order: null }, select: { id: true } }),
         ]);
 
-        if (!account) {
-            return { message: "Account not found", error: true };
-        }
+        if (!like) return fail("Your saved list could not be found", "NOT_FOUND");
+        if (!product) return fail("This piece is no longer available", "CONFLICT");
+        if (like.product_id.includes(product_id)) return fail("Already in your saved pieces", "CONFLICT");
 
-        if (!product || product.status === "unavailable") {
-            return { message: "Product is unavailable", error: true };
-        }
-
-        const productExistsInLike = account.like?.product_id.includes(product_id);
-        if (productExistsInLike)
-            return { message: "Product already in like", error: true }
-
-        const likeUpdate = await prisma.like.update({
-            where: {
-                account_id: account?.id
-            },
-            data: {
-                product: {
-                    connect: {
-                        id: product_id
-                    }
-                }
-            }
+        await prisma.like.update({
+            where: { id: like.id },
+            data: { product: { connect: { id: product_id } } },
         });
 
-        if (!likeUpdate) {
-            return { message: "Product error occurred", error: true }
-        }
-
-        return { message: "Product added in like", ok: true }
+        return ok("Saved to your favourites");
     } catch (error) {
-        return { message: "Error in adding like", error: error }
+        console.error("LikeAddAction failed", error);
+        return fail("Your saved pieces could not be updated");
     } finally {
-        revalidatePath('/like');
+        revalidatePath('/account/like');
     }
 }
 
-export async function LikeRemoveAction(email: string, product_id: string) {
+export async function LikeRemoveAction(product_id: string): Promise<ActionResult> {
+    const auth = await requireUser();
+    if (!auth.ok) return auth.failure;
+    if (!ObjectIdSchema.safeParse(product_id).success) return fail("Invalid product", "VALIDATION");
+
     try {
-        const [product, account] = await Promise.all([
-            prisma.product.findUnique({
-                where: {
-                    id: product_id,
-                }
-            }),
-            prisma.account.findUnique({
-                where: {
-                    email: email
-                },
-                include: {
-                    like: true
-                }
-            })
-        ]);
+        const like = await prisma.like.findUnique({ where: { account_id: auth.user.id }, select: { id: true, product_id: true } });
+        if (!like) return fail("Your saved list could not be found", "NOT_FOUND");
+        if (!like.product_id.includes(product_id)) return fail("This piece is not in your saved pieces", "NOT_FOUND");
 
-        if (!product || product.status === "unavailable") {
-            return { message: "Product not available", error: true };
-        }
-
-        if (!account) {
-            return { message: "Account not found", error: true };
-        }
-
-        const likeUpdate = await prisma.like.update({
-            where: { id: account.like?.id },
-            data: {
-                product: {
-                    disconnect: {
-                        id: product_id,
-                    }
-                }
-            }
+        await prisma.like.update({
+            where: { id: like.id },
+            data: { product: { disconnect: { id: product_id } } },
         });
 
-        if (!likeUpdate) {
-            return { message: "Like error occurred", error: true }
-        }
-
-        return { message: "Product added in like", ok: true }
+        return ok("Removed from your saved pieces");
     } catch (error) {
-        return { message: "Like error occurred", error: error }
+        console.error("LikeRemoveAction failed", error);
+        return fail("Your saved pieces could not be updated");
     } finally {
-        revalidatePath('/like');
+        revalidatePath('/account/like');
     }
 }

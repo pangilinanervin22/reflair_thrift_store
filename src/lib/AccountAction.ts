@@ -2,107 +2,105 @@
 
 import prisma from "@/db/prisma"
 import bcrypt from "bcryptjs";
+import { Prisma } from "@prisma/client";
 import { revalidatePath } from "next/cache";
+import { requireAdmin, requireUser } from "./auth";
+import { fail, ok, type ActionResult } from "./actionResult";
+import { ObjectIdSchema, firstIssue } from "./schemas/common";
+import { AccountUpdateSchema, RegisterSchema, type AccountUpdateInput, type RegisterInput } from "./schemas/account";
 
-interface CredentialsBody {
-    name: string;
-    email: string;
-    password: string;
-    role?: string;
-    contact?: string;
-    city?: string;
-    barangay?: string;
-    address?: string;
-}
+// Public: customer self-registration. A role is never accepted here — admins
+// are created by setting role: "admin" directly in MongoDB.
+export async function CreateAccountAction(input: RegisterInput): Promise<ActionResult> {
+    const parsed = RegisterSchema.safeParse(input);
+    if (!parsed.success) return fail(firstIssue(parsed.error), "VALIDATION");
+    const { name, email, password } = parsed.data;
 
-interface UpdateCredentialsBody {
-    email: string;
-    name: string;
-    contact?: string;
-    city?: string;
-    barangay?: string;
-    address?: string;
-}
-
-export async function CreateAccountAction(req: CredentialsBody) {
-    const { email, name, password } = req;
     try {
-        const validate = await prisma.account.findUnique({ where: { email: email } });
-        if (validate) return { message: "Email already exist", error: true }
+        const existing = await prisma.account.findFirst({
+            where: { email: { equals: email, mode: "insensitive" } },
+            select: { id: true },
+        });
+        if (existing) return fail("An account with this email already exists", "CONFLICT");
 
         const hashedPassword = await bcrypt.hash(password, 10);
-        const account = await prisma.account.create({
+        await prisma.account.create({
             data: {
                 name,
                 email,
                 password: hashedPassword,
-                cart: {
-                    create: {}
-                },
-                like: {
-                    create: {}
-                },
+                cart: { create: {} },
+                like: { create: {} },
             },
         });
 
-        return { message: "Account created", ok: true }
+        return ok("Account created — you can sign in now");
     } catch (error) {
-        return { message: "Registration Failed", error: error }
-    } finally {
-        revalidatePath('/account');
+        // Unique-index race: two registrations for the same email at once
+        if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2002")
+            return fail("An account with this email already exists", "CONFLICT");
+        console.error("CreateAccountAction failed", error);
+        return fail("Registration failed");
     }
 }
 
-export async function AccountDeleteAction(id: string) {
+// Admin: delete a customer account with its bag and saved list. Orders are kept
+// (their account link becomes null) so sales history survives.
+export async function AccountDeleteAction(id: string): Promise<ActionResult> {
+    const auth = await requireAdmin();
+    if (!auth.ok) return auth.failure;
+    if (!ObjectIdSchema.safeParse(id).success) return fail("Invalid account", "VALIDATION");
+    if (id === auth.user.id) return fail("You cannot delete your own account", "CONFLICT");
+
     try {
-        const account = await prisma.account.findUnique({ where: { id }, include: { cart: true, like: true } });
-        if (!account) {
-            return { message: "Account not found", error: true };
+        const account = await prisma.account.findUnique({
+            where: { id },
+            select: { id: true, role: true, cart: { select: { id: true } }, like: { select: { id: true } } },
+        });
+        if (!account) return fail("Account not found", "NOT_FOUND");
+        if (account.role === "admin") return fail("Admin accounts cannot be deleted here", "FORBIDDEN");
+
+        // Clear both sides of the product links before deleting the rows.
+        const ops: Prisma.PrismaPromise<unknown>[] = [];
+        if (account.cart) {
+            ops.push(prisma.cart.update({ where: { id: account.cart.id }, data: { product: { set: [] } } }));
+            ops.push(prisma.cart.delete({ where: { id: account.cart.id } }));
         }
-
-        // Delete the associated cart
-        if (account.cart && account.like) {
-            await prisma.cart.delete({ where: { id: account.cart.id } });
-            await prisma.like.delete({ where: { id: account.like.id } });
+        if (account.like) {
+            ops.push(prisma.like.update({ where: { id: account.like.id }, data: { product: { set: [] } } }));
+            ops.push(prisma.like.delete({ where: { id: account.like.id } }));
         }
+        ops.push(prisma.account.delete({ where: { id } }));
+        await prisma.$transaction(ops);
 
-        // Delete the account
-        await prisma.account.delete({ where: { id } });
-
-        return { message: "Account and associated cart deleted", ok: true };
+        return ok("Account deleted");
     } catch (error) {
-        console.error("Error deleting account and cart:", error);
-        return { message: "Deletion failed", error: error };
+        console.error("AccountDeleteAction failed", error);
+        return fail("The account could not be deleted");
     } finally {
-        revalidatePath('/account');
+        revalidatePath('/admin/customer');
     }
 }
 
-export async function AccountUpdateFormAction(data: UpdateCredentialsBody) {
-    const { email, name, contact, city, barangay, address } = data;
+// Customer: update own delivery details. Identity is the session — the client
+// cannot choose which account to edit.
+export async function AccountUpdateFormAction(input: AccountUpdateInput): Promise<ActionResult> {
+    const auth = await requireUser();
+    if (!auth.ok) return auth.failure;
+    const parsed = AccountUpdateSchema.safeParse(input);
+    if (!parsed.success) return fail(firstIssue(parsed.error), "VALIDATION");
+
     try {
         await prisma.account.update({
-            where: { email },
-            data: {
-                name,
-                contact,
-                city,
-                barangay,
-                address,
-            }
+            where: { id: auth.user.id },
+            data: { ...parsed.data, city: "Bacoor" },
         });
-
-        return { message: "Account updated", ok: true };
+        return ok("Profile updated");
     } catch (error) {
-        return { message: "Update failed", error: error };
+        console.error("AccountUpdateFormAction failed", error);
+        return fail("Your profile could not be updated");
     } finally {
         revalidatePath('/account');
+        revalidatePath('/account/checkout');
     }
-}
-
-export async function isEmailExist(email: string) {
-    const data = await prisma.account.findUnique({ where: { email: email } });
-    if (!data) return false;
-
-    return true;
 }

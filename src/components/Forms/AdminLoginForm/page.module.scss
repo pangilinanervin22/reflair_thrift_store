@@ -41,7 +41,7 @@
 
         p {
             @include label(10px, 0.3em);
-            color: rgba(246, 245, 241, 0.6);
+            color: rgba($paper, 0.6);
         }
     }
 
