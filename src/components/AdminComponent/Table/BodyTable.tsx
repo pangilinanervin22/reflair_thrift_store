@@ -1,21 +1,22 @@
 "use client"
 
-import { Column, sortColumnProps, TableStructure } from "./TableStructure";
+import type { Column, SortColumn, TableStructure, Row } from "./TableStructure";
+import { getField } from "./utils/sortPath";
 import styles from './Table.module.scss'
 import IconArrowUp_svg from "@/assets/IconArrowUp_svg";
 import IconArrowDown_svg from "@/assets/IconArrowDown_svg";
 
-interface thisProps {
-    data: any[];
-    tableProps: TableStructure;
-    sortColumn: sortColumnProps;
+interface Props<T extends Row> {
+    data: T[];
+    tableProps: TableStructure<T>;
+    sortColumn: SortColumn;
     isEditable: boolean;
-    handleSortColumn: Function;
-    updateColumn: Function;
-    deleteColumn: Function;
+    handleSortColumn: (path: string) => void;
+    updateColumn: (row: T) => void;
+    deleteColumn: (row: T) => void;
 }
 
-export default function BodyTable({
+export default function BodyTable<T extends Row>({
     data,
     tableProps,
     sortColumn,
@@ -23,12 +24,14 @@ export default function BodyTable({
     deleteColumn,
     updateColumn,
     isEditable
-}: thisProps) {
+}: Props<T>) {
+    const columnCount = tableProps.structure.length + (isEditable ? 2 : 0);
+
     return (
         <table>
             <thead>
                 <tr>
-                    {tableProps.structure.map((curBase: Column) => renderCellHeader(curBase, sortColumn))}
+                    {tableProps.structure.map((column) => renderCellHeader(column))}
                     {isEditable &&
                         <>
                             <th style={{ width: "110px" }}>Update</th>
@@ -36,26 +39,28 @@ export default function BodyTable({
                         </>
                     }
                 </tr>
-            </thead >
+            </thead>
             <tbody>
-                {data.length == 0 ? <h1>{"No data"}</h1> : data.map((currentData) => (
-                    <tr key={currentData[tableProps.id]} >
-                        {tableProps.structure.map((currentColumn: Column) => (
-                            <td key={currentColumn.label} style={{ width: currentColumn.width, fontSize: currentColumn.fontSize, height: currentColumn.height }}  >
-                                {currentColumn.element ? currentColumn.element(currentData) : currentData[currentColumn.path!]}
+                {data.length === 0 ? (
+                    <tr>
+                        <td colSpan={columnCount} className={styles.empty}>No data</td>
+                    </tr>
+                ) : data.map((row) => (
+                    <tr key={String(getField(row, tableProps.id))}>
+                        {tableProps.structure.map((column) => (
+                            <td key={column.label} style={{ width: column.width, fontSize: column.fontSize, height: column.height }}>
+                                {column.element ? column.element(row) : renderValue(column.path ? getField(row, column.path) : undefined)}
                             </td>
                         ))}
                         {isEditable &&
                             <>
-                                <td key={"edit"} style={{ width: "110px" }}  >
-                                    <button className={styles.button_update} onClick={() => updateColumn(currentData)}>
+                                <td style={{ width: "110px" }}>
+                                    <button type="button" className={styles.button_update} onClick={() => updateColumn(row)}>
                                         Edit
                                     </button>
                                 </td>
-                                <td key={"delete"} style={{ width: "110px" }}  >
-                                    <button className={styles.button_delete} onClick={() => {
-                                        deleteColumn(currentData);
-                                    }}>
+                                <td style={{ width: "110px" }}>
+                                    <button type="button" className={styles.button_delete} onClick={() => deleteColumn(row)}>
                                         Delete
                                     </button>
                                 </td>
@@ -63,29 +68,33 @@ export default function BodyTable({
                         }
                     </tr>
                 ))}
-            </tbody >
+            </tbody>
         </table>
     )
 
-    function renderCellHeader(column: Column, currentSort: sortColumnProps) {
+    function renderValue(value: unknown): React.ReactNode {
+        if (value === null || value === undefined) return "—";
+        if (value instanceof Date) return value.toLocaleDateString();
+        return String(value);
+    }
+
+    function renderCellHeader(column: Column<T>) {
         if (!column.path)
-            return <th key={column.label} style={{ width: column.width }} > {column.label} </th>
+            return <th key={column.label} style={{ width: column.width }}>{column.label}</th>;
 
-        return <th key={column.label} style={{ width: column.width }}
-            onClick={() => { handleSortColumn(column.path, currentSort.order); }} >
-            {column.label} {currentSort.path == column.path && renderIcon(currentSort.order)}
-        </th>
+        const path = column.path;
+        const active = sortColumn.path === path;
+        return (
+            <th key={column.label} style={{ width: column.width }} aria-sort={active ? (sortColumn.ascending ? "ascending" : "descending") : "none"}>
+                <button type="button" className={styles.sort_button} onClick={() => handleSortColumn(path)}>
+                    {column.label}
+                    {active && (
+                        <span className={styles.arrow_keys} aria-hidden="true">
+                            {sortColumn.ascending ? <IconArrowUp_svg /> : <IconArrowDown_svg />}
+                        </span>
+                    )}
+                </button>
+            </th>
+        );
     }
-
-    function renderIcon(isAscending: boolean) {
-        return isAscending ?
-            <div className={styles.arrow_keys}>
-                <IconArrowUp_svg />
-            </div>
-            :
-            <div className={styles.arrow_keys} >
-                <IconArrowDown_svg />
-            </div>
-    }
-
 }

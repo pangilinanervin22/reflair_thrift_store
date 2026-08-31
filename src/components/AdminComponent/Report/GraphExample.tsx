@@ -1,71 +1,48 @@
 'use client'
 
-import { Product } from '@prisma/client';
-import React from 'react';
-import { PieChart, Pie, Sector, Cell, ResponsiveContainer } from 'recharts';
+import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
+import type { ProductCategory } from '@/lib/constants';
 
-const defaultData = [
-    { name: 'Men', value: 400 },
-    { name: 'Shoes', value: 300 },
-    { name: 'Women', value: 300 },
-];
-
-const COLORS = ['#121110', '#76736c', '#c6c3ba',];
-
+const COLORS = ['#121110', '#6b6862', '#c6c3ba'];
 const RADIAN = Math.PI / 180;
 
-
 interface Props {
-    product: Product[]
+    counts: Record<ProductCategory, number>;
 }
 
-const GraphExample = ({ product }: Props) => {
+// The subset of recharts' PieLabelRenderProps this label uses (all optional in recharts 3).
+interface LabelProps {
+    cx?: number | string;
+    cy?: number | string;
+    midAngle?: number;
+    outerRadius?: number | string;
+    percent?: number;
+    index?: number;
+}
 
-
-    let productWithOrder = product.filter((item) => item.order_id !== null);
-    let womenValue = 0;
-    let menValue = 0;
-    let shoesValue = 0;
-
-
-    // iterate through productWithOrder and count the number of each category
-    productWithOrder.forEach((item) => {
-        switch (item.category) {
-            case 'women':
-                womenValue++;
-                break;
-            case 'men':
-                menValue++;
-                break;
-            case 'shoes':
-                shoesValue++;
-                break;
-            default:
-                break;
-        }
-    });
-
-
-
+// Sold pieces by category — a donut of the products attached to live orders.
+export default function GraphExample({ counts }: Props) {
     const data = [
-        { name: 'Men', value: menValue },
-        { name: 'Shoes', value: shoesValue },
-        { name: 'Women', value: womenValue },
-    ]
+        { name: 'Men', value: counts.men },
+        { name: 'Shoes', value: counts.shoes },
+        { name: 'Women', value: counts.women },
+    ];
+    const total = data.reduce((sum, entry) => sum + entry.value, 0);
 
+    if (total === 0) return <p>No sold pieces yet.</p>;
 
-
-    // recharts 3.x passes PieLabelRenderProps (all fields optional); typed loosely
-    // to match recharts' label render-prop signature.
-    const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }: any) => {
-        const radius = innerRadius + (outerRadius - innerRadius) * 1;
-        const x = cx + radius * Math.cos(-midAngle * RADIAN);
-        const y = cy + radius * Math.sin(-midAngle * RADIAN);
+    const renderLabel = ({ cx = 0, cy = 0, midAngle = 0, outerRadius = 0, percent = 0, index = 0 }: LabelProps) => {
+        if (percent === 0) return null;
+        const centerX = Number(cx);
+        const centerY = Number(cy);
+        const radius = Number(outerRadius);
+        const x = centerX + radius * Math.cos(-midAngle * RADIAN);
+        const y = centerY + radius * Math.sin(-midAngle * RADIAN);
 
         return (
             <text x={x} y={y} fill="#121110" fontSize="11px" letterSpacing="0.1em"
-                textAnchor={x > cx ? 'start' : 'end'} dominantBaseline="central">
-                {`${data[index].name.toUpperCase()} ${(percent * 100).toFixed(0)}%`}
+                textAnchor={x > centerX ? 'start' : 'end'} dominantBaseline="central">
+                {(data[index]?.name ?? "").toUpperCase() + " " + (percent * 100).toFixed(0) + "%"}
             </text>
         );
     };
@@ -78,7 +55,7 @@ const GraphExample = ({ product }: Props) => {
                     cx="50%"
                     cy="50%"
                     labelLine={false}
-                    label={renderCustomizedLabel}
+                    label={renderLabel}
                     innerRadius={52}
                     outerRadius={88}
                     paddingAngle={2}
@@ -87,12 +64,10 @@ const GraphExample = ({ product }: Props) => {
                     dataKey="value"
                 >
                     {data.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                        <Cell key={entry.name} fill={COLORS[index % COLORS.length]} />
                     ))}
                 </Pie>
             </PieChart>
         </ResponsiveContainer>
     );
 }
-
-export default GraphExample;

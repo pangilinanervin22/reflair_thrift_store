@@ -7,7 +7,7 @@
     align-items: center;
     gap: 16px;
     border-bottom: 1px solid $hairline;
-    background: rgba(246, 245, 241, 0.88);
+    background: rgba($paper, 0.88);
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
     position: sticky;
@@ -109,7 +109,7 @@
     z-index: 10;
     background: $white;
     border: 1px solid $hairline;
-    box-shadow: 0 18px 40px rgba(18, 17, 16, 0.12);
+    box-shadow: 0 18px 40px rgba($ink, 0.12);
 
     .dropdown_item {
         @include label(10px, 0.22em);

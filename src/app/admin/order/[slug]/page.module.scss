@@ -98,7 +98,7 @@
 
         >:first-child {
             @include label(9px, 0.22em);
-            color: $gray_light;
+            color: $gray;
             width: 30%;
         }
 
@@ -165,7 +165,7 @@
 
                 >:last-child {
                     @include label(9px, 0.18em);
-                    color: $gray_light;
+                    color: $gray;
                 }
             }
 

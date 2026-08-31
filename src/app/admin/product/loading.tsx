@@ -1,4 +1,3 @@
-import React from 'react'
 import LoadingLabel from '@/components/LoadingLabel'
 
 export default function Loading() {

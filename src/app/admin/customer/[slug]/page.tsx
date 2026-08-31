@@ -1,10 +1,10 @@
 import prisma from "@/db/prisma";
 import { redirect } from "next/navigation"
 import style from "./page.module.scss";
-import Image from "next/image";
 import { formatDateString } from "@/utils/formatDate";
 import StatusSpan from "@/components/status/StatusSpan";
 import Link from "next/link";
+import { formatPeso } from "@/utils/formatPrice";
 
 interface PageProps {
     params: Promise<{
@@ -26,13 +26,13 @@ export default async function CustomerpAGE({ params }: PageProps) {
                 order: true
             }
         });
-    } catch (error) {
-        redirect("/admin/order");
+    } catch {
+        redirect("/admin/customer");
     }
 
 
     if (!customer)
-        redirect("/admin/order");
+        redirect("/admin/customer");
 
     const total = customer.order.reduce((acc, product) => {
         return acc + product.total_price;
@@ -87,7 +87,7 @@ export default async function CustomerpAGE({ params }: PageProps) {
                     {customer.order.map((order) => (
                         <div key={order.id} className={style.order}>
                             <h4>{formatDateString(order.order_date)}</h4>
-                            <div><p>{order.total_price}</p></div>
+                            <div><p>{formatPeso(order.total_price)}</p></div>
                             <StatusSpan status={order.order_status} />
                             <Link href={`/admin/order/${order.id}`}>
                                 <button>view</button>
@@ -96,7 +96,7 @@ export default async function CustomerpAGE({ params }: PageProps) {
                     ))}
                     <div className={style.product_total}>
                         <h3>Total Order:</h3>
-                        <h3>₱{total}</h3>
+                        <h3>{formatPeso(total)}</h3>
                     </div>
                 </div>
             </article>

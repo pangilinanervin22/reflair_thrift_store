@@ -3,49 +3,37 @@ import styles from "./Report.module.scss"
 import IconCart_svg from "@/assets/IconCart_svg";
 import IconProfile_svg from "@/assets/IconProfile_svg";
 import prisma from "@/db/prisma";
-
-const NOW = new Date();
-const NOW_MONTH = NOW.toLocaleString('default', { month: 'long' });
-const FIRST_DAY_MONTH = new Date(NOW.getFullYear(), NOW.getMonth(), 1);
-const FIRST_DAY_NEXT_MONTH = new Date(NOW.getFullYear(), NOW.getMonth() + 1, 1);
+import { formatPeso } from "@/utils/formatPrice";
 
 export default async function CardReport() {
-    const productsWithoutOrders = await prisma.product.findMany({
-        where: {
-            order: null
-        }
-    });
-    const total_product = productsWithoutOrders.length || 0;
-    const total_account = await prisma.account.count() || 0;
-    const totalSales = await prisma.order.aggregate({
-        _sum: {
-            total_price: true
-        },
-        where: {
-            order_status: 'received',
-            order_date: {
-                gte: FIRST_DAY_MONTH,
-                lt: FIRST_DAY_NEXT_MONTH
-            }
-        }
-    });
+    // Computed per request — module-scope dates would go stale on a warm
+    // serverless instance and keep reporting last month.
+    const now = new Date();
+    const monthLabel = new Intl.DateTimeFormat("en-PH", { month: "long", timeZone: "Asia/Manila" }).format(now);
+    const firstOfMonth = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), 1));
+    const firstOfNextMonth = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth() + 1, 1));
 
-
-    const report = {
-        sales: totalSales._sum.total_price,
-        total_product: total_product,
-        account: total_account,
-    }
+    const [total_product, total_account, totalSales] = await Promise.all([
+        prisma.product.count({ where: { order: null } }),
+        prisma.account.count(),
+        prisma.order.aggregate({
+            _sum: { total_price: true },
+            where: {
+                order_status: 'received',
+                order_date: { gte: firstOfMonth, lt: firstOfNextMonth },
+            },
+        }),
+    ]);
 
     return (
         <div className={styles.display_container}>
             <div className={styles.display_item}>
                 <h3>
-                    Sales — {NOW_MONTH}
+                    Sales — {monthLabel}
                 </h3>
                 <div>
                     <IconMoney_svg />
-                    <h2>₱ {report.sales ?? 0}</h2>
+                    <h2>{formatPeso(totalSales._sum.total_price ?? 0)}</h2>
                 </div>
             </div>
             <div className={styles.display_item}>
@@ -54,7 +42,7 @@ export default async function CardReport() {
                 </h3>
                 <div>
                     <IconCart_svg />
-                    <h2>{report.total_product}</h2>
+                    <h2>{total_product}</h2>
                 </div>
             </div>
             <div className={styles.display_item}>
@@ -63,7 +51,7 @@ export default async function CardReport() {
                 </h3>
                 <div>
                     <IconProfile_svg />
-                    <h2>{report.account}</h2>
+                    <h2>{total_account}</h2>
                 </div>
             </div>
         </div>

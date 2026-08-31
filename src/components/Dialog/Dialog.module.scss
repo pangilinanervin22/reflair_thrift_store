@@ -14,7 +14,7 @@
     background: none;
 
     &::backdrop {
-        background: rgba(18, 17, 16, 0.55);
+        background: rgba($ink, 0.55);
         backdrop-filter: blur(3px);
     }
 
@@ -26,6 +26,7 @@
         align-items: flex-end;
         position: relative;
         min-width: min(440px, 90vw);
+        max-width: 92vw;
         animation: rise 0.4s $ease_out both;
 
         .close {
@@ -72,6 +73,7 @@
 
             .action {
                 display: flex;
+                flex-wrap: wrap;
                 gap: 12px;
                 width: 100%;
                 justify-content: flex-end;

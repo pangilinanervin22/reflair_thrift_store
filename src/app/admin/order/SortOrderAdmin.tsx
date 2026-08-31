@@ -1,7 +1,6 @@
 "use client"
 
-import React from 'react'
-import { useParams, useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import style from './SortOrderAdmin.module.scss'
 
 

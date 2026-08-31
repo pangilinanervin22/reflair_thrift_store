@@ -5,93 +5,80 @@ import BodyTable from "./BodyTable";
 import ToolTable from "./ToolTable";
 import PaginateTable from "./PaginateTable";
 import paginate from "./utils/paginate";
-import sortPath from "./utils/sortPath";
+import sortPath, { getField, type Row } from "./utils/sortPath";
 import styles from "./Table.module.scss";
 
-export interface TableStructure {
-    id: string
-    title: string
-    searchPath: string,
-    defaultSort?: string,
-    structure: Column[]
+export type { Row };
+
+export interface TableStructure<T extends Row = Row> {
+    /** Field holding the row's unique key */
+    id: string;
+    title: string;
+    /** Field the search box matches against (a string field) */
+    searchPath: string;
+    defaultSort?: string;
+    defaultOrder?: "asc" | "desc";
+    structure: Column<T>[];
 }
 
-export interface Column {
+export interface Column<T extends Row = Row> {
     label: string;
     width: string;
     height?: string;
     fontSize?: string;
+    /** Field to show and sort by. Combine with `element` for a sortable custom cell. */
     path?: string;
-    element?: (val: any) => React.ReactElement;
+    element?: (row: T) => React.ReactElement;
 }
 
-export interface sortColumnProps {
+export interface SortColumn {
     path: string;
-    order: boolean;
+    ascending: boolean;
 }
 
-interface thisProps {
-    data: Array<any>;
+interface Props<T extends Row> {
+    data: T[];
     isEditable: boolean;
-    structure: TableStructure;
-    handleUpdate: Function;
-    handleDelete: Function;
-    handleAdd?: Function;
-    handleRefresh?: Function;
+    structure: TableStructure<T>;
+    handleUpdate: (row: T) => void;
+    handleDelete: (row: T) => void;
+    handleAdd?: () => void;
 }
 
-export default function MainTable({
-    data,
-    isEditable,
-    structure,
-    handleAdd,
-    handleUpdate,
-    handleDelete,
-}: thisProps) {
+const PAGE_SIZE = 5;
 
-    const [page, setPage] = useState({
-        current: 0,
-        size: 5,
-    });
+// Filter → sort → paginate, entirely in memory (the admin tables are small).
+export default function MainTable<T extends Row>({ data, isEditable, structure, handleAdd, handleUpdate, handleDelete }: Props<T>) {
+    const [currentPage, setCurrentPage] = useState(0);
     const [searchQuery, setSearchQuery] = useState("");
-    const [sortColumn, setSortColumn] = useState<sortColumnProps>({
+    const [sortColumn, setSortColumn] = useState<SortColumn>({
         path: structure.defaultSort || structure.searchPath,
-        order: true,
+        ascending: structure.defaultOrder !== "desc",
     });
 
-
-    //sorting by search query filter
     const filteredData = useMemo(() => {
-        const cloned = structuredClone(data);
-        return searchQuery
-            ? cloned.filter((item: any) => item[structure.searchPath].toLowerCase().includes(searchQuery.toLowerCase()))
-            : cloned;
+        const query = searchQuery.trim().toLowerCase();
+        if (!query) return data;
+        return data.filter((row) => String(getField(row, structure.searchPath) ?? "").toLowerCase().includes(query));
     }, [data, searchQuery, structure.searchPath]);
 
-    //get total data filtered by search
-    const sizeData = filteredData.length;
-
-    //sorting by path (copy first: sortPath sorts in place)
     const sortedData = useMemo(
-        () => sortPath([...filteredData], sortColumn.path, sortColumn.order),
-        [filteredData, sortColumn.path, sortColumn.order]
+        () => sortPath(filteredData, sortColumn.path, sortColumn.ascending),
+        [filteredData, sortColumn],
     );
 
-    //pagination data
-    const { current, size } = page;
-    const paginatedData = useMemo(
-        () => paginate(sortedData, current, size),
-        [sortedData, current, size]
-    );
+    const total = sortedData.length;
+    const pageCount = Math.max(1, Math.ceil(total / PAGE_SIZE));
+    const page = Math.min(currentPage, pageCount - 1); // clamp when the data shrinks under us
+    const paginatedData = useMemo(() => paginate(sortedData, page, PAGE_SIZE), [sortedData, page]);
 
     return (
         <section className={styles.container_table}>
             <ToolTable
                 searchValue={searchQuery}
-                changeText={onChangeSearchQuery}
+                changeText={(value) => { setSearchQuery(value); setCurrentPage(0); }}
                 title={structure.title}
-                isHaveAdd={Boolean(handleAdd)}
-                handleAdd={handleAdd || (() => { })}
+                handleAdd={handleAdd}
             />
 
             <BodyTable
@@ -100,43 +87,22 @@ export default function MainTable({
                 tableProps={structure}
                 sortColumn={sortColumn}
                 handleSortColumn={onHandleSortColumn}
-                deleteColumn={onDelete}
+                deleteColumn={handleDelete}
                 updateColumn={handleUpdate}
             />
-            <PaginateTable page={page.current} size={page.size} currentTotal={paginatedData.length} total={sizeData} handlePagination={onHandlePagination} />
+            <PaginateTable
+                page={page}
+                size={PAGE_SIZE}
+                currentTotal={paginatedData.length}
+                total={total}
+                handlePagination={(next) => { if (next >= 0 && next < pageCount) setCurrentPage(next); }}
+            />
         </section>
     );
 
-    function onDelete(data: any) {
-        handleDelete(data);
-        // setPage(page => ({
-        //     ...page,
-        //     current: 0,
-        // }));
+    function onHandleSortColumn(path: string) {
+        setSortColumn((current) =>
+            current.path === path ? { path, ascending: !current.ascending } : { path, ascending: true },
+        );
     }
-
-    function onHandlePagination(inputValue: number) {
-        const currentValue = inputValue * page.size;
-
-        if (currentValue >= sizeData || currentValue < 0) return;
-
-        setPage(page => ({ ...page, current: inputValue }));
-    }
-
-    function onChangeSearchQuery(inputValue: string) {
-        setSearchQuery(inputValue);
-        setPage(page => ({
-            ...page,
-            current: 0,
-        }));
-    }
-
-    function onHandleSortColumn(path: string, order = true) {
-        const temp = { order, path };
-        if (temp.path == sortColumn.path)
-            temp.order = temp.order ? false : true;
-
-        setSortColumn({ order: temp.order, path: temp.path });
-    }
-
 }

@@ -1,6 +1,5 @@
 "use client"
 
-import React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from "next/navigation"
@@ -39,7 +38,7 @@ export default function NavigationBar({ name }: { name: string }) {
                 <h5>{name || "User"}</h5>
                 <DropDownHover
                     trigger={
-                        <Image src={"/default_user.png"} alt="User Picture" width={68} height={68} />
+                        <Image src={"/default_user.png"} alt="" width={68} height={68} sizes="68px" />
                     }
                     content={
                         <section className={style.dropdown_container}>

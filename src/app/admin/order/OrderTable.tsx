@@ -1,79 +1,69 @@
 "use client"
 
-import MainTable, { TableStructure } from "../../../components/AdminComponent/Table/TableStructure";
+import MainTable, { type TableStructure } from "../../../components/AdminComponent/Table/TableStructure";
 import { useRouter } from "next/navigation";
 import Dialog from "../../../components/Dialog/Dialog";
 import { useState } from "react";
-import { Order } from "@prisma/client";
+import type { Order } from "@prisma/client";
 import formatDate from "@/utils/formatDate";
 import { OrderDeleteAction } from "@/lib/OrderAction";
 import { toast } from "react-toastify";
 import StatusSpan from "@/components/status/StatusSpan";
 import SortOrder from "./SortOrderAdmin";
+import { formatPeso } from "@/utils/formatPrice";
 
-const content: TableStructure = {
+export type OrderRow = Order & { account: { name: string; email: string } | null };
+
+const content: TableStructure<OrderRow> = {
     id: "id",
     title: "Order",
     searchPath: "name",
     defaultSort: "order_date",
+    defaultOrder: "desc",
     structure: [
         { label: "Name", path: "name", width: "300px", fontSize: "16px" },
         {
             label: "Order Date", path: "order_date", width: "200px",
             fontSize: "20px",
-            element: ((val) => <span>{formatDate(val["order_date"])}</span>),
+            element: ((val) => <span>{formatDate(val.order_date)}</span>),
         },
-        { label: "Total Price", path: "total_price", width: "160px", fontSize: "16px" },
+        { label: "Total Price", path: "total_price", width: "160px", fontSize: "16px", element: ((val) => <span>{formatPeso(val.total_price)}</span>) },
         {
-            label: "Status", path: "status", width: "200px",
+            label: "Status", path: "order_status", width: "200px",
             fontSize: "20px",
-            element: ((val) => <StatusSpan status={val["order_status"]} />),
+            element: ((val) => <StatusSpan status={val.order_status} />),
         },
     ]
 };
 
-export default function OrderTable({ data, status }: { data: Order[], status: string }) {
-    const [currentProductId, setCurrentProductId] = useState<string>("");
+export default function OrderTable({ data, status }: { data: OrderRow[], status: string }) {
+    const [pendingId, setPendingId] = useState<string | null>(null);
     const router = useRouter();
 
-    const handleDelete = async (id: string) => {
-        const loading = toast.loading("Order deleting...");
-        const order = await OrderDeleteAction(id);
-
-
-        if (order.ok)
-            toast.update(loading, { render: order.message, type: "success", isLoading: false, autoClose: 2000 });
-        else if (order.error)
-            toast.update(loading, { render: order.message, type: "error", isLoading: false, autoClose: 2000 });
-
+    const handleDelete = async () => {
+        if (!pendingId) return;
+        const loading = toast.loading("Deleting order…");
+        const res = await OrderDeleteAction(pendingId);
+        if (res.ok)
+            toast.update(loading, { render: res.message, type: "success", isLoading: false, autoClose: 2000 });
+        else
+            toast.update(loading, { render: res.message, type: "error", isLoading: false, autoClose: 3000 });
     }
 
     return (
-        <> <div>
-
+        <div>
             <SortOrder status={status} />
-            <Dialog onClose={() => { }} onOk={() => handleDelete(currentProductId)}>
+            <Dialog open={pendingId !== null} onClose={() => setPendingId(null)} onOk={handleDelete}>
                 <h2>Are you sure want to delete?</h2>
-                <p>This will order will delete. You cannot undo this action.</p>
+                <p>This order will be deleted and its pieces returned to the archive. You cannot undo this action.</p>
             </Dialog>
             <MainTable
                 data={data}
                 isEditable={true}
                 structure={content}
-                handleUpdate={onHandleUpdate}
-                handleDelete={onHandleDelete}
+                handleUpdate={(row) => router.push("/admin/order/" + row.id)}
+                handleDelete={(row) => setPendingId(row.id)}
             />
-            {/* <button onClick={() => CreateDummyProduct()}>Dummy Product</button> */}
         </div>
-        </>
     );
-
-    function onHandleDelete(data: any) {
-        setCurrentProductId(data.id);
-        router.push(`/admin/order?showDialog=y`);
-    }
-
-    function onHandleUpdate(data: any) {
-        router.push(`/admin/order/${data.id}`);
-    }
 }

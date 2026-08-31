@@ -1,41 +1,41 @@
-
-import React from 'react'
+import { Suspense } from 'react'
 import SalesChart from './SalesChart'
-import { Product } from '@prisma/client'
-import dynamic from 'next/dynamic'
-import RecentProduct from './RecentProduct'
+import RecentProduct, { type RecentProductItem } from './RecentProduct'
 import GraphExample from './GraphExample'
 import RecentTableOrder from './RecentTableOrder'
+import CardReport from './CardReport'
 import styles from './Report.module.scss'
-import { SalesData } from '@/app/admin/page'
+import type { SalesData } from '@/app/admin/page'
+import type { ProductCategory } from '@/lib/constants'
+
+export type CategoryCounts = Record<ProductCategory, number>;
 
 interface ReportPageProps {
-    ProductArray: Product[]
-    OrderData: SalesData[]
+    latestProducts: RecentProductItem[];
+    categoryCounts: CategoryCounts;
+    salesData: SalesData[];
 }
 
-const CardReport = dynamic(() => import('./CardReport'), {
-    loading: () => <div>Suggested Product is loading...</div>,
-})
-
-
-export default function ReportPage({ ProductArray, OrderData }: ReportPageProps) {
+export default function ReportPage({ latestProducts, categoryCounts, salesData }: ReportPageProps) {
     return (
         <section className={styles.report}>
             <header className={styles.report_head}>
                 <p>ReFlair Atelier · Overview</p>
                 <h2>Store performance</h2>
             </header>
-            <CardReport />
+            {/* CardReport is an async server component — a Suspense boundary streams it in */}
+            <Suspense fallback={<div className={styles.display_container}>Loading figures…</div>}>
+                <CardReport />
+            </Suspense>
             <div className={styles.chart_container}>
 
                 <div className={styles.bar}>
                     <h3>Sales by month</h3>
-                    <SalesChart dataProps={OrderData} />
+                    <SalesChart dataProps={salesData} />
                 </div>
                 <div className={styles.pie}>
-                    <h3>Sales by category</h3>
-                    <GraphExample product={ProductArray} />
+                    <h3>Sold pieces by category</h3>
+                    <GraphExample counts={categoryCounts} />
                 </div>
             </div>
             <div className={styles.other_container}>
@@ -43,7 +43,7 @@ export default function ReportPage({ ProductArray, OrderData }: ReportPageProps)
                     <h3>Recent orders</h3>
                     <RecentTableOrder />
                 </div>
-                <RecentProduct FiveRecentProduct={ProductArray} />
+                <RecentProduct products={latestProducts} />
             </div>
         </section>
     )

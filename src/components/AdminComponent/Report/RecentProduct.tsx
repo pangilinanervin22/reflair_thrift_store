@@ -1,28 +1,26 @@
-'use client'
-
-import { Product } from "@prisma/client"
 import Image from "next/image"
 import styles from './Report.module.scss'
+import { formatPeso } from "@/utils/formatPrice";
 
-
-interface ReportPageProps {
-    FiveRecentProduct: Product[]
+export interface RecentProductItem {
+    id: string;
+    name: string;
+    price: number;
+    image: string;
 }
 
-export default function RecentProduct({ FiveRecentProduct }: ReportPageProps) {
-    let current = FiveRecentProduct.filter((item) => item.order_id == null);
-    current = current.slice(0, 5);
-
+// Server component: the page already hands us the five newest unsold pieces.
+export default function RecentProduct({ products }: { products: RecentProductItem[] }) {
     return (
         <div className={styles.trend}>
             <h2>Latest pieces</h2>
             <div className={styles.container_product}>
-                {current.map((cur) => (
-                    <div key={cur.id} className={styles.product}>
-                        <Image src={cur.image} alt={cur.name} width={100} height={100} />
+                {products.map((product) => (
+                    <div key={product.id} className={styles.product}>
+                        <Image src={product.image} alt={product.name} width={100} height={100} sizes="100px" />
                         <div>
-                            <p>{cur.name}</p>
-                            <p>{cur.price}</p>
+                            <p>{product.name}</p>
+                            <p>{formatPeso(product.price)}</p>
                         </div>
                     </div>
                 ))}

@@ -27,7 +27,7 @@
 
             p {
                 @include label(9px, 0.2em);
-                color: $gray_light;
+                color: $gray;
             }
         }
     }
@@ -98,7 +98,7 @@
 
         >:first-child {
             @include label(9px, 0.22em);
-            color: $gray_light;
+            color: $gray;
             width: 30%;
         }
 
@@ -135,7 +135,7 @@
 
         >label {
             @include label(9px, 0.22em);
-            color: $gray_light;
+            color: $gray;
             width: 25%;
             text-align: center;
         }

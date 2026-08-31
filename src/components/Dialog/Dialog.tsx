@@ -1,45 +1,42 @@
 "use client"
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+
+import { useEffect, useRef } from 'react'
 import style from './Dialog.module.scss'
-import { useRef, useEffect } from 'react'
 
 type Props = {
-    onClose: () => void,
-    onOk: () => void,
-    children: React.ReactNode,
-    buttonConfirm?: string,
+    open: boolean;
+    onClose: () => void;
+    onOk: () => void | Promise<void>;
+    children: React.ReactNode;
+    buttonConfirm?: string;
 }
 
-export default function Dialog({ onClose, onOk, children, buttonConfirm: buttonConfirm }: Props) {
-    const searchParams = useSearchParams()
-    const pathname = usePathname()
-    const router = useRouter()
-    const dialogRef = useRef<null | HTMLDialogElement>(null)
-    const showDialog = searchParams.get('showDialog')
+// Native <dialog> confirm box. State lives with the caller (e.g. the id of the
+// row awaiting deletion), not in the URL, so opening/closing it never disturbs
+// other query params and a deep link can't open it with nothing selected.
+export default function Dialog({ open, onClose, onOk, children, buttonConfirm }: Props) {
+    const dialogRef = useRef<HTMLDialogElement>(null)
 
     useEffect(() => {
-        if (showDialog === 'y')
-            dialogRef.current?.showModal()
-        else
-            dialogRef.current?.close()
+        if (open) dialogRef.current?.showModal()
+    }, [open])
 
-    }, [showDialog])
+    if (!open) return null
 
-    const closeDialog = () => {
-        onClose();
-        dialogRef.current?.close()
-        router.push(pathname);
+    const confirm = async () => {
+        await onOk()
+        onClose()
     }
 
-    const clickOk = () => {
-        onOk()
-        closeDialog()
-    }
-
-    const dialog: React.JSX.Element | null = showDialog === 'y' ? (
-        <dialog ref={dialogRef} className={style.dialog} >
-            <div className={style.dialog_container} >
-                <button onClick={closeDialog} className={style.close}>
+    return (
+        <dialog
+            ref={dialogRef}
+            className={style.dialog}
+            // Esc closes a native <dialog> on its own — keep our state in sync
+            onCancel={(event) => { event.preventDefault(); onClose(); }}
+        >
+            <div className={style.dialog_container}>
+                <button type="button" onClick={onClose} className={style.close} aria-label="Close">
                     {'X'}
                 </button>
                 <div className={style.dialog_content}>
@@ -47,16 +44,15 @@ export default function Dialog({ onClose, onOk, children, buttonConfirm: buttonC
                         {children}
                     </div>
                     <div className={style.action}>
-                        <button onClick={closeDialog}>
+                        <button type="button" onClick={onClose}>
                             {'CANCEL'}
                         </button>
-                        <button onClick={clickOk}>
+                        <button type="button" onClick={confirm}>
                             {buttonConfirm || 'CONFIRM'}
                         </button>
                     </div>
                 </div>
             </div>
         </dialog>
-    ) : null
-    return dialog
+    )
 }

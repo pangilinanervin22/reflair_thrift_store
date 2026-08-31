@@ -1,11 +1,4 @@
-export default function paginate(
-    array: any[],
-    currentPage: number,
-    pageSize = array.length
-) {
-    const pageStart = currentPage * pageSize;
-    const pageEnd = pageSize * (currentPage + 1);
-    const items = [...array].slice(pageStart, pageEnd);
-
-    return items;
+export default function paginate<T>(array: readonly T[], currentPage: number, pageSize = array.length): T[] {
+    const start = currentPage * pageSize;
+    return array.slice(start, start + pageSize);
 }
