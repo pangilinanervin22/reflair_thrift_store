@@ -89,7 +89,7 @@ prisma/schema.prisma  Account · Product · Order · Cart · Like
 
 ## Deployment
 
-Hosted on Vercel. Configure the four environment variables in the project settings and deploy with `npx vercel deploy --prod`. The build prerenders the storefront against the live database, so a wrong `DATABASE_URL` fails the build rather than the runtime.
+Hosted on Vercel and linked to this GitHub repository, so every push to `main` deploys production (as long as the Vercel GitHub App has access to the repo); `npx vercel deploy --prod` from a clean checkout is the manual fallback. Configure the four environment variables in the project settings. The build prerenders the storefront against the live database, so a wrong `DATABASE_URL` fails the build rather than the runtime.
 
 ## Roadmap
 
