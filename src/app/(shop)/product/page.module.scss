@@ -14,7 +14,7 @@
   padding: 0 var(--gutter);
   margin-bottom: clamp(28px, 3vw, 44px);
 
-  h2 {
+  h1 {
     @include serif(clamp(30px, 3.6vw, 48px), 400);
   }
 }
@@ -27,7 +27,7 @@
 
 .count {
   @include label(10px, 0.2em);
-  color: $gray_light;
+  color: $gray;
   margin-left: auto;
 }
 
@@ -84,10 +84,10 @@
 
   p {
     @include label(10px, 0.18em);
-    color: $gray_light;
+    color: $gray;
   }
 
-  h4 {
+  .price {
     @include serif(19px, 500);
     margin-top: 4px;
   }
@@ -143,14 +143,10 @@
     color: $gray;
   }
 
-  button {
+  .back_button {
     @include btn_ghost;
     margin-top: 16px;
   }
-}
-
-.back_button {
-  @include btn_ghost;
 }
 
 @media (max-width: 1100px) {
@@ -174,4 +170,35 @@
     flex-wrap: wrap;
     row-gap: 6px;
   }
+}
+
+// The tile is a link now (Phase 3)
+.frame {
+  display: block;
+}
+
+// Server-rendered pager
+.pager {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(18px, 3vw, 40px);
+  padding: clamp(32px, 5vw, 64px) 0 0;
+}
+
+.pager_link {
+  @include label(11px, 0.22em);
+  color: $ink;
+  padding: 10px 0;
+  border-bottom: 1px solid $ink;
+
+  &[aria-disabled="true"] {
+    color: $gray;
+    border-color: transparent;
+  }
+}
+
+.pager_info {
+  @include label(10px, 0.22em);
+  color: $gray;
 }

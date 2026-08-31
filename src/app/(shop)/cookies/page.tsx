@@ -1,32 +1,54 @@
 import style from "./page.module.scss";
+import Link from "next/link";
+import type { Metadata } from "next";
 
-export default function ShopMainPage() {
+export const metadata: Metadata = {
+    title: "Cookies Policy",
+    description: "The strictly necessary cookies ReFlair sets, and how to manage them.",
+    alternates: { canonical: "/cookies" },
+};
+
+const LAST_UPDATED = "31 August 2026";
+
+export default function CookiesPage() {
     return (
-        <>
-            <section className={style.flex_section}>
-                <p>REFLAIR  COOKIES POLICY</p>
+        <section className={style.flex_section}>
+            <h1>ReFlair Cookies Policy</h1>
+            <p className={style.meta}>Last updated {LAST_UPDATED} · Portfolio demo — no real transactions</p>
 
+            <div className={style.block}>
+                <h2>1. Cookies we set</h2>
                 <div className={style.flex_info}>
-
-                    <div className={style.info}>
-                        We may use cookies, tags, web pixels, and similar technologies to automatically collect information on our Services. Cookies or tags are bits of code that allow our technology partners to collect information that usually does not directly identify you. If required by law, we will request your consent before using cookies or other tracking technologies. Information within this section describes our use of cookies and your ability to control the use of cookies for advertising-related purposes.
-                    </div>
-
-                    <div className={style.info}>
-                        Cookies . Cookies are small web files that a site or its provider transfers to your device’s hard drive through your web browser that enables the site’s or provider’s system to recognize your browser and remember certain information.
-                    </div>
-
-                    <div className={style.info}>
-                        Generally, we use first-party and third-party cookies for the following purposes: to make our Services function properly; to provide a secure browsing experience during your use of our Services; to collect passive information about your use of our Services; to measure how you interact with our marketing campaigns; to help us improve our Services; and to remember your preferences for your convenience.
-
-                    </div>
+                    <p className={style.info}>
+                        ReFlair uses only strictly necessary cookies: a session cookie that keeps you signed in,
+                        and short-lived sign-in helper cookies (a security token and a return address) that
+                        protect the sign-in form. They are set by the site itself and are not used to follow you
+                        across other websites.
+                    </p>
                 </div>
+            </div>
 
+            <div className={style.block}>
+                <h2>2. Cookies we don&apos;t set</h2>
+                <div className={style.flex_info}>
+                    <p className={style.info}>
+                        There are no advertising cookies, no analytics cookies and no third-party tracking on
+                        this site. Because only strictly necessary cookies are used, no consent banner is shown.
+                    </p>
+                </div>
+            </div>
 
-
-
-            </section >
-
-        </>
+            <div className={style.block}>
+                <h2>3. Managing cookies</h2>
+                <div className={style.flex_info}>
+                    <p className={style.info}>
+                        Signing out ends your session and clears the session cookie. You can also delete cookies
+                        at any time through your browser&apos;s settings — you will simply need to sign in again to
+                        use your bag and account. See the <Link href="/privacy">Privacy Policy</Link> for what the
+                        demo stores about you.
+                    </p>
+                </div>
+            </div>
+        </section>
     );
 }

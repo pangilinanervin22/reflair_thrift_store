@@ -1,9 +1,13 @@
-'use client'
+"use client"
 
-import React from 'react'
+import ErrorState from "@/components/ErrorState/ErrorState";
 
-export default function error() {
+export default function ProductError(props: { error: Error & { digest?: string }; reset: () => void }) {
     return (
-        <div>error</div>
-    )
+        <ErrorState
+            {...props}
+            title="This piece could not be loaded."
+            link={{ href: "/product", label: "Back to the archive" }}
+        />
+    );
 }

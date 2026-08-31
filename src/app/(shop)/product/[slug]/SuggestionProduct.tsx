@@ -1,9 +1,8 @@
-'use server'
-
 import prisma from "@/db/prisma";
 import Image from "next/image";
 import style from "./page.module.scss";
 import Link from "next/link";
+import { formatPeso } from "@/utils/formatPrice";
 
 interface Props {
     category: string;
@@ -11,11 +10,13 @@ interface Props {
 }
 
 export default async function SuggestionProduct({ category, exclude }: Props) {
-    let products = await prisma.product.findMany({
+    const products = await prisma.product.findMany({
         where: {
             category: category,
             id: { not: exclude },
+            order: null, // only pieces still in the archive
         },
+        orderBy: { createdAt: "desc" },
         select: {
             id: true,
             name: true,
@@ -43,7 +44,7 @@ export default async function SuggestionProduct({ category, exclude }: Props) {
                         <div className={style.description}>
                             <p>{product.name}</p>
                             <p>Size {product.size}</p>
-                            <p>₱ {product.price}</p>
+                            <p>{formatPeso(product.price)}</p>
                         </div>
                     </div>
                 </Link>

@@ -14,7 +14,7 @@
   border-bottom: 1px solid $hairline;
   margin-bottom: clamp(28px, 3vw, 44px);
 
-  h2 {
+  h1 {
     @include serif(clamp(30px, 3.4vw, 44px), 400);
   }
 
@@ -49,7 +49,7 @@
     padding-top: 14px;
     margin-bottom: 14px;
 
-    h4 {
+    h3 {
       @include label(12px, 0.14em);
       overflow: hidden;
       text-overflow: ellipsis;
@@ -58,7 +58,7 @@
 
     p {
       @include label(10px, 0.18em);
-      color: $gray_light;
+      color: $gray;
     }
 
     .price {
@@ -73,7 +73,7 @@
   display: flex;
   margin-top: auto;
 
-  >div {
+  >* {
     width: 50%;
   }
 
@@ -103,7 +103,7 @@
   width: 100%;
   padding: clamp(40px, 6vw, 80px) 0;
 
-  h2 {
+  h1 {
     @include serif(clamp(30px, 3.6vw, 48px), 300);
     font-style: italic;
   }

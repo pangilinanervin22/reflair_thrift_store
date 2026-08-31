@@ -1,0 +1,55 @@
+@use "../../scss/variable" as *;
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
+  min-height: 60vh;
+  gap: 18px;
+  padding: clamp(48px, 7vw, 96px) var(--gutter);
+}
+
+.eyebrow {
+  @include label(10px, 0.34em);
+  color: $gray;
+  animation: rise 0.8s $ease_out both;
+}
+
+.title {
+  @include serif(clamp(28px, 4vw, 48px), 300);
+  line-height: 1.1;
+  max-width: 18ch;
+  animation: rise 0.9s 0.1s $ease_out both;
+}
+
+.note {
+  @include serif(clamp(17px, 2vw, 22px), 300);
+  font-style: italic;
+  color: $gray;
+  animation: rise 0.9s 0.2s $ease_out both;
+}
+
+.digest {
+  @include label(10px, 0.2em);
+  color: $gray;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 14px;
+  animation: rise 0.9s 0.3s $ease_out both;
+}
+
+.retry {
+  @include btn_solid;
+}
+
+.link {
+  @include btn_ghost;
+}

@@ -1,4 +1,3 @@
-import React from 'react'
 import style from "./Status.module.scss";
 import { OrderStatus } from '@prisma/client';
 

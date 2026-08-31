@@ -1,4 +1,3 @@
-import React from 'react';
 import style from './ProductLoading.module.scss';
 
 export default function ProductLoading() {

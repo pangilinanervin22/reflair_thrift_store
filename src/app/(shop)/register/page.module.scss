@@ -18,7 +18,7 @@
     color: $paper;
 
     .eyebrow {
-        color: rgba(246, 245, 241, 0.5);
+        color: rgba($paper, 0.5);
     }
 }
 
@@ -35,7 +35,7 @@
 
 .side_note {
     @include label(10px, 0.22em);
-    color: rgba(246, 245, 241, 0.55);
+    color: rgba($paper, 0.55);
     max-width: 36ch;
     line-height: 2;
 }

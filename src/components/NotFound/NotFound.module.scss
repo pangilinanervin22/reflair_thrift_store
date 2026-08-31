@@ -1,4 +1,4 @@
-@use "../scss/variable" as *;
+@use "../../scss/variable" as *;
 
 .wrapper {
     display: flex;
@@ -6,10 +6,10 @@
     align-items: center;
     justify-content: center;
     text-align: center;
-    min-height: 100vh;
+    min-height: 60vh;
     width: 100%;
     gap: 22px;
-    padding: 0 var(--gutter);
+    padding: clamp(48px, 7vw, 96px) var(--gutter);
     background: $paper;
 }
 

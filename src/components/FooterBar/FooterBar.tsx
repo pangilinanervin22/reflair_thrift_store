@@ -29,9 +29,9 @@ export default function FooterBar() {
                     </div>
                     <div className={style.column}>
                         <h3>Follow</h3>
-                        <Link href="https://web.facebook.com/">Facebook</Link>
-                        <Link href="https://www.instagram.com/">Instagram</Link>
-                        <Link href="https://www.tiktok.com/">TikTok</Link>
+                        <a href="https://web.facebook.com/" target="_blank" rel="noopener noreferrer">Facebook</a>
+                        <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer">Instagram</a>
+                        <a href="https://www.tiktok.com/" target="_blank" rel="noopener noreferrer">TikTok</a>
                     </div>
                 </nav>
             </div>
@@ -41,7 +41,7 @@ export default function FooterBar() {
             </div>
 
             <div className={style.legal}>
-                <p>©2022–2023 ReFlair. All rights reserved.</p>
+                <p>©2022–{new Date().getFullYear()} ReFlair. All rights reserved.</p>
                 <div className={style.legal_links}>
                     <Link href="/privacy">Privacy Center</Link>
                     <Link href="/terms">Terms &amp; Conditions</Link>

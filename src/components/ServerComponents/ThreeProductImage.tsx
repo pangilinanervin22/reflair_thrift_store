@@ -1,33 +1,23 @@
-'use server'
-
 import prisma from "@/db/prisma";
 import Image from "next/image";
 import Link from "next/link";
 import style from "./ThreeProductImage.module.scss";
+import { formatPeso } from "@/utils/formatPrice";
 
+// The three newest pieces still in the archive. One bounded query instead of
+// loading every product id and shuffling — on a `revalidate = false` page a
+// random pick would be frozen at generation time anyway.
 export default async function ThreeProductImage() {
-    const allProducts = await prisma.product.findMany({
-        select: {
-            id: true
-        }
-    });
-
-    // Select the first 3 IDs
-    const randomProductIds = shuffleArray(allProducts).map(product => product.id);
-
-    // Fetch only the fields the cards render
     const products = await prisma.product.findMany({
-        where: {
-            id: {
-                in: randomProductIds
-            }
-        },
+        where: { order: null },
+        orderBy: { createdAt: "desc" },
+        take: 3,
         select: {
             id: true,
             name: true,
             price: true,
             image: true,
-        }
+        },
     });
 
     return (
@@ -49,23 +39,11 @@ export default async function ThreeProductImage() {
                                 Nº {String(i + 1).padStart(2, "0")}
                             </span>
                             <span className={style.name}>{item.name}</span>
-                            <span className={style.price}>₱ {item.price}</span>
+                            <span className={style.price}>{formatPeso(item.price)}</span>
                         </figcaption>
                     </figure>
                 </Link>
             ))}
         </div>
     )
-}
-
-
-function shuffleArray<T>(array: T[], getNumber = 3): T[] {
-    const newArray = [...array];
-    // Fisher–Yates shuffle
-    for (let i = newArray.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
-    }
-
-    return newArray.slice(0, getNumber);
 }

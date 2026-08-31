@@ -9,7 +9,7 @@
   padding: clamp(48px, 7vw, 96px) var(--gutter);
 
   // Page title
-  >p {
+  >h1 {
     @include serif(clamp(26px, 3.4vw, 42px), 400);
     text-transform: uppercase;
     letter-spacing: 0.12em;
@@ -18,15 +18,31 @@
     border-bottom: 1px solid $ink;
   }
 
-  h1 {
+  // Section headings
+  h2 {
     @include label(11px, 0.28em);
     color: $ink;
     padding: clamp(28px, 4vw, 48px) 0 18px;
   }
+
+  a {
+    color: $ink;
+    border-bottom: 1px solid $ink;
+    transition: opacity $quick ease;
+
+    &:hover {
+      opacity: 0.6;
+    }
+  }
 }
 
-.container1,
-.container2 {
+.meta {
+  @include label(10px, 0.22em);
+  color: $gray;
+  padding-top: 18px;
+}
+
+.block {
   display: flex;
   flex-direction: column;
 }

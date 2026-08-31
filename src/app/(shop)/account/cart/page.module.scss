@@ -14,7 +14,7 @@
   padding-bottom: clamp(20px, 2vw, 28px);
   border-bottom: 1px solid $hairline;
 
-  h2 {
+  h1 {
     @include serif(clamp(30px, 3.4vw, 44px), 400);
   }
 
@@ -69,7 +69,7 @@
 
       p {
         @include label(10px, 0.18em);
-        color: $gray_light;
+        color: $gray;
       }
     }
   }
@@ -116,7 +116,7 @@
     align-items: baseline;
     gap: 24px;
 
-    h4 {
+    .subtotal_label {
       @include label(10px, 0.26em);
       color: $gray;
     }
@@ -126,9 +126,20 @@
     }
   }
 
-  button {
+  .checkout_link {
     @include btn_solid;
     min-width: 280px;
+  }
+}
+
+// Icon-only controls (save / remove) — real buttons, visually just the icon
+.icon_button {
+  padding: 0;
+  line-height: 0;
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: wait;
   }
 }
 
@@ -141,7 +152,7 @@
   width: 100%;
   padding: clamp(40px, 6vw, 80px) 0;
 
-  h2 {
+  h1 {
     @include serif(clamp(30px, 3.6vw, 48px), 300);
     font-style: italic;
   }
@@ -173,7 +184,7 @@
     }
   }
 
-  .checkout button {
+  .checkout .checkout_link {
     width: 100%;
     min-width: 0;
   }

@@ -1,4 +1,3 @@
-import React from 'react'
 
 export default function LoadingLabel({ label = "Loading…" }: { label?: string }) {
     return (

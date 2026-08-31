@@ -1,31 +1,6 @@
-import React from 'react';
-import style from './page.module.scss';
+import CategorySkeleton from "../_components/CategorySkeleton";
+import { CATEGORY_COPY } from "../_components/categoryCopy";
 
-export default function loading() {
-    const count = 8;
-
-    return (
-        <section className={style.product_section}>
-            <header className={style.page_head}>
-                <p className={style.eyebrow}>The Archive</p>
-                <h2>{"Women's clothing"}</h2>
-            </header>
-            <div className={style.product_container}>
-                {Array.from({ length: count }).map((_, i) => (
-                    <div className={style.product_card} key={i}>
-                        <div className={[style.loading_image, style.skeleton].join(' ')} />
-                        <section className={style.description}>
-                            <div className={[style.loading_text_name, style.skeleton].join(' ')} />
-                            <div className={[style.loading_text_small, style.skeleton].join(' ')} />
-                            <div className={[style.loading_text_small, style.skeleton].join(' ')} />
-                        </section>
-                        <section className={style.button_container}>
-                            <div className={[style.loading_button, style.skeleton].join(' ')} />
-                            <div className={[style.loading_button, style.skeleton].join(' ')} />
-                        </section>
-                    </div>
-                ))}
-            </div>
-        </section>
-    );
+export default function Loading() {
+    return <CategorySkeleton title={CATEGORY_COPY.women.title} />;
 }

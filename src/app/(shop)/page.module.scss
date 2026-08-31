@@ -26,7 +26,7 @@
 
 .section_label_light {
   @include label(10px, 0.3em);
-  color: rgba(246, 245, 241, 0.55);
+  color: rgba($paper, 0.55);
 }
 
 .section_link {
@@ -67,9 +67,9 @@
     position: absolute;
     inset: 0;
     background: linear-gradient(to top,
-        rgba(18, 17, 16, 0.55) 0%,
-        rgba(18, 17, 16, 0.18) 45%,
-        rgba(18, 17, 16, 0.12) 100%);
+        rgba($ink, 0.55) 0%,
+        rgba($ink, 0.18) 45%,
+        rgba($ink, 0.12) 100%);
   }
 }
 
@@ -97,7 +97,7 @@
 
 .hero_eyebrow {
   @include label(11px, 0.34em);
-  color: rgba(246, 245, 241, 0.8);
+  color: rgba($paper, 0.8);
   margin-bottom: 28px;
   animation: rise 1s 0.3s $ease_out both;
 }
@@ -126,7 +126,7 @@
   bottom: 28px;
   left: 50%;
   transform: translateX(-50%);
-  color: rgba(246, 245, 241, 0.7);
+  color: rgba($paper, 0.7);
   animation: fade 1.2s 1.4s ease both;
 
   &::after {
@@ -134,7 +134,7 @@
     display: block;
     width: 1px;
     height: 32px;
-    background: rgba(246, 245, 241, 0.6);
+    background: rgba($paper, 0.6);
     margin: 10px auto 0;
   }
 }
@@ -155,7 +155,7 @@
 
   span {
     @include label(10px, 0.32em);
-    color: rgba(246, 245, 241, 0.75);
+    color: rgba($paper, 0.75);
     white-space: nowrap;
   }
 }
@@ -262,14 +262,14 @@
 
     .collection_index,
     .collection_note {
-      color: rgba(246, 245, 241, 0.55);
+      color: rgba($paper, 0.55);
     }
   }
 }
 
 .collection_index {
   @include label(11px, 0.2em);
-  color: $gray_light;
+  color: $gray;
   transition: color 0.5s ease;
 }
 
@@ -305,7 +305,7 @@
   pointer-events: none;
   transition: opacity 0.5s ease, transform 0.6s $ease_out;
   z-index: 2;
-  box-shadow: 0 30px 60px rgba(18, 17, 16, 0.35);
+  box-shadow: 0 30px 60px rgba($ink, 0.35);
 
   img {
     width: 100%;
@@ -422,7 +422,7 @@
 
 .journal_index {
   @include label(10px, 0.28em);
-  color: $gray_light;
+  color: $gray;
 }
 
 // Responsive ───────────────────────────────────

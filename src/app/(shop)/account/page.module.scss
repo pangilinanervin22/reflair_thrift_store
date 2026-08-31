@@ -13,7 +13,7 @@
     width: 100%;
     max-width: 880px;
 
-    h2 {
+    h1 {
         @include serif(clamp(30px, 3.4vw, 44px), 400);
         width: 100%;
         margin-bottom: clamp(28px, 3vw, 44px);
@@ -51,7 +51,7 @@
     span {
         @include label(9px, 0.14em);
         position: absolute;
-        color: $gray_light;
+        color: $gray;
         left: 0;
         bottom: -18px;
     }

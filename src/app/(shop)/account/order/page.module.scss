@@ -13,7 +13,7 @@
     justify-content: space-between;
     padding-bottom: clamp(20px, 2vw, 28px);
 
-    h2 {
+    h1 {
         @include serif(clamp(30px, 3.4vw, 44px), 400);
     }
 }
@@ -189,7 +189,7 @@
 
 .cancelled {
     @extend %badge;
-    color: $gray_light;
+    color: $gray;
     border-color: $hairline;
     text-decoration: line-through;
 
@@ -222,4 +222,50 @@
         @include btn_ghost;
         margin-top: 16px;
     }
+}
+
+// Post-checkout confirmation + released-pieces note (Phase 2)
+.placed_banner {
+  margin-bottom: 24px;
+  padding: 16px 18px;
+  border: 1px solid $ink;
+
+  p {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.7;
+    color: $ink;
+  }
+}
+
+.placed_eyebrow {
+  @include label(10px, 0.28em);
+  color: $gray;
+  margin-bottom: 6px;
+}
+
+.released_note {
+  font-size: 13px;
+  line-height: 1.7;
+  color: $gray;
+  font-style: italic;
+}
+
+// Narrow screens: stack the order card's header and footer rows
+@media (max-width: 720px) {
+  .order_container .order {
+    > :first-child {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 8px;
+    }
+
+    > :last-child {
+      align-items: flex-start;
+    }
+  }
+
+  .status_container {
+    flex-wrap: wrap;
+  }
 }

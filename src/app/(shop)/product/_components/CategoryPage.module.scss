@@ -15,7 +15,7 @@
   padding-bottom: clamp(28px, 3vw, 44px);
   border-bottom: 1px solid $hairline;
 
-  h2 {
+  h1 {
     @include serif(clamp(30px, 3.6vw, 48px), 400);
   }
 }
@@ -28,7 +28,7 @@
 
 .count {
   @include label(10px, 0.2em);
-  color: $gray_light;
+  color: $gray;
   margin-left: auto;
 }
 
@@ -87,10 +87,10 @@
 
   p {
     @include label(10px, 0.18em);
-    color: $gray_light;
+    color: $gray;
   }
 
-  h4 {
+  .price {
     @include serif(19px, 500);
     margin-top: 4px;
   }
@@ -100,7 +100,7 @@
   display: flex;
   margin-top: auto;
 
-  >div {
+  >* {
     width: 50%;
   }
 
@@ -146,7 +146,7 @@
     color: $gray;
   }
 
-  a button {
+  a {
     @include btn_ghost;
     margin-top: 16px;
   }
@@ -199,4 +199,45 @@
     flex-wrap: wrap;
     row-gap: 6px;
   }
+}
+
+// Search hands the query to the dynamic archive so this page stays static
+.search_form {
+  display: flex;
+  align-items: flex-end;
+  gap: 14px;
+  margin: 0 0 clamp(24px, 3vw, 40px);
+
+  label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+
+  input {
+    flex: 1;
+    max-width: 360px;
+    padding: 10px 0;
+    font-size: 14px;
+    background: transparent;
+    border-bottom: 1px solid $hairline;
+    transition: border-color $quick ease;
+
+    &:focus {
+      border-color: $ink;
+    }
+  }
+
+  button {
+    @include btn_ghost;
+    padding: 12px 20px;
+  }
+}
+
+// Match the gutter of .page_head / .product_container
+.search_form {
+  padding: 0 var(--gutter);
 }

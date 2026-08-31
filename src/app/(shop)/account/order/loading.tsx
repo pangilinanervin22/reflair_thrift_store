@@ -1,12 +1,13 @@
-import React from 'react'
 import style from './page.module.scss'
+import AccountSkeleton from '../AccountSkeleton'
 
 export default function OrderLoading() {
     return (
         <div className={style.main_container}>
             <header className={style.head}>
-                <h2>Orders</h2>
+                <h1>Orders</h1>
             </header>
+            <AccountSkeleton showHead={false} rows={3} />
         </div>
     )
 }

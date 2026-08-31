@@ -3,4 +3,5 @@
     flex-direction: column;
     width: 100%;
     min-height: 60vh;
+    flex: 1 0 auto; // push the footer to the bottom of short pages
 }

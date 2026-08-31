@@ -1,68 +1,16 @@
-import prisma from "@/db/prisma";
-import style from "./page.module.scss";
-import Link from "next/link";
-import Image from "next/image";
-import AddCartButton from "../../account/cart/AddCartButton";
-import AddLikeButton from "../../account/like/AddLikeButton";
+import type { Metadata } from "next";
+import CategoryPage from "../_components/CategoryPage";
 
 // Fully static: cached indefinitely, regenerated ONLY when a mutation calls
 // revalidateStorefront() — zero compute while the catalogue is unchanged.
 export const revalidate = false;
 
-export default async function ProductShoesPage() {
-    const shoesProduct = await prisma.product.findMany({
-        where: {
-            category: "shoes",
-            order: null
-        }
-    });
+export const metadata: Metadata = {
+    title: "Shoes",
+    description: "Pre-loved footwear in the ReFlair archive — from the early ’50s to the ’70s, one pair of each.",
+    alternates: { canonical: "/product/shoes" },
+};
 
-    return (
-        <section className={style.product_section}>
-            <header className={style.page_head}>
-                <p className={style.eyebrow}>The Archive</p>
-                <h2>Shoes collection</h2>
-                <p className={style.count}>
-                    {shoesProduct.length} {shoesProduct.length === 1 ? "pair" : "pairs"}
-                </p>
-            </header>
-            <div className={style.product_container}>
-                {shoesProduct.length ? shoesProduct.map((product, i) => (
-                    <article className={style.product_card} key={product.id}>
-                        <Link href={`/product/` + product.id} className={style.frame}>
-                            <Image
-                                src={product.image}
-                                width={760}
-                                height={950}
-                                sizes="(max-width: 480px) 100vw, (max-width: 820px) 50vw, (max-width: 1100px) 33vw, 25vw"
-                                loading={i < 4 ? "eager" : undefined}
-                                alt={product.name}
-                            />
-                            <span className={style.view_tag}>View piece</span>
-                        </Link>
-                        <section className={style.description}>
-                            <h3>{product.name}</h3>
-                            <p>Size {product.size}</p>
-                            <h4>₱ {product.price}</h4>
-                        </section>
-                        <section className={style.button_container}>
-                            <AddCartButton item_id={product.id}  >
-                                <button className={style.cart}>Add to bag</button>
-                            </AddCartButton>
-                            <AddLikeButton item_id={product.id}  >
-                                <button className={style.like}>Save</button>
-                            </AddLikeButton>
-                        </section>
-                    </article>
-                )) :
-                    <div className={style.no_item}>
-                        <h2>The rail is empty, for now.</h2>
-                        <p>New one-of-a-kind pairs are added weekly.</p>
-                        <Link href={"/product"}>
-                            <button>Browse all pieces</button>
-                        </Link>
-                    </div>}
-            </div>
-        </section>
-    );
+export default function ProductShoesPage() {
+    return <CategoryPage category="shoes" />;
 }

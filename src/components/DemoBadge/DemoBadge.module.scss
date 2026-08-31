@@ -1,0 +1,19 @@
+@use "../../scss/variable" as *;
+
+.badge {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  z-index: 1000;
+  padding: 9px 14px;
+  background: rgba($ink, 0.92);
+  color: $paper;
+  border: 1px solid rgba($paper, 0.25);
+  font-family: var(--font-sans), sans-serif;
+  font-size: 10px;
+  line-height: 1.2;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  pointer-events: none;
+  user-select: none;
+}

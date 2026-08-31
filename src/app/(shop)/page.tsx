@@ -15,21 +15,21 @@ const collections = [
         name: "Women",
         href: "/product/women",
         note: "Slip dresses, tailoring, archive denim",
-        image: "/assets/images/home-sec5-1.png",
+        image: "/assets/images/home-sec5-1.webp",
     },
     {
         index: "02",
         name: "Men",
         href: "/product/men",
         note: "Workwear, knits, vintage outerwear",
-        image: "/assets/images/home-sec5-2.png",
+        image: "/assets/images/home-sec5-2.webp",
     },
     {
         index: "03",
         name: "Shoes",
         href: "/product/shoes",
         note: "Herbert Levine to Halston, ’50s–’70s",
-        image: "/assets/images/home-sec4.png",
+        image: "/assets/images/home-sec4.webp",
     },
 ];
 
@@ -37,37 +37,37 @@ const journal = [
     {
         title: "About fashion",
         copy: "Real-life gestures chimed with the season’s biggest look: pared-back, everyday clothes, executed in best-in-class fabrics.",
-        image: "/assets/images/home-sec5-1.png",
+        image: "/assets/images/home-sec5-1.webp",
         tall: true,
     },
     {
         title: "Men’s fashion",
         copy: "If you're looking for unique items of clothing, buying new isn't always the way forward — vintage menswear is.",
-        image: "/assets/images/home-sec5-2.png",
+        image: "/assets/images/home-sec5-2.webp",
         tall: false,
     },
     {
         title: "Forgotten",
         copy: "Slip dresses, bomber jackets, scrunchies and plaid flannel — the ’90s are working their way back into vogue.",
-        image: "/assets/images/home-sec5-3.png",
+        image: "/assets/images/home-sec5-3.webp",
         tall: true,
     },
     {
         title: "Rare finds",
         copy: "The earliest side of the shoe range features designers including Herbert Levine and Halston, from the early ’50s to the ’70s.",
-        image: "/assets/images/home-sec5-4.png",
+        image: "/assets/images/home-sec5-4.webp",
         tall: false,
     },
     {
         title: "Vintage fashion",
         copy: "Pared-back, everyday clothes — each piece carefully curated, worn well and ready to be loved again.",
-        image: "/assets/images/home-sec5-5.png",
+        image: "/assets/images/home-sec5-5.webp",
         tall: true,
     },
     {
         title: "ReFlair Thrift",
         copy: "It’s not just an old trailer — it’s a renovated 1970s Empire turned cozy retro boutique. Every piece curated by ReFlair.",
-        image: "/assets/images/home-sec5-7.png",
+        image: "/assets/images/home-sec5-7.webp",
         tall: false,
     },
 ];
@@ -80,7 +80,7 @@ export default function ShopMainPage() {
                 <div className={style.hero_images}>
                     <div className={style.hero_image}>
                         <Image
-                            src="/assets/images/intro_1.jpg"
+                            src="/assets/images/intro_1.webp"
                             fill
                             sizes="50vw"
                             priority
@@ -89,7 +89,7 @@ export default function ShopMainPage() {
                     </div>
                     <div className={style.hero_image}>
                         <Image
-                            src="/assets/images/intro_2.jpg"
+                            src="/assets/images/intro_2.webp"
                             fill
                             sizes="50vw"
                             priority
@@ -156,7 +156,7 @@ export default function ShopMainPage() {
                 </div>
                 <div className={style.manifesto_image}>
                     <Image
-                        src="/assets/images/home_sec_girl.png"
+                        src="/assets/images/home_sec_girl.webp"
                         alt="Editorial portrait in archive clothing"
                         width={960}
                         height={1280}
@@ -190,7 +190,7 @@ export default function ShopMainPage() {
             <section className={style.banner}>
                 <div className={style.banner_image}>
                     <Image
-                        src="/assets/images/home-sec4.png"
+                        src="/assets/images/home-sec4.webp"
                         alt="The shoe archive"
                         width={1280}
                         height={860}
