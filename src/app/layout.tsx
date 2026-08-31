@@ -4,6 +4,10 @@ import SessionProvider from '@/db/SessionProvider'
 import '@/scss/globals.scss'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import DemoBadge from '@/components/DemoBadge/DemoBadge'
+import JsonLd from '@/components/JsonLd'
+import { organizationJsonLd, websiteJsonLd } from '@/lib/jsonld'
+import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from '@/lib/constants'
 
 const serif = Cormorant_Garamond({
   display: 'swap',
@@ -20,9 +24,23 @@ const sans = Jost({
   variable: '--font-sans',
 })
 
+const DEFAULT_TITLE = 'ReFlair — Curated Pre-Loved Fashion'
+
 export const metadata: Metadata = {
-  title: 'ReFlair — Curated Pre-Loved Fashion',
-  description: 'Thrift store: Unearth the Hidden Flair of Timeless Fashion',
+  metadataBase: new URL(SITE_URL),
+  title: { default: DEFAULT_TITLE, template: '%s · ReFlair' },
+  description: SITE_DESCRIPTION,
+  applicationName: SITE_NAME,
+  openGraph: {
+    type: 'website',
+    siteName: SITE_NAME,
+    locale: 'en_PH',
+    url: '/',
+    title: DEFAULT_TITLE,
+    description: SITE_DESCRIPTION,
+  },
+  twitter: { card: 'summary_large_image', title: DEFAULT_TITLE, description: SITE_DESCRIPTION },
+  robots: { index: true, follow: true },
 }
 
 export default function RootLayout({
@@ -36,6 +54,7 @@ export default function RootLayout({
   return (
     <html lang="en" data-scroll-behavior="smooth" suppressHydrationWarning>
       <body className={`${serif.variable} ${sans.variable}`}>
+        <JsonLd data={[organizationJsonLd(), websiteJsonLd()]} />
         <SessionProvider>
           {children}
         </SessionProvider>
@@ -45,30 +64,7 @@ export default function RootLayout({
           limit={3}
           hideProgressBar
         />
-        <div
-          role="note"
-          aria-label="Demo notice: This is a demo sample. Items are not for sale. For learning only."
-          style={{
-            position: 'fixed',
-            right: '16px',
-            bottom: '16px',
-            zIndex: 1000,
-            background: 'rgba(18, 17, 16, 0.92)',
-            color: '#f6f5f1',
-            padding: '9px 14px',
-            fontSize: '10px',
-            lineHeight: 1.2,
-            borderRadius: 0,
-            border: '1px solid rgba(246, 245, 241, 0.25)',
-            pointerEvents: 'none',
-            userSelect: 'none',
-            letterSpacing: '0.18em',
-            fontFamily: 'var(--font-sans), sans-serif',
-            textTransform: 'uppercase',
-          }}
-        >
-          Demo Sample · Items Not For Sale · For Learning Only
-        </div>
+        <DemoBadge />
       </body>
     </html>
   )

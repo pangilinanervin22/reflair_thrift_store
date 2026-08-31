@@ -33,13 +33,15 @@ html {
 html,
 body {
   width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
 }
 
+// A column flexbox lets <main> grow (flex: 1) so the footer sits at the bottom
+// of short pages. No centring: top-level blocks stretch to full width instead
+// of shrink-wrapping, and nothing can overflow above the viewport.
 body {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
   background: $paper;
   color: $ink;
   font-family: var(--font-sans), sans-serif;
@@ -147,38 +149,9 @@ img {
 }
 
 // ── Shared motion ───────────────────────────
-
-@keyframes rise {
-  from {
-    opacity: 0;
-    transform: translateY(28px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes fade {
-  from {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes marquee {
-  from {
-    transform: translateX(0);
-  }
-
-  to {
-    transform: translateX(-50%);
-  }
-}
+// @keyframes rise / fade / marquee are declared in _variable.scss (next to
+// shimmer) so every CSS module gets a locally-scoped copy — a module can only
+// reference keyframes emitted in its own scope.
 
 @media (prefers-reduced-motion: reduce) {
 
@@ -211,7 +184,7 @@ img {
 }
 
 .Toastify__progress-bar {
-  background: rgba(246, 245, 241, 0.4) !important;
+  background: rgba($paper, 0.4) !important;
 }
 
 .Toastify__progress-bar--bg {
@@ -224,6 +197,6 @@ img {
 }
 
 .Toastify__spinner {
-  border-color: rgba(246, 245, 241, 0.3) !important;
+  border-color: rgba($paper, 0.3) !important;
   border-right-color: $paper !important;
 }

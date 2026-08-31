@@ -23,7 +23,7 @@ export default function NavigationBar() {
                 </section>
 
                 <Link href="/" className={style.logo_link}>
-                    <h1 className={style.logo}>Re<em>Flair</em></h1>
+                    <span className={style.logo}>Re<em>Flair</em></span>
                 </Link>
 
                 <section className={style.container_icon}>

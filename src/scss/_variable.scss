@@ -7,8 +7,8 @@ $ink: #121110;
 $paper: #f6f5f1;
 $white: #ffffff;
 $hairline: #e4e2db;
-$gray: #76736c;
-$gray_light: #aaa79f;
+$gray: #6b6862; // ≈5.1:1 on $paper — AA even for the 10–11px labels
+$gray_light: #8f8c84; // decorative only (rules, icons, placeholders); never body text
 $frame: #edebe4; // image frame / skeleton ground
 
 // Legacy variable names (admin styles still import these)
@@ -107,7 +107,7 @@ $quick: 0.35s;
 @mixin btn_ghost_light {
     @include btn_ghost;
     color: $paper;
-    border-color: rgba(246, 245, 241, 0.7);
+    border-color: rgba($paper, 0.7);
 
     &:hover {
         background: $paper;
@@ -179,7 +179,7 @@ $quick: 0.35s;
     transition: border-color $quick ease;
 
     &::placeholder {
-        color: $gray_light;
+        color: $gray;
         text-transform: uppercase;
         font-size: 11px;
         letter-spacing: 0.2em;
@@ -217,5 +217,42 @@ $quick: 0.35s;
 @keyframes shimmer {
     100% {
         transform: translateX(100%);
+    }
+}
+
+// ── Shared motion ───────────────────────────
+// Declared here (not in globals.scss) on purpose: CSS Modules hash both the
+// @keyframes name and the animation reference within the same module, so the
+// keyframes must be emitted per module. Same reason shimmer above works.
+
+@keyframes rise {
+    from {
+        opacity: 0;
+        transform: translateY(28px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fade {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes marquee {
+    from {
+        transform: translateX(0);
+    }
+
+    to {
+        transform: translateX(-50%);
     }
 }

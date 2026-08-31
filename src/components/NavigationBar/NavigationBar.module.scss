@@ -10,7 +10,7 @@
 .announce {
   @include label(10px, 0.26em);
   background: $ink;
-  color: rgba(246, 245, 241, 0.85);
+  color: rgba($paper, 0.85);
   text-align: center;
   padding: 9px 16px;
 }
@@ -22,7 +22,7 @@
   width: 100%;
   padding: 0 var(--gutter);
   height: 72px;
-  background: rgba(246, 245, 241, 0.88);
+  background: rgba($paper, 0.88);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   border-bottom: 1px solid $hairline;
