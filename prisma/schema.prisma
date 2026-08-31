@@ -1,5 +1,12 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
+//
+// MongoDB notes:
+// - New fields are optional on purpose: Prisma throws "Inconsistent column data"
+//   when a required field is missing on an existing document. Fill them with
+//   `node --env-file=.env scripts/backfill.mjs` after `prisma db push`.
+// - `db push` here only creates indexes/uniques (there is no DDL); the app code
+//   is written null-tolerant so it can ship before or after the push.
 
 generator client {
   provider = "prisma-client-js"
@@ -12,24 +19,28 @@ datasource db {
 }
 
 model Account {
-  id       String  @id @default(auto()) @map("_id") @db.ObjectId
-  email    String  @unique
-  password String
-  name     String
-  city     String  @default("Bacoor")
-  barangay String?
-  address  String?
-  contact  String?
-  role     String  @default("customer")
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  email     String    @unique
+  password  String
+  name      String
+  city      String    @default("Bacoor")
+  barangay  String?
+  address   String?
+  contact   String?
+  role      Role      @default(customer)
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
   //  many to one order >-< account
-  order    Order[]
+  order     Order[]
   //  one to one
-  cart     Cart?
-  like     Like?
+  cart      Cart?
+  like      Like?
+
+  @@index([role])
 }
 
 model Product {
-  id        String        @id @default(auto()) @map("_id") @db.ObjectId
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
   name      String
   price     Float
   image     String
@@ -37,33 +48,51 @@ model Product {
   category  String
   color     String
   material  String
-  tags      String[]
-  status    ProductStatus @default(available)
-  order_id  String?       @db.ObjectId
-  order     Order?        @relation(fields: [order_id], references: [id])
-  cart_id   String[]      @db.ObjectId
-  Cart      Cart[]        @relation(fields: [cart_id], references: [id])
-  like_id   String[]      @db.ObjectId
-  Like      Like[]        @relation(fields: [like_id], references: [id])
-  createdAt DateTime      @default(now())
+  // A piece is sold while it belongs to an order (order_id set). Query with the
+  // relation filter `order: null`: older documents have order_id *unset* rather
+  // than null, which scalar filters treat differently.
+  order_id  String?   @db.ObjectId
+  order     Order?    @relation(fields: [order_id], references: [id])
+  cart_id   String[]  @db.ObjectId
+  Cart      Cart[]    @relation(fields: [cart_id], references: [id])
+  like_id   String[]  @db.ObjectId
+  Like      Like[]    @relation(fields: [like_id], references: [id])
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
+
+  @@index([category, order_id])
+  @@index([order_id])
+  @@index([createdAt])
 }
 
 model Order {
-  id           String      @id @default(auto()) @map("_id") @db.ObjectId
-  name         String
-  total_price  Float
-  order_status OrderStatus @default(pending)
-  order_date   DateTime    @default(now())
-  ship_date    DateTime?
-  city         String
-  address      String
-  barangay     String
-  payment_mode PaymentMode @default(cod)
+  id            String      @id @default(auto()) @map("_id") @db.ObjectId
+  name          String
+  total_price   Float
+  /// Flat delivery fee charged on this order (SHIPPING_FEE at checkout time)
+  shipping_fee  Float?
+  /// Customer contact number as it was at checkout
+  contact       String?
+  /// Snapshot of the ordered pieces [{ id, name, price, image, size }] — survives
+  /// cancellation (which releases the products) and product deletion
+  items         Json?
+  cancel_reason String?
+  order_status  OrderStatus @default(pending)
+  order_date    DateTime    @default(now())
+  ship_date     DateTime?
+  updatedAt     DateTime?   @updatedAt
+  city          String
+  address       String
+  barangay      String
+  payment_mode  PaymentMode @default(cod)
   //  many to one order >-< account
-  account_id   String?     @map("accountId") @db.ObjectId
-  account      Account?    @relation(fields: [account_id], references: [id])
-  // many to many order >-< account (cart)
-  product      Product[]
+  account_id    String?     @map("accountId") @db.ObjectId
+  account       Account?    @relation(fields: [account_id], references: [id])
+  // one to many order -< product (a piece belongs to at most one order)
+  product       Product[]
+
+  @@index([order_status, order_date])
+  @@index([account_id])
 }
 
 model Cart {
@@ -79,7 +108,7 @@ model Like {
   id         String    @id @default(auto()) @map("_id") @db.ObjectId
   product_id String[]  @db.ObjectId
   product    Product[] @relation(fields: [product_id], references: [id])
-  // one to one account >-< cart
+  // one to one account >-< like
   account_id String    @unique @db.ObjectId
   account    Account   @relation(fields: [account_id], references: [id])
 }
@@ -95,11 +124,6 @@ enum OrderStatus {
 enum Role {
   admin
   customer
-}
-
-enum ProductStatus {
-  available
-  unavailable
 }
 
 enum PaymentMode {
